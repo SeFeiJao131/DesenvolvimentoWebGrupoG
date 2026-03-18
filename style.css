@@ -1,0 +1,90 @@
+*{
+
+margin: 0px;
+padding: 0px;
+box-sizing: border-box;
+}
+
+body{
+background-color: #1C1515;
+}
+
+header{
+    display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px  40px;
+}
+
+.liHeader{
+     display: flex;
+  list-style: none;
+ gap: 25px;
+
+}
+
+
+.textobranco{
+        text-decoration: none;
+ color: #E8DCC4;
+ font-size: 21px;
+ 
+}
+
+.Logo{
+    color: #E8DCC4;
+    font-size: 40px;
+ 
+}
+
+    form {
+    display: flex;
+    align-items: center;
+   background-color: #1C1515;
+    padding: 5px 12px;
+    border-radius: 20px;
+    gap: 8px;
+}
+
+form input {
+    border: none;
+    outline: none;
+}
+.navheader {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+ 
+    .headerlinks {
+    display: flex;
+    gap: 20px;
+}
+
+.headerlinks a {
+    text-decoration: none;
+    color: #E8DCC4;
+}
+.loginbotao {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+    padding: 7px 30px;
+    border-radius: 8px;
+font-size: 21px;
+    align-items: center;
+    color: #D4AF37;
+    background-color: black;
+}
+
+.signupbotao {
+    display: flex;
+    gap: 15px;
+    text-decoration: none;
+    padding: 5px 7px;
+    border-radius: 8px;
+font-size: 21px;
+    align-items: center;
+    background-color: #E8DCC4;
+color: #1C1515;}
+
