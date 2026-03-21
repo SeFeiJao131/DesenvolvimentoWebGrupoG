@@ -1,90 +1,164 @@
 *{
-
-margin: 0px;
-padding: 0px;
-box-sizing: border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-background-color: #1C1515;
+background:#1C1515;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 header{
-    display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 20px  40px;
+padding:20px 40px;
 }
 
-.liHeader{
-     display: flex;
-  list-style: none;
- gap: 25px;
-
-}
-
-
-.textobranco{
-        text-decoration: none;
- color: #E8DCC4;
- font-size: 21px;
- 
+.navheader{
+display:flex;
+align-items:center;
+gap:40px;
 }
 
 .Logo{
-    color: #E8DCC4;
-    font-size: 40px;
- 
+color:#E8DCC4;
+font-size:40px;
+font-family: jsMath;
+font-weight: bold;
 }
 
-    form {
-    display: flex;
-    align-items: center;
-   background-color: #1C1515;
-    padding: 5px 12px;
-    border-radius: 20px;
-    gap: 8px;
+.liHeader{
+list-style:none;
 }
 
-form input {
-    border: none;
-    outline: none;
-}
-.navheader {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
- 
-    .headerlinks {
-    display: flex;
-    gap: 20px;
+.headerlinks{
+display:flex;
+gap:20px;
 }
 
-.headerlinks a {
-    text-decoration: none;
-    color: #E8DCC4;
-}
-.loginbotao {
-    display: flex;
-    gap: 15px;
-    text-decoration: none;
-    padding: 7px 30px;
-    border-radius: 8px;
-font-size: 21px;
-    align-items: center;
-    color: #D4AF37;
-    background-color: black;
+.textobranco{
+text-decoration:none;
+color:#E8DCC4;
+font-size:21px;
+
+  font-family: "IM Fell French Canon SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-.signupbotao {
-    display: flex;
-    gap: 15px;
-    text-decoration: none;
-    padding: 5px 7px;
-    border-radius: 8px;
-font-size: 21px;
-    align-items: center;
-    background-color: #E8DCC4;
-color: #1C1515;}
+.barra-pesquisa{
+display:flex;
+align-items:center;
+gap:8px;
+padding:6px 12px;
+border-radius:20px;
+border:1px solid #1C1515;
+background:transparent;
+}
 
+.barra-pesquisa input{
+border:none;
+outline:none;
+background:transparent;
+color:#E8DCC4;
+}
+
+.fi{
+color:#E8DCC4;
+}
+
+.loginbotao{
+padding:7px 30px;
+border-radius:8px;
+font-size:21px;
+color:#D4AF37;
+background:black;
+text-decoration:none;
+}
+
+.signupbotao{
+padding:5px 7px;
+border-radius:8px;
+font-size:21px;
+background:#E8DCC4;
+color:#1C1515;
+text-decoration:none;
+}
+
+.overlay-busca{
+position:fixed;
+inset:0;
+
+background:rgba(0, 0, 0, 0.55);
+backdrop-filter:blur(6px);
+
+display:flex;
+justify-content:center;
+align-items:flex-start;
+
+padding-top:80px;
+
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:999;
+}
+
+.overlay-busca.ativo{
+opacity:1;
+pointer-events:auto;
+}
+
+.painel-busca{
+width:85%;
+max-width:1100px;
+background:#1C1515;
+border-radius:16px;
+padding:25px;
+
+transform:translateY(-25px);
+transition:.3s;
+}
+
+.overlay-busca.ativo .painel-busca{
+transform:translateY(0);
+}
+
+.topo-busca{
+display:flex;
+align-items:center;
+gap:30px;
+}
+
+.busca-expandida{
+display:flex;
+align-items:center;
+gap:10px;
+background:#1C1515;
+padding:10px 15px;
+border-radius:20px;
+}
+
+.busca-expandida input{
+border:none;
+outline:none;
+background:transparent;
+}
+
+.conteudo-busca{
+margin-top:30px;
+}
+
+.linha{
+display:grid;
+grid-template-columns:1fr 3fr 50px;
+padding:12px 0;
+color:#E8DCC4;
+font-size:15px;
+}
+
+.texto-painel{
+    text-decoration:none;
+color:#E8DCC4;
+font-size:15px;
+
+}

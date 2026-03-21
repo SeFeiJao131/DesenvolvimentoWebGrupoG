@@ -1,33 +1,103 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+<link rel="stylesheet"href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+<link rel="stylesheet"href="https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css">
+<link rel="stylesheet"href="https://cdn-uicons.flaticon.com/uicons-thin-straight/css/uicons-thin-straight.css">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-straight/css/uicons-thin-straight.css'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
     <title>SemNome</title>
 </head>
+
 <body>
-    
-    <header>
-        <nav class="navheader">
-        <Div class="Logo">JR.</Div>
+
+<header>
+<nav class="navheader">
+
+<div class="Logo">JR.</div>
+
 <ul class="liHeader">
-    <div class="headerlinks">
-    <li ><a class="textobranco" href="#">Explorar <i class="fi fi-rr-angle-small-down"></i></a></li>
-    <li><a class="textobranco" href="#">Textura</a></li>
-    <li><a class="textobranco" href="#">Modelos</a></li>
-    <li><a class="textobranco" href="#">HDRIs</a></li>
-    </div>
+<div class="headerlinks">
+<li><a class="textobranco" href="#">Explorar <i class="fi fi-rr-angle-small-down"></i></a></li>
+<li><a class="textobranco" href="#">Texturas</a></li>
+<li><a class="textobranco" href="#">Modelos</a></li>
+<li><a class="textobranco" href="#">HDRIs</a></li>
+</div>
 </ul>
 
-<form>
-    <input type="text" placeholder="Pesquisar..." ><i class="fi fi-rr-search"></i>
+<form class="barra-pesquisa">
+    <input type="text" placeholder="Pesquisar...">
+    <i class="fi fi-rr-search"></i>
 </form>
 
 <a class="signupbotao" href="#">Sign Up</a>
 <a class="loginbotao" href="#">Log in</a>
-<a href="#">Sobre</a>
- </nav> </header>
+<a class="textobranco" href="#">Sobre</a>
+
+</nav>
+</header>
+
+<div class="overlay-busca">
+
+    <div class="painel-busca">
+
+        <div class="topo-busca">
+            <div class="Logo">JR.</div>
+
+            <div class="busca-expandida">
+                <i class="fi fi-rr-menu-burger"></i>
+                <input type="text" placeholder="Hinted search text">
+                <i class="fi fi-rr-search"></i>
+            </div>
+        </div>
+
+        <div class="conteudo-busca">
+
+            <div class="linha">
+                <a  class="texto-painel" href="#"><i class="fi fi-tr-home"></i> Casa</a>
+                <span>CoisaCoisaCoisaMuitaCoisa</span>
+                <span>15</span>
+            </div>
+
+            <div class="linha">
+                <a  class="texto-painel" href="#"><i class="fi fi-ts-farm"></i> Fazenda</a>
+                <span>CoisaCoisaCoisa</span>
+                <span>16</span>
+            </div>
+
+            <div class="linha">
+                <a class="texto-painel" href="#"><i class="fi fi-ts-seedling"></i> Natureza</a>
+                <span>CoisaCoisaMaisCoisa</span>
+                <span>21</span>
+            </div>
+
+            <div class="linha">
+                <a class="texto-painel" href="#"><i class="fi fi-ts-building"></i> Cidade</a>
+                <span>CoisaCoisasCoisas</span>
+                <span>24</span>
+            </div>
+
+            <div class="linha">
+                <a class="texto-painel" href="#"><i class="fi fi-tr-grocery-basket"></i>Loja</a>
+                <span>CoisaMuitaCoisaEMaisCoisa</span>
+                <span>5</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
