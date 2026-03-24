@@ -13,3 +13,15 @@ overlay.addEventListener("click", (e) => {
         overlay.classList.remove("ativo");
     }
 });
+
+(function() {
+  const el = document.getElementById("dataHoje");
+  if (!el) return;
+  const agora = new Date();
+  const formatada = agora.toLocaleDateString("pt-BR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+  el.textContent = formatada;
+})();

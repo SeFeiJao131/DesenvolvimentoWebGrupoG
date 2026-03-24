@@ -10,17 +10,18 @@ font-family:Arial, Helvetica, sans-serif;
 }
 
 header{
-padding:20px 40px;
+padding:20px 60px;
+
 }
 
 .navheader{
-display:flex;
-align-items:center;
-gap:40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 }
 
 .Logo{
-color:#E8DCC4;
+color:#e8dcc4d2;
 font-size:40px;
 font-family: jsMath;
 font-weight: bold;
@@ -28,16 +29,18 @@ font-weight: bold;
 
 .liHeader{
 list-style:none;
+   margin-left:40px;
 }
 
 .headerlinks{
-display:flex;
-gap:20px;
+    display:flex;
+    gap:25px;
+    list-style:none;
 }
 
 .textobranco{
 text-decoration:none;
-color:#E8DCC4;
+color:#e8dcc4d2;
 font-size:21px;
 
   font-family: "IM Fell French Canon SC", serif;
@@ -46,42 +49,44 @@ font-size:21px;
 }
 
 .barra-pesquisa{
-display:flex;
-align-items:center;
-gap:8px;
-padding:6px 12px;
-border-radius:20px;
-border:1px solid #1C1515;
-background:transparent;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 18px;
+    border-radius:25px;
+    background:transparent
 }
 
 .barra-pesquisa input{
-border:none;
-outline:none;
-background:transparent;
-color:#E8DCC4;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:#e8dcc4d2;
+    width:220px;
 }
 
 .fi{
-color:#E8DCC4;
+color:#e8dcc4d2;
 }
 
 .loginbotao{
-padding:7px 30px;
-border-radius:8px;
-font-size:21px;
-color:#D4AF37;
-background:black;
-text-decoration:none;
+    padding:7px 22px;
+    border-radius:8px;
+    font-size:18px;
+
+    color:#D4AF37;
+    background:black;
+    text-decoration:none;
 }
 
 .signupbotao{
-padding:5px 7px;
-border-radius:8px;
-font-size:21px;
-background:#E8DCC4;
-color:#1C1515;
-text-decoration:none;
+    padding:6px 14px;
+    border-radius:8px;
+    font-size:18px;
+
+    background:#e8dcc4d2;
+    color:#1C1515;
+    text-decoration:none;
 }
 
 .overlay-busca{
@@ -152,13 +157,282 @@ margin-top:30px;
 display:grid;
 grid-template-columns:1fr 3fr 50px;
 padding:12px 0;
-color:#E8DCC4;
+color:#e8dcc4d2;
 font-size:15px;
 }
 
 .texto-painel{
     text-decoration:none;
-color:#E8DCC4;
+color:#e8dcc4d2;
 font-size:15px;
 
+}
+.acoes-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+.lado-esquerdo{
+    display:flex;
+    align-items:center;
+    gap:40px;
+}
+
+/*  Hero Novidades  */
+
+.hero-novidades {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  padding: 60px 60px 50px;
+  overflow: hidden;
+
+}
+
+.borda-esquerda {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #7B4FBE;
+}
+
+.hero-centro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: fadeUp .6s ease both;
+}
+
+.hero-data-linha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #e8dcc4d2;
+  letter-spacing: .05em;
+  font-family: "Courier New", monospace;
+}
+
+.hero-data-badge {
+  border: 1px solid #e8dcc4d2;
+  border-radius: 4px;
+  padding: 2px 10px;
+  font-size: 13px;
+  color: #e8dcc4d2;
+  font-family: "Courier New", monospace;
+  letter-spacing: .04em;
+}
+
+.hero-titulo {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(64px, 10vw, 120px);
+  font-weight: 500;
+  color: #E8DCC4;
+  letter-spacing: .04em;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 0px 20px rgba(70, 70, 70, 0.541);
+}
+
+.modelos-titulo {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 500;
+  color: #E8DCC4;
+  line-height: 1;
+  text-shadow: 0 2px 30px rgba(197, 197, 197, 0.171);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cards-novidades {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 60px 60px;
+}
+
+.cards-linha {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.card-item {
+  flex: 1;
+  max-width: 580px;
+}
+
+.card-item img {
+  width: 100%;
+  border-radius: 0;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+}
+
+.card-item:first-child img {
+  border-radius: 6px 0 0 6px;
+}
+
+.card-item:last-child img {
+  border-radius: 0 6px 6px 0;
+}
+
+.card-visitar {
+  text-decoration: none;
+  color: #e8dcc4d2;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: .05em;
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.card-visitar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background: #e8dcc4d2;
+  transition: width .35s ease;
+}
+
+.card-visitar:hover::after {
+  width: 100%;
+}
+
+/* ── Seção Modelos 3D ── */
+
+.secao-modelos {
+  padding: 60px 60px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.modelos-topo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.modelos-label {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 500;
+  font-size: 13px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: #D4AF37;
+}
+
+.modelos-titulo {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 500;
+  color: #e8dcc4d2;
+  line-height: 1;
+  text-shadow: 0 2px 30px rgba(197, 197, 197, 0.171);
+}
+
+.modelos-descricao {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 400;
+  font-size: 14px;
+  color: #e8dcc4d2;
+  opacity: .7;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.modelos-cards {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.modelo-card {
+  flex: 1;
+  border-radius: 16px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  padding: 24px;
+}
+
+.modelo-card img {
+  width: 90%;
+  height: 90%;
+  display: block;
+  object-fit:cover ;
+}
+
+.modelo-card--destaque {
+  background: #E8DCC4;
+
+}
+
+.modelos-rodape {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modelos-rodape-texto {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 400;
+  font-size: 15px;
+  color: #E8DCC4;
+  opacity: .8;
+}
+
+.modelos-seta {
+  color: #D4AF37;
+  font-size: 18px;
+}
+
+.modelos-ver-assets {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 600;
+  font-size: 15px;
+  color: #D4AF37;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.modelos-ver-assets::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #D4AF37;
+  transition: width .35s ease;
+}
+
+.modelos-ver-assets:hover::after {
+  width: 100%;
 }
