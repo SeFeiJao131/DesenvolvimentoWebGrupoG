@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Entrar</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --cor-fundo: #1C1515;
+      --cor-painel: #1C1515;
+      --borda-input: #3a2c2c;
+      --cor-creme: #E8DCC4;
+      --cor-dourado: #c8a96e;
+      --botao-fundo: #E8DCC4;
+      --botao-texto: #1C1515;
+      --texto-suave: #7a6a6a;
+      --cor-destaque: #c8a96e;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-creme);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container-principal {
+      width: 100%;
+      max-width: 1100px;
+      min-height: 760px;
+      background: var(--cor-painel);
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto;
+      overflow: hidden;
+    }
+
+    /* LADO ESQUERDO */
+    .lado-esquerdo {
+      padding: 52px 56px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .lado-esquerdo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+    }
+
+    .area-imagem {
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: #261d1d;
+      border: 2px dashed #3d2c2c;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--texto-suave);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+.area-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* preenche todo o quadrado */
+  border-radius: 18px;
+}
+
+    .area-imagem:hover {
+      border-color: var(--cor-dourado);
+      background: #2e2020;
+    }
+
+    /* LADO DIREITO */
+    .lado-direito {
+      padding: 52px 56px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .lado-direito h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+    }
+
+    .campos-login {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 8px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      background: #221a1a;
+      border: 1.5px solid var(--borda-input);
+      border-radius: 10px;
+      padding: 18px 24px;
+      color: var(--cor-creme);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: var(--texto-suave);
+    }
+
+    input:focus {
+      border-color: var(--cor-dourado);
+    }
+
+    .lembrar-login {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .botao-entrar {
+      width: 100%;
+      padding: 20px;
+      background: var(--botao-fundo);
+      color: var(--botao-texto);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .link-esqueceu {
+      text-align: right;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: var(--cor-creme);
+    }
+
+    .link-esqueceu:hover {
+      color: var(--cor-dourado);
+    }
+
+    /* divisor */
+    .divisor {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .linha-divisor {
+      flex: 1;
+      height: 1px;
+      background: #3a2c2c;
+    }
+
+    .texto-divisor {
+      font-size: 0.82rem;
+      color: var(--cor-destaque);
+    }
+
+    /* botões sociais */
+    .botoes-sociais {
+      display: flex;
+      gap: 10px;
+    }
+
+    .botao-social {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #221a1a;
+      border: 1.5px solid #3a2c2c;
+      color: var(--cor-creme);
+      font-size: 0.88rem;
+      cursor: pointer;
+      padding: 12px 10px;
+      border-radius: 50px;
+    }
+
+    .botao-social:hover {
+      border-color: var(--cor-dourado);
+      background: #2e2020;
+    }
+
+    /* RODAPÉ */
+    .rodape {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: center;
+      padding: 24px 56px;
+      border-top: 1px solid #2e2020;
+      font-size: 0.92rem;
+    }
+
+    .rodape a {
+      color: var(--cor-dourado);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .rodape a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container-principal">
+
+  <div class="lado-esquerdo">
+    <h1>Bem-vindo</h1>
+
+   <div class="area-imagem">
+  <img src="Imagens/ImagemLogin.png" alt="Imagem de login">
+</div>
+  </div>
+
+  <div class="lado-direito">
+
+    <h2>Entrar</h2>
+
+    <div class="campos-login">
+      <input type="text" placeholder="E-mail ou usuário" />
+      <input type="password" placeholder="Senha" />
+
+      <label class="lembrar-login">
+        <input type="checkbox" /> Manter conectado
+      </label>
+    </div>
+
+    <button class="botao-entrar">Entrar</button>
+
+    <a class="link-esqueceu" href="#">Esqueceu sua senha?</a>
+
+    <div class="divisor">
+      <div class="linha-divisor"></div>
+      <span class="texto-divisor">Ou entre com</span>
+      <div class="linha-divisor"></div>
+    </div>
+
+    <div class="botoes-sociais">
+      <button class="botao-social">Google</button>
+      <button class="botao-social">Facebook</button>
+      <button class="botao-social">X</button>
+    </div>
+
+  </div>
+
+  <div class="rodape">
+    <p>Não possui conta? <a href="#">Criar conta</a></p>
+  </div>
+
+</div>
+
+</body>
+</html>
