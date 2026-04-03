@@ -1,181 +1,183 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-background:#1C1515;
-font-family:Arial, Helvetica, sans-serif;
+body {
+  background: #1C1515;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-header{
-padding:20px 60px;
+header {
+  padding: 20px 60px;
 
 }
 
-.navheader{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+.navheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.Logo{
-color:#e8dcc4d2;
-font-size:40px;
-font-family: jsMath;
-font-weight: bold;
+.Logo {
+  color: #e8dcc4d2;
+  font-size: 40px;
+  font-family: jsMath;
+  font-weight: bold;
 }
 
-.liHeader{
-list-style:none;
-   margin-left:40px;
+.liHeader {
+  list-style: none;
+  margin-left: 40px;
 }
 
-.headerlinks{
-    display:flex;
-    gap:25px;
-    list-style:none;
+.headerlinks {
+  display: flex;
+  gap: 25px;
+  list-style: none;
 }
 
-.textobranco{
-text-decoration:none;
-color:#e8dcc4d2;
-font-size:21px;
+.textobranco {
+  text-decoration: none;
+  color: #e8dcc4d2;
+  font-size: 21px;
 
   font-family: "IM Fell French Canon SC", serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.barra-pesquisa{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:8px 18px;
-    border-radius:25px;
-    background:transparent
+.barra-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 25px;
+  background: transparent
 }
 
-.barra-pesquisa input{
-    border:none;
-    outline:none;
-    background:transparent;
-    color:#e8dcc4d2;
-    width:220px;
+.barra-pesquisa input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #e8dcc4d2;
+  width: 220px;
 }
 
-.fi{
-color:#e8dcc4d2;
+.fi {
+  color: #e8dcc4d2;
 }
 
-.loginbotao{
-    padding:7px 22px;
-    border-radius:8px;
-    font-size:18px;
+.loginbotao {
+  padding: 7px 22px;
+  border-radius: 8px;
+  font-size: 18px;
 
-    color:#D4AF37;
-    background:black;
-    text-decoration:none;
+  color: #D4AF37;
+  background: black;
+  text-decoration: none;
 }
 
-.signupbotao{
-    padding:6px 14px;
-    border-radius:8px;
-    font-size:18px;
+.signupbotao {
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 18px;
 
-    background:#e8dcc4d2;
-    color:#1C1515;
-    text-decoration:none;
+  background: #e8dcc4d2;
+  color: #1C1515;
+  text-decoration: none;
 }
 
-.overlay-busca{
-position:fixed;
-inset:0;
+.overlay-busca {
+  position: fixed;
+  inset: 0;
 
-background:rgba(0, 0, 0, 0.55);
-backdrop-filter:blur(6px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
 
-display:flex;
-justify-content:center;
-align-items:flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
-padding-top:80px;
+  padding-top: 80px;
 
-opacity:0;
-pointer-events:none;
-transition:.3s;
-z-index:999;
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+  z-index: 999;
 }
 
-.overlay-busca.ativo{
-opacity:1;
-pointer-events:auto;
+.overlay-busca.ativo {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.painel-busca{
-width:85%;
-max-width:1100px;
-background:#1C1515;
-border-radius:16px;
-padding:25px;
+.painel-busca {
+  width: 85%;
+  max-width: 1100px;
+  background: #1C1515;
+  border-radius: 16px;
+  padding: 25px;
 
-transform:translateY(-25px);
-transition:.3s;
+  transform: translateY(-25px);
+  transition: .3s;
 }
 
-.overlay-busca.ativo .painel-busca{
-transform:translateY(0);
+.overlay-busca.ativo .painel-busca {
+  transform: translateY(0);
 }
 
-.topo-busca{
-display:flex;
-align-items:center;
-gap:30px;
+.topo-busca {
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
-.busca-expandida{
-display:flex;
-align-items:center;
-gap:10px;
-background:#1C1515;
-padding:10px 15px;
-border-radius:20px;
+.busca-expandida {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1C1515;
+  padding: 10px 15px;
+  border-radius: 20px;
 }
 
-.busca-expandida input{
-border:none;
-outline:none;
-background:transparent;
+.busca-expandida input {
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
-.conteudo-busca{
-margin-top:30px;
+.conteudo-busca {
+  margin-top: 30px;
 }
 
-.linha{
-display:grid;
-grid-template-columns:1fr 3fr 50px;
-padding:12px 0;
-color:#e8dcc4d2;
-font-size:15px;
+.linha {
+  display: grid;
+  grid-template-columns: 1fr 3fr 50px;
+  padding: 12px 0;
+  color: #e8dcc4d2;
+  font-size: 15px;
 }
 
-.texto-painel{
-    text-decoration:none;
-color:#e8dcc4d2;
-font-size:15px;
+.texto-painel {
+  text-decoration: none;
+  color: #e8dcc4d2;
+  font-size: 15px;
 
 }
-.acoes-header{
-    display:flex;
-    align-items:center;
-    gap:18px;
+
+.acoes-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
-.lado-esquerdo{
-    display:flex;
-    align-items:center;
-    gap:40px;
+
+.lado-esquerdo {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
 /*  Hero Novidades  */
@@ -236,7 +238,8 @@ font-size:15px;
   letter-spacing: .04em;
   line-height: 1;
   text-align: center;
-  text-shadow: 0 0px 20px rgba(70, 70, 70, 0.541);
+  text-shadow: 2px 4px 5px black;
+  opacity: 90%;
 }
 
 .modelos-titulo {
@@ -249,8 +252,15 @@ font-size:15px;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .cards-novidades {
@@ -334,22 +344,13 @@ font-size:15px;
   text-align: center;
 }
 
-.modelos-label {
-  font-family: "Recursive", monospace;
-  font-variation-settings: "MONO" 1, "wght" 500;
-  font-size: 13px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  color: #D4AF37;
-}
-
 .modelos-titulo {
   font-family: "Roboto", sans-serif;
   font-size: clamp(48px, 8vw, 96px);
   font-weight: 500;
   color: #e8dcc4d2;
   line-height: 1;
-  text-shadow: 0 2px 30px rgba(197, 197, 197, 0.171);
+  text-shadow: 2px 2px 5px black;
 }
 
 .modelos-descricao {
@@ -385,7 +386,7 @@ font-size:15px;
   width: 90%;
   height: 90%;
   display: block;
-  object-fit:cover ;
+  object-fit: cover;
 }
 
 .modelo-card--destaque {
@@ -412,7 +413,7 @@ font-size:15px;
   font-size: 18px;
 }
 
-.modelos-ver-assets {
+.texto-dourado-pequeno {
   font-family: "Recursive", monospace;
   font-variation-settings: "MONO" 1, "wght" 600;
   font-size: 15px;
@@ -422,7 +423,17 @@ font-size:15px;
   padding-bottom: 3px;
 }
 
-.modelos-ver-assets::after {
+.textoDouradoSH {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 600;
+  font-size: 15px;
+  color: #D4AF37;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.texto-dourado-pequeno::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -433,7 +444,111 @@ font-size:15px;
   transition: width .35s ease;
 }
 
-.modelos-ver-assets:hover::after {
+.texto-dourado-pequeno:hover::after {
   width: 100%;
 }
 
+/* Isso é um comentário de uma linha */
+
+  .Texturas {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* container da imagem */
+  .Imagem-Textura {
+    display: flex;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    width: 1600px;
+    margin: 0 auto;
+  }
+
+  /* imagem */
+  .Imagem-Textura img {
+    display: block;
+
+    width: 100%;
+    max-width: 1600px;
+    border-radius: 0px;
+    height: auto;
+    transition: 0.4s;
+  }
+
+  /* overlay invisível inicialmente */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: 0.4s;
+  }
+
+  /* hover ativa overlay */
+  .Imagem-Textura:hover .overlay {
+    opacity: 1;
+  }
+
+  /* escurece imagem */
+  .Imagem-Textura:hover img {
+    filter: brightness(60%);
+  }
+
+  /* botão central */
+  .botao-visitar {
+    background: #E8DCC4;
+    padding: 25px 40px;
+    color: #1C1515;
+    border-radius: 22px;
+  }
+  .botao-visitar p{
+    font-family: "Recursive", monospace;
+    font-weight: 500;
+    font-size: 25px;
+    letter-spacing: .05em;
+  }
+
+  /* ===== TEXTO INFERIOR ESQUERDO ===== */
+  .texto-overlay {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: white;
+    font-size: 35px;
+    font-weight: 600;
+  }
+
+  /* ===== SETA INFERIOR DIREITA ===== */
+  .seta {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    color: white;
+    font-size: 100px;
+    font-weight: bold;
+  }
+  /* ===== TEXTOS SUPERIORES ===== */
+  .Texto-texturas-procedurais {
+    color: #E8DCC4;
+    font-size: 65px;
+    font-weight: 600;
+    margin: 0 0 32px;
+    text-shadow: 2px 2px 5px black;
+    opacity: 85%;
+    padding-left: 125px;
+  }
+
+  .textoDouradoText {
+    font-family: "Recursive", monospace;
+    font-variation-settings: "MONO" 1, "wght" 600;
+    font-size: 14px;
+    color: #D4AF37;
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 3px;
+    padding-left: 125px;
+  }
