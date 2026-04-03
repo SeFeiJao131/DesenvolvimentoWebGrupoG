@@ -448,54 +448,54 @@ header {
   width: 100%;
 }
 
-/* Isso é um comentário de uma linha */
+/* Parte da textura */
 
   .Texturas {
     display: flex;
-    flex-direction: column;
+    flex-direction: column;/* Para deixar tudo embaixo do outro, display:flex = padrao como row(um do lado do outro) */
     gap: 20px;
   }
 
   /* container da imagem */
   .Imagem-Textura {
-    display: flex;
-    position: relative;
+    display: flex; /* Usado aqui mais para boa pratica */
+    position: relative; /* Se apresenta para o filho para que fique dentro do conteiner */
     border-radius: 20px;
-    overflow: hidden;
+    overflow: hidden;  /* Some com tudo que fica para fora do container */
     width: 1600px;
-    margin: 0 auto;
+    margin: 0 auto; /* Todo elemento block=fica na esquerda, tendo o margin aqui faz com que o navegador divida igualmente os espacos */
   }
 
   /* imagem */
   .Imagem-Textura img {
-    display: block;
+    display: block;  /* toda img se comporta como uma inline, esse codigo transforma a img em um bloco igual div, p e section */
 
-    width: 100%;
-    max-width: 1600px;
-    border-radius: 0px;
-    height: auto;
-    transition: 0.4s;
+    width: 100%;  /* 100% do tamanho do pai, no caso Imagem-Textura, ele se encaixa ao tamanho do container */
+    max-width: 1600px;  /* Evitar pr0oblemas em monitores maiores */
+    border-radius: 0px;  /* o pai ja tem border radius, entao aqui é apenas para evitar problemas */
+    height: auto; 
+    transition: 0.4s;transition: 0.4s; /* faz com que qualquer mudança visual (como hover, escala, cor, etc.) aconteça suavemente em 0.4 segundos, em vez de mudar instantaneamente */
   }
 
   /* overlay invisível inicialmente */
   .overlay {
-    position: absolute;
-    inset: 0;
+    position: absolute;  /* Procura o elemento com que pode se "juntar", no caso o Imagem-Textura ja que ele conta com o position relative, caso contrario usaria o body como referencia */
+    inset: 0; /* Sem isso ele ocupa todos os 4 lados do container, por conta do position absolute */
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    opacity: 0; /* Deixa tudo invisivel */
     transition: 0.4s;
   }
 
   /* hover ativa overlay */
   .Imagem-Textura:hover .overlay {
-    opacity: 1;
+    opacity: 1; /* Deixa tudo visivel com o mouse em cima */
   }
 
   /* escurece imagem */
   .Imagem-Textura:hover img {
-    filter: brightness(60%);
+    filter: brightness(60%); /* Ajusta o brilho da imagem quando o mouse passa por cima */
   }
 
   /* botão central */
