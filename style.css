@@ -9,6 +9,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+ul {
+  list-style: none;
+}
+
 header {
   padding: 20px 60px;
 
@@ -28,14 +32,14 @@ header {
 }
 
 .liHeader {
-  list-style: none;
+
   margin-left: 40px;
 }
 
 .headerlinks {
   display: flex;
   gap: 25px;
-  list-style: none;
+
 }
 
 .textobranco {
@@ -450,105 +454,625 @@ header {
 
 /* Parte da textura */
 
-  .Texturas {
-    display: flex;
-    flex-direction: column;/* Para deixar tudo embaixo do outro, display:flex = padrao como row(um do lado do outro) */
-    gap: 20px;
-  }
+.Texturas {
+  display: flex;
+  flex-direction: column;
+  /* Para deixar tudo embaixo do outro, display:flex = padrao como row(um do lado do outro) */
+  gap: 20px;
+}
 
-  /* container da imagem */
-  .Imagem-Textura {
-    display: flex; /* Usado aqui mais para boa pratica */
-    position: relative; /* Se apresenta para o filho para que fique dentro do conteiner */
-    border-radius: 20px;
-    overflow: hidden;  /* Some com tudo que fica para fora do container */
-    width: 1600px;
-    margin: 0 auto; /* Todo elemento block=fica na esquerda, tendo o margin aqui faz com que o navegador divida igualmente os espacos */
-  }
+/* container da imagem */
+.Imagem-Textura {
+  display: flex;
+  /* Usado aqui mais para boa pratica */
+  position: relative;
+  /* Se apresenta para o filho para que fique dentro do conteiner */
+  border-radius: 20px;
+  overflow: hidden;
+  /* Some com tudo que fica para fora do container */
+  width: 1600px;
+  margin: 0 auto;
+  /* Todo elemento block=fica na esquerda, tendo o margin aqui faz com que o navegador divida igualmente os espacos */
+}
 
-  /* imagem */
-  .Imagem-Textura img {
-    display: block;  /* toda img se comporta como uma inline, esse codigo transforma a img em um bloco igual div, p e section */
+/* imagem */
+.Imagem-Textura img {
+  display: block;
+  /* toda img se comporta como uma inline, esse codigo transforma a img em um bloco igual div, p e section */
 
-    width: 100%;  /* 100% do tamanho do pai, no caso Imagem-Textura, ele se encaixa ao tamanho do container */
-    max-width: 1600px;  /* Evitar pr0oblemas em monitores maiores */
-    border-radius: 0px;  /* o pai ja tem border radius, entao aqui é apenas para evitar problemas */
-    height: auto; 
-    transition: 0.4s;transition: 0.4s; /* faz com que qualquer mudança visual (como hover, escala, cor, etc.) aconteça suavemente em 0.4 segundos, em vez de mudar instantaneamente */
-  }
+  width: 100%;
+  /* 100% do tamanho do pai, no caso Imagem-Textura, ele se encaixa ao tamanho do container */
+  max-width: 1600px;
+  /* Evitar pr0oblemas em monitores maiores */
+  border-radius: 0px;
+  /* o pai ja tem border radius, entao aqui é apenas para evitar problemas */
+  height: auto;
+  transition: 0.4s;
+  transition: 0.4s;
+  /* faz com que qualquer mudança visual (como hover, escala, cor, etc.) aconteça suavemente em 0.4 segundos, em vez de mudar instantaneamente */
+}
 
-  /* overlay invisível inicialmente */
-  .overlay {
-    position: absolute;  /* Procura o elemento com que pode se "juntar", no caso o Imagem-Textura ja que ele conta com o position relative, caso contrario usaria o body como referencia */
-    inset: 0; /* Sem isso ele ocupa todos os 4 lados do container, por conta do position absolute */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0; /* Deixa tudo invisivel */
-    transition: 0.4s;
-  }
+/* overlay invisível inicialmente */
+.overlay {
+  position: absolute;
+  /* Procura o elemento com que pode se "juntar", no caso o Imagem-Textura ja que ele conta com o position relative, caso contrario usaria o body como referencia */
+  inset: 0;
+  /* Sem isso ele ocupa todos os 4 lados do container, por conta do position absolute */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  /* Deixa tudo invisivel */
+  transition: 0.4s;
+}
 
-  /* hover ativa overlay */
-  .Imagem-Textura:hover .overlay {
-    opacity: 1; /* Deixa tudo visivel com o mouse em cima */
-  }
+/* hover ativa overlay */
+.Imagem-Textura:hover .overlay {
+  opacity: 1;
+  /* Deixa tudo visivel com o mouse em cima */
+}
 
-  /* escurece imagem */
-  .Imagem-Textura:hover img {
-    filter: brightness(60%); /* Ajusta o brilho da imagem quando o mouse passa por cima */
-  }
+/* escurece imagem */
+.Imagem-Textura:hover img {
+  filter: brightness(60%);
+  /* Ajusta o brilho da imagem quando o mouse passa por cima */
+}
 
-  /* botão central */
-  .botao-visitar {
-    background: #E8DCC4;
-    padding: 25px 40px;
-    color: #1C1515;
-    border-radius: 22px;
-  }
-  .botao-visitar p{
-    font-family: "Recursive", monospace;
-    font-weight: 500;
-    font-size: 25px;
-    letter-spacing: .05em;
-  }
+/* botão central */
+.botao-visitar {
+  background: #E8DCC4;
+  padding: 25px 40px;
+  color: #1C1515;
+  border-radius: 22px;
+}
 
-  /* ===== TEXTO INFERIOR ESQUERDO ===== */
-  .texto-overlay {
-    position: absolute;
-    bottom: 30px;
-    left: 30px;
-    color: white;
-    font-size: 35px;
-    font-weight: 600;
-  }
+.botao-visitar p {
+  font-family: "Recursive", monospace;
+  font-weight: 500;
+  font-size: 25px;
+  letter-spacing: .05em;
+}
 
-  /* ===== SETA INFERIOR DIREITA ===== */
-  .seta {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    color: white;
-    font-size: 100px;
-    font-weight: bold;
-  }
-  /* ===== TEXTOS SUPERIORES ===== */
-  .Texto-texturas-procedurais {
-    color: #E8DCC4;
-    font-size: 65px;
-    font-weight: 600;
-    margin: 0 0 32px;
-    text-shadow: 2px 2px 5px black;
-    opacity: 85%;
-    padding-left: 125px;
-  }
+/* ===== TEXTO INFERIOR ESQUERDO ===== */
+.texto-overlay {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+  font-size: 35px;
+  font-weight: 600;
+}
 
-  .textoDouradoText {
-    font-family: "Recursive", monospace;
-    font-variation-settings: "MONO" 1, "wght" 600;
-    font-size: 14px;
-    color: #D4AF37;
-    text-decoration: none;
-    position: relative;
-    padding-bottom: 3px;
-    padding-left: 125px;
-  }
+/* ===== SETA INFERIOR DIREITA ===== */
+.seta {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: white;
+  font-size: 100px;
+  font-weight: bold;
+}
+
+/* ===== TEXTOS SUPERIORES ===== */
+.Texto-texturas-procedurais {
+  color: #E8DCC4;
+  font-size: 65px;
+  font-weight: 600;
+  margin: 0 0 32px;
+  text-shadow: 2px 2px 5px black;
+  opacity: 85%;
+  padding-left: 125px;
+}
+
+.textoDouradoText {
+  font-family: "Recursive", monospace;
+  font-variation-settings: "MONO" 1, "wght" 600;
+  font-size: 14px;
+  color: #D4AF37;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+  padding-left: 125px;
+}
+
+/* ===== A footer ===== */
+footer {
+  display: flex;
+  flex-direction: column;
+  background: #171212;
+}
+
+footer a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.divisao {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 34px;
+}
+.linhaa hr {
+  border: none;
+  border-top: 4px solid #1C1515 ;
+  width: 100%;
+
+}
+
+.lado-direito-footer {
+  display: flex;
+  flex-direction: row;
+  padding: 75px 253px 75px 0px;
+  justify-content: flex-end;
+  gap: 100px;
+}
+
+
+.campo li {
+  color: #817361;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+  padding: 20px 0px 6px 0px;
+}
+
+.campo h4 {
+  color: #BFB4A1;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+
+}
+
+.lado-esquerdo-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 37px 0px 0px 135px;
+}
+
+.lado-esquerdo-footer h3 {
+  font-family: "Playfair Display SC", serif;
+  font-weight: 400;
+  text-shadow: 2px 0px 4px black;
+  color: #BFB4A1;
+  font-size: 45px;
+  padding-bottom: 14px;
+}
+
+.descricao {
+  color: #61564B;
+  font-family: "Recursive", monospace;
+  padding: 0px 0px 25px 0px;
+
+}
+
+.newsletter {
+  color: #D4AF37;
+  font-family: "Recursive", monospace;
+  padding-bottom: 15px;
+
+}
+
+input[type="email"] {
+  width: 100%;
+  background: #1C1515;
+  padding: 18px 24px 18px 18px;
+  font-size: 0.95rem;
+  border: 1px solid #2A1C17;
+  outline: none;
+  color: white;
+}
+
+.campo-email button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #D4AF37;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.campo-email button:hover {
+  opacity: 0.8;
+}
+
+input[type="email"]::placeholder {
+  color: #8a6f66;
+}
+
+input[type="email"]:focus {
+  border-color: #5a3a2f;
+}
+
+.campo-email {
+  position: relative;
+  width: 100%;
+
+}
+
+/* ===== Parte do curadoria ===== */
+
+.curadoria {
+  display: flex;
+  justify-content: flex-start;
+  padding: 140px 0px 140px 135px;
+
+}
+
+.curadoria1 {
+  color: #D4AF37;
+  padding-bottom: 15px;
+  font-family: "Recursive", monospace;
+
+}
+
+.curadoria2 {
+  color: #E8DCC4;
+  font-size: 75px;
+  font-family: "Playfair Display SC", serif;
+  font-weight: 400;
+  text-shadow: 2px 0px 4px black;
+}
+
+
+
+.baixo-baixo {
+ display: flex;
+ justify-content: space-between;
+ flex-direction: row;
+ align-items: center;
+}
+.divisaoNegocio{
+  display: flex;
+  flex-direction: row;
+  padding: 5px 15px 5px 36px;
+}
+.baixo-direita{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+padding-right: 24px;
+color: #7e7569;
+font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+
+}
+.divisaoNegocio p{
+padding: 5px 10px 0px 5px;
+align-items:center ;
+
+}
+.linha-vertical {
+  display: flex;
+  height: 33px;
+  border-left: 2px solid #1C1515;
+margin-top: 8px;
+
+}
+.baixo-esquerda{
+padding: 0px 15px 0px 96px;
+}
+.baixo-meio-esquerda{
+  padding: 0px 0px 5px 15px;
+}
+.systemFilosofia{
+  color: #817361;
+   font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+  font-size: 14px;
+}
+.minimalista{
+  color: #D4AF37;
+  font-family: "Recursive", monospace;
+  font-size: 12px;
+}
+.Visao{
+    color: #BFB4A1;
+   font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+  font-size: 12px;  padding-bottom: 10px;
+}
+
+/* ===== Parte do produto ===== */
+
+.linha-topo-pgProduto {
+  height: 1px;
+  background: #6b5447;
+  opacity: 0.5;
+}
+
+.caminho-pgProduto{
+  padding: 18px 60px;
+  font-size: 12px;
+  color: #c8a84e;
+text-decoration: none;
+}
+
+
+.caminho-pgProduto a{
+  color: #c8a84e;
+text-decoration: none;
+}
+
+.caminho-pgProduto a:visited {
+  color: #c8a84e;     
+}
+
+.layout-pgProduto {
+  max-width: 100%;
+  padding: 0 60px;
+
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 30px;
+
+align-items: stretch;
+}
+
+.visualizador-pgProduto {
+  width: 100%;
+  height: 675px;
+
+  background: #a9a9a9;
+  border-radius: 12px;
+}
+
+
+.info-pgProduto {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+height: 100%;
+  width: 100%;
+}
+
+
+.nome-pgProduto {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  color: #e8dcc4;
+  margin: 0;
+}
+
+.descricao-pgProduto {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: -5px;
+}
+
+.card-pgProduto {
+  width: 100%;
+  background: #2A2020;
+  border-radius: 16px;
+  flex: 1; 
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 26px;
+  margin-top: 10px;
+
+  box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+
+.preco-pgProduto {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: #e8dcc4;
+  margin-bottom: 18px;
+}
+
+/* Especificações */
+.especificacoes-pgProduto {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 18px;
+}
+
+.linha-spec-pgProduto {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+
+  font-size: 11px;
+}
+
+.chave-spec-pgProduto {
+  color: #8a7060;
+  font-size: 14px;
+}
+
+.valor-spec-pgProduto {
+  color: #c8a84e;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+/* Suporte / Render */
+.suporte-render-pgProduto {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.bloco-sr-pgProduto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label-sr-pgProduto {
+  font-size: 12px;
+  color: #c2b49a;
+}
+
+.valor-sr-pgProduto {
+  font-size: 14px;
+  color: #c8a84e;
+  font-weight: 600;
+}
+
+/* Botão */
+.botao-download-pgProduto {
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+
+  padding: 12px;
+  background: #d9cfbb;
+  color: #1a1313;
+
+  border-radius: 10px;
+  border: none;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.botao-download-pgProduto:hover {
+  background: #cbbfa8;
+  transform: translateY(-1px);
+}
+.linha-descricao-pgProduto p{
+  color: #D4AF37;
+   font-family: "DM Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100px;
+  font-style: normal;
+}
+
+
+
+.card-layout{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: #171414;
+  margin: 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+margin-left: 132px;
+}
+
+
+
+.imagem-card-layout img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.info-card-layout{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+padding: 6px 0px 6px 14px;
+
+}
+.titulo-card-layout{
+font-family: jsMath;
+font-size: 15px;
+color: #9A9A9A;
+}
+
+.descricao-card-layout{
+  font-family: jsMath;
+font-size: 20px;
+color: #E8DCC4;
+}
+
+.alinhar-cards{
+  display: flex;
+flex-wrap: wrap;
+}
+
+.layout-textos{
+  margin-left: 132px;
+
+}
+
+.caminho-pgLayout{
+  padding: 30px 132px;
+  font-size: 14px;
+  color: #c8a84e;
+text-decoration: none;
+}
+
+.caminho-pgLayout a{
+  color: #c8a84e;
+text-decoration: none;
+
+}
+.TexturasPro{
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "GRAD" 0;
+    font-size: 75px;
+     color: #e8dcc4;
+     padding: 4px 0px 10px 0px;
+}
+.DescricaoTexturas{
+  color: #e8dcc4;
+  font-family: "Recursive", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+       padding: 10px 0px 10px 0px;
+}
+.categoriasTexturas{
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "GRAD" 0;
+    font-size: 18px;
+    color: #c8a84e;
+         padding: 10px 0px 10px 0px;
+}
+.TexturasProDourado{
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100,
+    "GRAD" 0;
+    font-size: 75px;
+     color: #c8a84e;
+}
+.TexturasDescDourado{
+  color: #c8a84e;
+  font-family: "Recursive", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  text-align: left;
+}
