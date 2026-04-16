@@ -369,23 +369,90 @@ header {
 
 .modelos-cards {
   display: flex;
-  align-items: center;
-  gap: 0;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.modelo-card {
-  flex: 1;
-  border-radius: 16px;
-  background: #111;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: 280px;
-  padding: 24px;
+  align-items: center;
+  padding: 10px 0;
 }
 
+.modelos-cards {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* GRID DOS CARDS */
+.container-card-index {
+  display: grid;
+  grid-template-columns: repeat(3, 320px);
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CARD */
+.card-article {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-imagem-index {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  display: block;
+}
+
+/* ZOOM NA IMAGEM */
+.card-article:hover .card-imagem-index {
+  transform: scale(1.05);
+}
+
+/* CONTEÚDO (CARD DATA) */
+.card-data {
+  position: absolute;
+  left: 50%;
+  bottom: -1rem;
+  transform: translateX(-50%) translateY(20px);
+
+  width: 85%;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+/* HOVER SUAVE (ENTRADA E SAÍDA PERFEITA) */
+.card-article:hover .card-data {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.card-descricao {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.card-titulo {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.botao-card {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #c8a84e;
+}
+
+.botao-card:hover {
+  text-decoration: underline;
+}
 .modelo-card img {
   width: 90%;
   height: 90%;
