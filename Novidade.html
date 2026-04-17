@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=DM+Sans:wght@400;500&family=Recursive:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Novidades — JoinRender</title>
+</head>
+<body>
+
+  <header>
+    <nav class="navheader">
+      <div class="lado-esquerdo">
+        <div class="Logo">JR.</div>
+        <ul class="headerlinks">
+          <li><a class="textobranco" href="#">Explorar</a></li>
+          <li><a class="textobranco" href="#">Texturas</a></li>
+          <li><a class="textobranco" href="#">Modelos</a></li>
+          <li><a class="textobranco" href="#">HDRIs</a></li>
+        </ul>
+      </div>
+      <form class="barra-pesquisa">
+        <i class="fi fi-rr-menu-burger"></i>
+        <input type="text" placeholder="Pesquisar...">
+        <i class="fi fi-rr-search"></i>
+      </form>
+      <div class="acoes-header">
+        <a class="signupbotao" href="login.html">Sign Up</a>
+        <a class="loginbotao" href="#">Login in</a>
+        <a class="textobranco" href="#">Sobre</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="nov-pagina">
+
+    <p class="nov-migalha"><a href="index.html">Home</a><span>/</span>novidades</p>
+
+    <div class="nov-cabecalho">
+
+      <h1 class="nov-titulo">NOVIDADES <span class="nov-titulo-dourado">recentes</span></h1>
+    </div>
+
+    <div class="nov-divisor"></div>
+
+    <div class="nov-destaque" id="nov-destaque" data-id="" data-url="">
+
+      <div class="nov-destaque-imagem">
+      </div>
+
+      <div class="nov-destaque-info">
+        <p class="nov-destaque-etiqueta">NOVO · TEXTURA</p>
+        <h2 class="nov-destaque-nome">Mármore Carrara<br>8K Procedural</h2>
+        <p class="nov-destaque-descricao">Textura procedural de alta fidelidade com<br>veios naturais e suporte Cycles / EEVEE.</p>
+        <a class="nov-destaque-botao" href="#">Ver asset →</a>
+        <p class="nov-destaque-data">Lançado em 17 abr 2026</p>
+      </div>
+
+    </div>
+
+    <div class="nov-cabecalho-secao">
+      <div>
+        <p class="nov-rotulo">Lançamentos</p>
+        <p class="nov-subtitulo-secao">MAIS RECENTES</p>
+      </div>
+      <div class="nov-setas">
+        <button class="nov-seta" id="nov-anterior" aria-label="Anterior">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <path d="M5 1L2 4l3 3" stroke="#D4AF37" stroke-width="1.4"/>
+          </svg>
+        </button>
+        <button class="nov-seta" id="nov-proximo" aria-label="Próximo">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <path d="M3 1l3 3-3 3" stroke="#D4AF37" stroke-width="1.4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="nov-carrossel-envolvente">
+      <div class="nov-carrossel-trilha" id="nov-carrossel-trilha">
+
+        <a class="nov-carrossel-cartao" href="#" data-id="">
+          <div class="nov-cartao-imagem"></div>
+          <div class="nov-cartao-corpo">
+            <span class="nov-cartao-rotulo">Textura</span>
+            <span class="nov-cartao-nome">Madeira Teca</span>
+          </div>
+        </a>
+
+        <a class="nov-carrossel-cartao" href="#" data-id="">
+          <div class="nov-cartao-imagem"></div>
+          <div class="nov-cartao-corpo">
+            <span class="nov-cartao-rotulo">Modelo 3D</span>
+            <span class="nov-cartao-nome">Cadeira Eames</span>
+          </div>
+        </a>
+
+        <a class="nov-carrossel-cartao" href="#" data-id="">
+          <div class="nov-cartao-imagem"></div>
+          <div class="nov-cartao-corpo">
+            <span class="nov-cartao-rotulo">HDRI</span>
+            <span class="nov-cartao-nome">Studio Suave</span>
+          </div>
+        </a>
+
+        <a class="nov-carrossel-cartao" href="#" data-id="">
+          <div class="nov-cartao-imagem"></div>
+          <div class="nov-cartao-corpo">
+            <span class="nov-cartao-rotulo">Textura</span>
+            <span class="nov-cartao-nome">Concreto PBR</span>
+          </div>
+        </a>
+
+        <a class="nov-carrossel-cartao" href="#" data-id="">
+          <div class="nov-cartao-imagem"></div>
+          <div class="nov-cartao-corpo">
+            <span class="nov-cartao-rotulo">Textura</span>
+            <span class="nov-cartao-nome">Pedra Basalto</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div class="nov-cabecalho-secao">
+      <div>
+        <p class="nov-rotulo">Arquivo</p>
+        <p class="nov-subtitulo-secao">TODOS OS LANÇAMENTOS</p>
+      </div>
+    </div>
+
+    <div class="nov-filtros" id="nov-filtros">
+      <button class="nov-filtro ativo" data-filtro="todos">Todos</button>
+      <button class="nov-filtro" data-filtro="textura">Texturas</button>
+      <button class="nov-filtro" data-filtro="modelo">Modelos 3D</button>
+      <button class="nov-filtro" data-filtro="hdri">HDRIs</button>
+    </div>
+
+    <div class="nov-grade" id="nov-grade">
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">Textura</span>
+          <span class="nov-cartao-nome">Tijolo Rústico</span>
+          <span class="nov-grade-data">14 abr 2026</span>
+        </div>
+      </a>
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="modelo">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">Modelo 3D</span>
+          <span class="nov-cartao-nome">Mesa Minimalista</span>
+          <span class="nov-grade-data">10 abr 2026</span>
+        </div>
+      </a>
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="hdri">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">HDRI</span>
+          <span class="nov-cartao-nome">Céu Nublado</span>
+          <span class="nov-grade-data">07 abr 2026</span>
+        </div>
+      </a>
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">Textura</span>
+          <span class="nov-cartao-nome">Metal Oxidado</span>
+          <span class="nov-grade-data">03 abr 2026</span>
+        </div>
+      </a>
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">Textura</span>
+          <span class="nov-cartao-nome">Pedra Basalto</span>
+          <span class="nov-grade-data">01 abr 2026</span>
+        </div>
+      </a>
+
+      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="modelo">
+        <div class="nov-grade-imagem"></div>
+        <div class="nov-grade-corpo">
+          <span class="nov-cartao-rotulo">Modelo 3D</span>
+          <span class="nov-cartao-nome">Vaso Cerâmica</span>
+          <span class="nov-grade-data">28 mar 2026</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
+
+</body>
+</html>

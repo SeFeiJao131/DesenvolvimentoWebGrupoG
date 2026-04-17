@@ -768,7 +768,6 @@ input[type="email"]:focus {
 
 }
 
-/* ===== Parte do curadoria ===== */
 
 .curadoria {
   display: flex;
@@ -857,7 +856,7 @@ padding: 0px 15px 0px 96px;
   font-size: 12px;  padding-bottom: 10px;
 }
 
-/* ===== Parte do produto ===== */
+
 
 .linha-topo-pgProduto {
   height: 1px;
@@ -975,7 +974,6 @@ height: 100%;
   font-size: 12px;
 }
 
-/* Suporte / Render */
 .suporte-render-pgProduto {
   display: flex;
   justify-content: space-between;
@@ -999,7 +997,6 @@ height: 100%;
   font-weight: 600;
 }
 
-/* Botão */
 .botao-download-pgProduto {
   width: 75%;
   margin: 0 auto;
@@ -1142,4 +1139,354 @@ text-decoration: none;
   font-size: 14px;
   line-height: 1.7;
   text-align: left;
+}
+
+/* ===== PÁGINA NOVIDADES ===== */
+
+.nov-pagina {
+  padding: 0 60px 80px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nov-migalha {
+  padding: 18px 0 0;
+  font-size: 14px;
+  color: #D4AF37;
+  font-family: "Recursive", monospace;
+  display: block;
+}
+
+.nov-migalha a {
+  color: #D4AF37;
+  text-decoration: none;
+}
+
+.nov-migalha span {
+  margin: 0 2px;
+}
+
+.nov-cabecalho {
+  padding: 18px 0 14px;
+}
+
+.nov-rotulo {
+  font-size: 11px;
+  color: #D4AF37;
+  font-family: "Recursive", monospace;
+  letter-spacing: .1em;
+  margin-bottom: 4px;
+}
+
+.nov-titulo {
+  font-family: "Roboto", sans-serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  color: #E8DCC4;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+
+.nov-titulo-dourado {
+  color: #D4AF37;
+}
+
+.nov-divisor {
+  height: 1px;
+  background: #2e2020;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.nov-subtitulo-secao {
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #E8DCC4;
+  letter-spacing: .04em;
+}
+
+/* ── DESTAQUE ── */
+.nov-destaque {
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 40px;
+  background: #171212;
+  width: 100%;
+}
+
+.nov-destaque-imagem {
+  width: 56%;
+  min-height: 260px;
+  background: #2e2020;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.nov-destaque-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.nov-destaque-info {
+  flex: 1;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.nov-destaque-etiqueta {
+  font-size: 11px;
+  color: #D4AF37;
+  font-family: "Recursive", monospace;
+  letter-spacing: .1em;
+}
+
+.nov-destaque-nome {
+  font-family: "Playfair Display SC", serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #E8DCC4;
+  line-height: 1.3;
+}
+
+.nov-destaque-descricao {
+  font-size: 11px;
+  color: #61564B;
+  font-family: "Recursive", monospace;
+  line-height: 1.8;
+}
+
+.nov-destaque-botao {
+  width: fit-content;
+  background: #E8DCC4;
+  color: #1C1515;
+  font-size: 12px;
+  font-family: "Playfair Display SC", serif;
+  padding: 9px 22px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-top: 4px;
+  transition: background .2s;
+}
+
+.nov-destaque-botao:hover {
+  background: #d4c8ae;
+}
+
+.nov-destaque-data {
+  font-size: 10px;
+  color: #3d2c2c;
+  font-family: "Recursive", monospace;
+}
+
+/* ── CABEÇALHO DE SEÇÃO ── */
+.nov-cabecalho-secao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.nov-setas {
+  display: flex;
+  gap: 8px;
+}
+
+.nov-seta {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #3a2c2c;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+
+.nov-seta:hover {
+  border-color: #D4AF37;
+}
+
+/* ── CARROSSEL ── */
+.nov-carrossel-envolvente {
+  overflow: hidden;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+.nov-carrossel-trilha {
+  display: flex;
+  gap: 12px;
+  transition: transform .35s ease;
+  width: 100%;
+}
+
+.nov-carrossel-cartao {
+  flex: 0 0 calc(25% - 9px);
+  background: #171212;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform .25s ease;
+}
+
+.nov-carrossel-cartao:hover {
+  transform: translateY(-3px);
+}
+
+.nov-cartao-imagem {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #2e2020;
+  overflow: hidden;
+}
+
+.nov-cartao-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s ease;
+}
+
+.nov-carrossel-cartao:hover .nov-cartao-imagem img {
+  transform: scale(1.04);
+}
+
+.nov-cartao-corpo {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── RÓTULOS COMPARTILHADOS ── */
+.nov-cartao-rotulo {
+  font-size: 10px;
+  color: #817361;
+  font-family: "DM Sans", sans-serif;
+  font-style: italic;
+}
+
+.nov-cartao-nome {
+  font-size: 13px;
+  color: #E8DCC4;
+  font-family: "Playfair Display SC", serif;
+  font-weight: 400;
+}
+
+/* ── FILTROS ── */
+.nov-filtros {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.nov-filtro {
+  font-size: 11px;
+  font-family: "DM Sans", sans-serif;
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid #3a2c2c;
+  color: #817361;
+  background: transparent;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+
+.nov-filtro.ativo,
+.nov-filtro:hover {
+  background: #E8DCC4;
+  color: #1C1515;
+  border-color: #E8DCC4;
+}
+
+/* ── GRADE ── */
+.nov-grade {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.nov-grade-cartao {
+  background: #171212;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s ease;
+}
+
+.nov-grade-cartao:hover {
+  transform: translateY(-3px);
+}
+
+.nov-grade-imagem {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #2e2020;
+  overflow: hidden;
+}
+
+.nov-grade-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s ease;
+}
+
+.nov-grade-cartao:hover .nov-grade-imagem img {
+  transform: scale(1.04);
+}
+
+.nov-grade-corpo {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nov-grade-data {
+  font-size: 10px;
+  color: #3d2c2c;
+  font-family: "Recursive", monospace;
+  margin-top: 3px;
+}
+
+/* ── RESPONSIVO ── */
+@media (max-width: 900px) {
+  .nov-pagina {
+    padding: 0 24px 60px;
+  }
+  .nov-destaque {
+    flex-direction: column;
+  }
+  .nov-destaque-imagem {
+    width: 100%;
+    min-height: 200px;
+  }
+  .nov-carrossel-cartao {
+    flex: 0 0 calc(50% - 6px);
+  }
+  .nov-grade {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .nov-grade {
+    grid-template-columns: 1fr;
+  }
 }
