@@ -1141,7 +1141,6 @@ text-decoration: none;
   text-align: left;
 }
 
-/* ===== PÁGINA NOVIDADES ===== */
 
 .nov-pagina {
   padding: 0 60px 80px;
@@ -1206,7 +1205,6 @@ text-decoration: none;
   letter-spacing: .04em;
 }
 
-/* ── DESTAQUE ── */
 .nov-destaque {
   display: flex;
   border-radius: 12px;
@@ -1285,7 +1283,6 @@ text-decoration: none;
   font-family: "Recursive", monospace;
 }
 
-/* ── CABEÇALHO DE SEÇÃO ── */
 .nov-cabecalho-secao {
   display: flex;
   justify-content: space-between;
@@ -1316,7 +1313,6 @@ text-decoration: none;
   border-color: #D4AF37;
 }
 
-/* ── CARROSSEL ── */
 .nov-carrossel-envolvente {
   overflow: hidden;
   margin-bottom: 40px;
@@ -1368,8 +1364,6 @@ text-decoration: none;
   flex-direction: column;
   gap: 2px;
 }
-
-/* ── RÓTULOS COMPARTILHADOS ── */
 .nov-cartao-rotulo {
   font-size: 10px;
   color: #817361;
@@ -1384,7 +1378,6 @@ text-decoration: none;
   font-weight: 400;
 }
 
-/* ── FILTROS ── */
 .nov-filtros {
   display: flex;
   gap: 8px;
@@ -1410,7 +1403,6 @@ text-decoration: none;
   border-color: #E8DCC4;
 }
 
-/* ── GRADE ── */
 .nov-grade {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1465,7 +1457,6 @@ text-decoration: none;
   margin-top: 3px;
 }
 
-/* ── RESPONSIVO ── */
 @media (max-width: 900px) {
   .nov-pagina {
     padding: 0 24px 60px;
@@ -1489,4 +1480,210 @@ text-decoration: none;
   .nov-grade {
     grid-template-columns: 1fr;
   }
+}
+
+.linha-topo-modelos {
+  height: 1px;
+  background: #6b5447;
+  opacity: 0.5;
+}
+
+.caminho-modelos {
+  padding: 30px 132px;
+  font-size: 14px;
+  color: #c8a84e;
+}
+
+.caminho-modelos a {
+  color: #c8a84e;
+  text-decoration: none;
+}
+
+.modelos-textos {
+  margin-left: 132px;
+}
+
+.ModelosPro {
+  font-family: "Roboto Serif", serif;
+  font-size: 75px;
+  color: #e8dcc4;
+  padding: 4px 0 10px;
+}
+
+.ModelosProDourado {
+  color: #c8a84e;
+}
+
+.DescricaoModelos {
+  color: #e8dcc4;
+  font-family: "Recursive", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+       padding: 10px 0px 10px 0px;
+}
+
+.ModelosDescDourado {
+  color: #c8a84e;
+}
+
+.categoriasModelos {
+  font-family: "Roboto Serif", serif;
+  font-size: 18px;
+  color: #c8a84e;
+       padding: 10px 0px 10px 0px;
+
+}
+
+.alinhar-modelos {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-modelo {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: #171414;
+  margin: 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  margin-left: 132px;
+}
+
+.imagem-card-modelo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card-modelo {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px 14px;
+}
+
+.titulo-card-modelo {
+  font-family: jsMath;
+  font-size: 15px;
+  color: #9A9A9A;
+}
+
+.descricao-card-modelo {
+  font-family: jsMath;
+  font-size: 20px;
+  color: #E8DCC4;
+}
+
+.linha-topo-hdri {
+  height: 1px;
+  background: #6b5447;
+  opacity: 0.5;
+}
+
+.caminho-hdri {
+  padding: 30px 132px;
+  font-size: 14px;
+  color: #c8a84e;
+}
+
+.caminho-hdri a {
+  color: #c8a84e;
+  text-decoration: none;
+}
+
+.caminho-hdri span {
+  margin: 0 3px;
+}
+
+.hdri-textos {
+  margin-left: 132px;
+}
+
+.HdriPro {
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 75px;
+  color: #e8dcc4;
+  padding: 4px 0 10px;
+}
+
+.HdriProDourado {
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 75px;
+  color: #c8a84e;
+}
+
+.DescricaoHdri {
+  color: #e8dcc4;
+  font-family: "Recursive", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 10px 0;
+}
+
+.HdriDescDourado {
+  color: #c8a84e;
+  font-family: "Recursive", monospace;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.categoriasHdri {
+  font-family: "Roboto Serif", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 18px;
+  color: #c8a84e;
+  padding: 10px 0;
+}
+
+.alinhar-hdri {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card-hdri {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: #171414;
+  margin: 10px;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  margin-left: 132px;
+}
+
+.imagem-card-hdri img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card-hdri {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px 14px;
+}
+
+.titulo-card-hdri {
+  font-family: jsMath;
+  font-size: 15px;
+  color: #9A9A9A;
+}
+
+.descricao-card-hdri {
+  font-family: jsMath;
+  font-size: 20px;
+  color: #E8DCC4;
 }
