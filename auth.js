@@ -18,8 +18,10 @@ onAuthStateChanged(auth, (usuario) => {
   if (!acoesHeader) return;
 
   if (usuario) {
+    const nomeUsuario = usuario.email.split("@")[0];
+
     acoesHeader.innerHTML = `
-      <span class="textobranco">${usuario.email}</span>
+      <span class="textobranco">${nomeUsuario}</span>
       <button class="signupbotao" id="botao-sair">Sair</button>
       <a class="textobranco" href="#">Sobre</a>
     `;
