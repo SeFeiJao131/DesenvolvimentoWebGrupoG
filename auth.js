@@ -17,24 +17,20 @@ onAuthStateChanged(auth, (usuario) => {
   const acoesHeader = document.querySelector(".acoes-header");
   if (!acoesHeader) return;
 
-  if (usuario) {
+ if (usuario) {
     const nomeUsuario = usuario.email.split("@")[0];
 
     acoesHeader.innerHTML = `
       <span class="textobranco">${nomeUsuario}</span>
-      <button class="signupbotao" id="botao-sair">Sair</button>
+      <a class="loginbotao" href="#">Sign Up</a>
       <a class="textobranco" href="#">Sobre</a>
     `;
-    document.getElementById("botao-sair").addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    });
   } else {
     acoesHeader.innerHTML = `
       <a class="signupbotao" href="login.html">Login</a>
       <a class="loginbotao" href="#">Sign Up</a>
       <a class="textobranco" href="#">Sobre</a>
     `;
+  
   }
 });
