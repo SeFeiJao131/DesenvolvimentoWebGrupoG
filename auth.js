@@ -29,6 +29,7 @@ onAuthStateChanged(auth, (usuario) => {
     document.getElementById("botao-signout").addEventListener("click", async (e) => {
       e.preventDefault();
       await signOut(auth);
+        window.location.reload();
     });
  
   } else {

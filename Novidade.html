@@ -16,28 +16,70 @@
 <body>
 
   <header>
-    <nav class="navheader">
-      <div class="lado-esquerdo">
-        <div class="Logo">JR.</div>
-        <ul class="headerlinks">
-          <li><a class="textobranco" href="#">Explorar</a></li>
-          <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
-          <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
-          <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
-        </ul>
-      </div>
-      <form class="barra-pesquisa">
+  <nav class="navheader">
+    <div class="lado-esquerdo">
+      <div class="Logo">JR.</div>
+      <ul class="headerlinks">
+        <li><a class="textobranco" href="#">Explorar <i class="fi fi-rr-angle-small-down"></i></a></li>
+        <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
+        <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
+        <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
+      </ul>
+    </div>
+
+    <form class="barra-pesquisa">
+      <i class="fi fi-rr-menu-burger"></i>
+      <input type="text" placeholder="Pesquisar...">
+      <i class="fi fi-rr-search"></i>
+    </form>
+
+    <div class="acoes-header">
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+      <a class="textobranco" href="#">Sobre</a>
+    </div>
+  </nav>
+</header>
+
+<div class="overlay-busca">
+  <div class="painel-busca">
+    <div class="topo-busca">
+      <div class="Logo">JR.</div>
+      <div class="busca-expandida">
         <i class="fi fi-rr-menu-burger"></i>
         <input type="text" placeholder="Pesquisar...">
         <i class="fi fi-rr-search"></i>
-      </form>
-      <div class="acoes-header">
-        <a class="signupbotao" href="login.html">Login</a>
-        <a class="loginbotao" href="#">Sign Up</a>
-        <a class="textobranco" href="#">Sobre</a>
       </div>
-    </nav>
-  </header>
+    </div>
+    <div class="conteudo-busca">
+      <div class="linha">
+        <a class="texto-painel" href="#"><i class="fi fi-tr-home"></i> Casa</a>
+        <span>CoisaCoisaCoisaMuitaCoisa</span>
+        <span>15</span>
+      </div>
+      <div class="linha">
+        <a class="texto-painel" href="#"><i class="fi fi-ts-farm"></i> Fazenda</a>
+        <span>CoisaCoisaCoisa</span>
+        <span>16</span>
+      </div>
+      <div class="linha">
+        <a class="texto-painel" href="#"><i class="fi fi-ts-seedling"></i> Natureza</a>
+        <span>CoisaCoisaMaisCoisa</span>
+        <span>21</span>
+      </div>
+      <div class="linha">
+        <a class="texto-painel" href="#"><i class="fi fi-ts-building"></i> Cidade</a>
+        <span>CoisaCoisasCoisas</span>
+        <span>24</span>
+      </div>
+      <div class="linha">
+        <a class="texto-painel" href="#"><i class="fi fi-tr-grocery-basket"></i> Loja</a>
+        <span>CoisaMuitaCoisaEMaisCoisa</span>
+        <span>5</span>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div class="nov-pagina">
 
