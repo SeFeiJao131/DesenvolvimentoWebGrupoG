@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Entrar</title>
-  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="fonts.css"
+  >
 
   <style>
     *, *::before, *::after {
@@ -244,8 +245,16 @@
     <h2>Entrar</h2>
 
     <div class="campos-login">
-   <input type="text" id="input-email" placeholder="E-mail ou usuário" />
-<input type="password" id="input-senha" placeholder="Senha" />
+  <input type="password" id="input-senha" placeholder="Senha" />
+<button type="button" id="botao-olho" style="
+  background: none;
+  border: none;
+  color: #7a6a6a;
+  cursor: pointer;
+  font-size: 1.1rem;
+  align-self: flex-end;
+  margin-top: -12px;
+">👁</button>
 
       <label class="lembrar-login">
         <input type="checkbox" /> Manter conectado
@@ -277,6 +286,6 @@
 </div>
 
 <script type="module" src="firebase.js"></script>
-
+  <script type="module" src="auth.js"></script>
 </body>
 </html>

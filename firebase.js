@@ -13,6 +13,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Mostrar/ocultar senha
+const inputSenha = document.getElementById("input-senha");
+const botaoOlho = document.getElementById("botao-olho");
+
+if (botaoOlho) {
+  botaoOlho.addEventListener("click", () => {
+    const visivel = inputSenha.type === "text";
+    inputSenha.type = visivel ? "password" : "text";
+    botaoOlho.textContent = visivel ? "👁" : "🙈";
+  });
+}
+
 document.querySelector(".botao-entrar").addEventListener("click", async () => {
   const email = document.getElementById("input-email").value;
   const senha = document.getElementById("input-senha").value;
