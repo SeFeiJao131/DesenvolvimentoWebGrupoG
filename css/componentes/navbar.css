@@ -1,0 +1,68 @@
+header {
+  padding: 20px 60px;
+}
+
+.navheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Logo {
+  color: var(--cor-creme-alpha);
+  font-size: 40px;
+  font-family: var(--font-jsmath);
+  font-weight: bold;
+}
+
+.liHeader {
+  margin-left: 40px;
+}
+
+.headerlinks {
+  display: flex;
+  gap: 25px;
+}
+
+.textobranco {
+  text-decoration: none;
+  color: var(--cor-creme-alpha);
+  font-size: 21px;
+  font-family: var(--font-canon);
+  font-weight: 400;
+  font-style: normal;
+}
+
+.acoes-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.lado-esquerdo {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.loginbotao {
+  padding: 7px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 18px;
+  color: var(--cor-dourado-vivo);
+  background: black;
+  text-decoration: none;
+}
+
+.signupbotao {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 18px;
+  background: var(--cor-creme-alpha);
+  color: var(--cor-fundo);
+  text-decoration: none;
+}
+
+.fi {
+  color: var(--cor-creme-alpha);
+}

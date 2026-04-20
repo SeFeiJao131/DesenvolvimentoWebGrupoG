@@ -1,0 +1,44 @@
+:root {
+  /* Cores principais */
+  --cor-fundo:        #1C1515;
+  --cor-fundo-escuro: #171212;
+  --cor-fundo-card:   #171414;
+  --cor-fundo-input:  #221a1a;
+  --cor-fundo-input2: #1e1717;
+
+  --cor-creme:        #E8DCC4;
+  --cor-creme-alpha:  #e8dcc4d2;
+  --cor-dourado:      #c8a96e;
+  --cor-dourado-alt:  #c8a84e;
+  --cor-dourado-vivo: #D4AF37;
+
+  --cor-borda:        #3a2c2c;
+  --cor-borda-escura: #2e2020;
+  --cor-borda-media:  #2A2020;
+
+  --cor-texto-suave:  #7a6a6a;
+  --cor-texto-muted:  #817361;
+  --cor-texto-fraco:  #61564B;
+  --cor-texto-escuro: #5a4f47;
+  --cor-erro:         #c0524a;
+
+  --cor-roxo:         #7B4FBE;
+
+  /* Tipografia */
+  --font-serif:       'Playfair Display', serif;
+  --font-serif-sc:    'Playfair Display SC', serif;
+  --font-serif-roboto:'Roboto Serif', serif;
+  --font-sans:        'DM Sans', sans-serif;
+  --font-mono:        'Recursive', monospace;
+  --font-roboto:      'Roboto', sans-serif;
+  --font-canon:       'IM Fell French Canon SC', serif;
+  --font-jsmath:      jsMath;
+  --font-courier:     'Courier New', monospace;
+
+  /* Bordas */
+  --radius-sm:  8px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-pill:50px;
+}

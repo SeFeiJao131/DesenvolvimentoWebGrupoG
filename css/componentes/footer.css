@@ -1,0 +1,173 @@
+footer {
+  display: flex;
+  flex-direction: column;
+  background: var(--cor-fundo-escuro);
+}
+
+.divisao {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 34px;
+}
+
+.linhaa hr {
+  border: none;
+  border-top: 4px solid var(--cor-fundo);
+  width: 100%;
+}
+
+.lado-esquerdo-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 37px 0px 0px 135px;
+}
+
+.lado-esquerdo-footer h3 {
+  font-family: var(--font-serif-sc);
+  font-weight: 400;
+  text-shadow: 2px 0px 4px black;
+  color: #BFB4A1;
+  font-size: 45px;
+  padding-bottom: 14px;
+}
+
+.descricao {
+  color: var(--cor-texto-fraco);
+  font-family: var(--font-mono);
+  padding: 0px 0px 25px 0px;
+}
+
+.newsletter {
+  color: var(--cor-dourado-vivo);
+  font-family: var(--font-mono);
+  padding-bottom: 15px;
+}
+
+.campo-email {
+  position: relative;
+  width: 100%;
+}
+
+input[type="email"] {
+  width: 100%;
+  background: var(--cor-fundo);
+  padding: 18px 24px 18px 18px;
+  font-size: 0.95rem;
+  border: 1px solid #2A1C17;
+  outline: none;
+  color: white;
+}
+
+input[type="email"]::placeholder {
+  color: #8a6f66;
+}
+
+input[type="email"]:focus {
+  border-color: #5a3a2f;
+}
+
+.campo-email button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--cor-dourado-vivo);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.campo-email button:hover {
+  opacity: 0.8;
+}
+
+.lado-direito-footer {
+  display: flex;
+  flex-direction: row;
+  padding: 75px 253px 75px 0px;
+  justify-content: flex-end;
+  gap: 100px;
+}
+
+.campo h4 {
+  color: #BFB4A1;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-style: normal;
+}
+
+.campo li {
+  color: var(--cor-texto-muted);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  font-style: normal;
+  padding: 20px 0px 6px 0px;
+}
+
+.baixo-baixo {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.divisaoNegocio {
+  display: flex;
+  flex-direction: row;
+  padding: 5px 15px 5px 36px;
+}
+
+.divisaoNegocio p {
+  padding: 5px 10px 0px 5px;
+  align-items: center;
+}
+
+.baixo-esquerda {
+  padding: 0px 15px 0px 96px;
+}
+
+.baixo-meio-esquerda {
+  padding: 0px 0px 5px 15px;
+}
+
+.baixo-direita {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 24px;
+  color: #7e7569;
+  font-family: var(--font-sans);
+  font-style: normal;
+}
+
+.linha-vertical {
+  display: flex;
+  height: 33px;
+  border-left: 2px solid var(--cor-fundo);
+  margin-top: 8px;
+}
+
+.systemFilosofia {
+  color: var(--cor-texto-muted);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 14px;
+}
+
+.minimalista {
+  color: var(--cor-dourado-vivo);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.Visao {
+  color: #BFB4A1;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 12px;
+  padding-bottom: 10px;
+}

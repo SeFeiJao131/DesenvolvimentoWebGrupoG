@@ -1,0 +1,89 @@
+.barra-pesquisa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 25px;
+  background: transparent;
+}
+
+.barra-pesquisa input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--cor-creme-alpha);
+  width: 220px;
+}
+
+.overlay-busca {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+  z-index: 999;
+}
+
+.overlay-busca.ativo {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.painel-busca {
+  width: 85%;
+  max-width: 1100px;
+  background: var(--cor-fundo);
+  border-radius: var(--radius-lg);
+  padding: 25px;
+  transform: translateY(-25px);
+  transition: .3s;
+}
+
+.overlay-busca.ativo .painel-busca {
+  transform: translateY(0);
+}
+
+.topo-busca {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.busca-expandida {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--cor-fundo);
+  padding: 10px 15px;
+  border-radius: 20px;
+}
+
+.busca-expandida input {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.conteudo-busca {
+  margin-top: 30px;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 1fr 3fr 50px;
+  padding: 12px 0;
+  color: var(--cor-creme-alpha);
+  font-size: 15px;
+}
+
+.texto-painel {
+  text-decoration: none;
+  color: var(--cor-creme-alpha);
+  font-size: 15px;
+}

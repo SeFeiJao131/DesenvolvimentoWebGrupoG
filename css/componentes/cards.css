@@ -1,0 +1,242 @@
+/* ── Card Index (Modelos 3D na home) ── */
+.container-card-index {
+  display: grid;
+  grid-template-columns: repeat(3, 320px);
+  gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-article {
+  position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.card-imagem-index {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  display: block;
+}
+
+.card-article:hover .card-imagem-index {
+  transform: scale(1.05);
+}
+
+.card-data {
+  position: absolute;
+  left: 50%;
+  bottom: -1rem;
+  transform: translateX(-50%) translateY(20px);
+  width: 85%;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.card-article:hover .card-data {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.card-descricao {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.card-titulo {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.botao-card {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: var(--cor-dourado-alt);
+}
+
+.botao-card:hover {
+  text-decoration: underline;
+}
+
+/* ── Card Novidades (hero) ── */
+.cards-novidades {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 0 60px 60px;
+}
+
+.cards-linha {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.card-item {
+  flex: 1;
+  max-width: 580px;
+}
+
+.card-item img {
+  width: 100%;
+  border-radius: 0;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+}
+
+.card-item:first-child img {
+  border-radius: 6px 0 0 6px;
+}
+
+.card-item:last-child img {
+  border-radius: 0 6px 6px 0;
+}
+
+.card-visitar {
+  text-decoration: none;
+  color: var(--cor-creme-alpha);
+  font-family: var(--font-roboto);
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: .05em;
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.card-visitar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background: var(--cor-creme-alpha);
+  transition: width .35s ease;
+}
+
+.card-visitar:hover::after {
+  width: 100%;
+}
+
+/* ── Card Layout (Texturas / HDRIs / Modelos) ── */
+.card-layout {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: var(--cor-fundo-card);
+  margin: 10px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  margin-left: 132px;
+}
+
+.imagem-card-layout img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 6px 0px 6px 14px;
+}
+
+.titulo-card-layout {
+  font-family: var(--font-jsmath);
+  font-size: 15px;
+  color: #9A9A9A;
+}
+
+.descricao-card-layout {
+  font-family: var(--font-jsmath);
+  font-size: 20px;
+  color: var(--cor-creme);
+}
+
+/* ── Card Modelo ── */
+.card-modelo {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: var(--cor-fundo-card);
+  margin: 10px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  margin-left: 132px;
+}
+
+.imagem-card-modelo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card-modelo {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px 14px;
+}
+
+.titulo-card-modelo {
+  font-family: var(--font-jsmath);
+  font-size: 15px;
+  color: #9A9A9A;
+}
+
+.descricao-card-modelo {
+  font-family: var(--font-jsmath);
+  font-size: 20px;
+  color: var(--cor-creme);
+}
+
+/* ── Card HDRI ── */
+.card-hdri {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  background: var(--cor-fundo-card);
+  margin: 10px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  text-decoration: none;
+  margin-left: 132px;
+}
+
+.imagem-card-hdri img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-card-hdri {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px 14px;
+}
+
+.titulo-card-hdri {
+  font-family: var(--font-jsmath);
+  font-size: 15px;
+  color: #9A9A9A;
+}
+
+.descricao-card-hdri {
+  font-family: var(--font-jsmath);
+  font-size: 20px;
+  color: var(--cor-creme);
+}

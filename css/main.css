@@ -1,0 +1,16 @@
+/* Base */
+@import url('./base/variav.css');
+@import url('./base/reset.css');
+
+/* Componentes */
+@import url('./componentes/navbar.css');
+@import url('./componentes/busca.css');
+@import url('./componentes/cards.css');
+@import url('./componentes/novidades.css');
+@import url('./componentes/footer.css');
+
+/* Paginas */
+@import url('./paginas/home.css');
+@import url('./paginas/produto.css');
+@import url('./paginas/layouts.css');
+@import url('./paginas/criarconta.css');

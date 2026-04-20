@@ -1,0 +1,105 @@
+/* ── Linha topo compartilhada ── */
+.linha-topo-pgProduto,
+.linha-topo-modelos,
+.linha-topo-hdri {
+  height: 1px;
+  background: #6b5447;
+  opacity: 0.5;
+}
+
+/* ── Breadcrumb compartilhado ── */
+.caminho-pgLayout,
+.caminho-modelos,
+.caminho-hdri {
+  padding: 30px 132px;
+  font-size: 14px;
+  color: var(--cor-dourado-alt);
+  font-family: var(--font-mono);
+  display: block;
+}
+
+.caminho-pgLayout a,
+.caminho-modelos a,
+.caminho-hdri a {
+  color: var(--cor-dourado-alt);
+  text-decoration: none;
+}
+
+.caminho-hdri span {
+  margin: 0 3px;
+}
+
+/* ── Grids de cards ── */
+.alinhar-cards,
+.alinhar-modelos,
+.alinhar-hdri {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ===== TEXTURAS ===== */
+.layout-textos,
+.modelos-textos,
+.hdri-textos {
+  margin-left: 132px;
+}
+
+.TexturasPro,
+.ModelosPro,
+.HdriPro {
+  font-family: var(--font-serif-roboto);
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 75px;
+  color: var(--cor-creme);
+  padding: 4px 0 10px;
+}
+
+.TexturasProDourado,
+.HdriProDourado {
+  font-family: var(--font-serif-roboto);
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 75px;
+  color: var(--cor-dourado-alt);
+}
+
+.ModelosProDourado {
+  color: var(--cor-dourado-alt);
+}
+
+.DescricaoTexturas,
+.DescricaoModelos,
+.DescricaoHdri {
+  color: var(--cor-creme);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  padding: 10px 0;
+}
+
+.TexturasDescDourado,
+.HdriDescDourado,
+.ModelosDescDourado {
+  color: var(--cor-dourado-alt);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.categoriasTexturas,
+.categoriasModelos,
+.categoriasHdri {
+  font-family: var(--font-serif-roboto);
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "GRAD" 0;
+  font-size: 18px;
+  color: var(--cor-dourado-alt);
+  padding: 10px 0;
+}
