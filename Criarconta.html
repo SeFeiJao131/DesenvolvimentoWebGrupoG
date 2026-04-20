@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Criar Conta — JoinRender</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="fonts.css">
@@ -10,45 +10,45 @@
 
 <body>
 
-  <div class="su-topo">
-    <a class="su-logo" href="index.html">JR.</a>
-    <div class="su-topo-link">
+  <div class="cc-topo">
+    <a class="cc-logo" href="index.html">JR.</a>
+    <div class="cc-topo-link">
       <span>Já tem uma conta?</span>
       <a href="login.html">Entrar</a>
     </div>
   </div>
 
-  <div class="su-container">
+  <div class="cc-container">
 
-    <div class="su-esquerdo">
-      <h2 class="su-esq-titulo">
-        Acesse assets<br>de <span>alta fidelidade</span><br>gratuitamente.
+    <div class="cc-esquerdo">
+      <h2 class="cc-esq-titulo">
+        Acesse assets<br>de <span class="cc-esq-titulo-dourado">alta fidelidade</span><br>gratuitamente.
       </h2>
 
-      <ul class="su-esq-lista">
+      <ul class="cc-esq-lista">
         <li>
-          <div class="su-esq-icone">◈</div>
+          <div class="cc-esq-icone">◈</div>
           <div>
             <strong>Texturas PBR</strong>
             Superfícies hiper-realistas prontas para Cycles e EEVEE.
           </div>
         </li>
         <li>
-          <div class="su-esq-icone">◇</div>
+          <div class="cc-esq-icone">◇</div>
           <div>
             <strong>Modelos 3D otimizados</strong>
             Prontos para renderização em tempo real e jogos.
           </div>
         </li>
         <li>
-          <div class="su-esq-icone">◉</div>
+          <div class="cc-esq-icone">◉</div>
           <div>
             <strong>HDRIs ambiente</strong>
             Iluminações de alta fidelidade para renders fotorrealistas.
           </div>
         </li>
         <li>
-          <div class="su-esq-icone">✦</div>
+          <div class="cc-esq-icone">✦</div>
           <div>
             <strong>Novidades semanais</strong>
             Biblioteca em constante expansão com lançamentos exclusivos.
@@ -56,50 +56,53 @@
         </li>
       </ul>
 
-      <p class="su-esq-rodape">© 2026 JoinRender. All rights reserved.</p>
+      <p class="cc-esq-rodape">© 2026 JoinRender. All rights reserved.</p>
     </div>
 
-    <div class="su-direito">
+    <div class="cc-direito">
 
       <div>
-        <h2 class="su-titulo">Criar conta</h2>
-        <p class="su-subtitulo">Gratuito. Sem cartão de crédito.</p>
+        <h2 class="cc-titulo">Criar conta</h2>
+        <p class="cc-subtitulo">Gratuito. Sem cartão de crédito.</p>
       </div>
 
-      <div class="su-campos">
+      <div class="cc-campos">
 
-        <div class="su-campo-duplo">
-          <div class="su-campo-wrapper">
-            <label class="su-label">Nome</label>
-            <input class="su-input" type="text" id="su-nome" placeholder="Seu nome" />
+        <div class="cc-campo-duplo">
+          <div class="cc-campo-wrapper">
+            <label class="cc-label">Nome</label>
+            <input class="cc-input" type="text" id="cc-nome" placeholder="Seu nome" />
           </div>
-          <div class="su-campo-wrapper">
-            <label class="su-label">Sobrenome</label>
-            <input class="su-input" type="text" id="su-sobrenome" placeholder="Seu sobrenome" />
+          <div class="cc-campo-wrapper">
+            <label class="cc-label">Sobrenome</label>
+            <input class="cc-input" type="text" id="cc-sobrenome" placeholder="Seu sobrenome" />
           </div>
         </div>
 
-        <div class="su-campo-wrapper">
-          <label class="su-label">E-mail</label>
-          <input class="su-input" type="email" id="su-email" placeholder="seu@email.com" />
+        <div class="cc-campo-wrapper">
+          <label class="cc-label">E-mail</label>
+          <input class="cc-input" type="text" id="cc-email" placeholder="seu@email.com" />
         </div>
 
-        <div class="su-campo-wrapper">
-          <label class="su-label">Senha</label>
-          <input class="su-input" type="password" id="su-senha" placeholder="Mínimo 8 caracteres" />
+        <div class="cc-campo-wrapper">
+          <label class="cc-label">Senha</label>
+          <div class="cc-senha-wrapper">
+            <input class="cc-input" type="password" id="cc-senha" placeholder="Mínimo 8 caracteres" />
+            <button type="button" class="cc-olho" id="cc-botao-olho">👁</button>
+          </div>
         </div>
 
-        <div class="su-campo-wrapper">
-          <label class="su-label">Data de nascimento</label>
-          <div class="su-nascimento">
-            <select class="su-select" id="su-mes" onchange="this.classList.add('su-preenchido')">
+        <div class="cc-campo-wrapper">
+          <label class="cc-label">Data de nascimento</label>
+          <div class="cc-nascimento">
+            <select class="cc-select" id="cc-mes">
               <option value="" disabled selected>Mês</option>
               <option>Janeiro</option><option>Fevereiro</option><option>Março</option>
               <option>Abril</option><option>Maio</option><option>Junho</option>
               <option>Julho</option><option>Agosto</option><option>Setembro</option>
               <option>Outubro</option><option>Novembro</option><option>Dezembro</option>
             </select>
-            <select class="su-select" id="su-dia" onchange="this.classList.add('su-preenchido')">
+            <select class="cc-select" id="cc-dia">
               <option value="" disabled selected>Dia</option>
               <option>1</option><option>2</option><option>3</option><option>4</option>
               <option>5</option><option>6</option><option>7</option><option>8</option>
@@ -110,41 +113,42 @@
               <option>25</option><option>26</option><option>27</option><option>28</option>
               <option>29</option><option>30</option><option>31</option>
             </select>
-            <input class="su-input" type="text" id="su-ano" placeholder="Ano" maxlength="4" />
+            <input class="cc-input" type="text" id="cc-ano" placeholder="Ano" maxlength="4" />
           </div>
         </div>
 
-        <div class="su-termos">
-          <input type="checkbox" id="su-check-termos" />
-          <label class="su-termos-texto" for="su-check-termos">
+        <div class="cc-termos">
+          <input type="checkbox" id="cc-check-termos" />
+          <label class="cc-termos-texto" for="cc-check-termos">
             Ao criar uma conta, você concorda com nossos
             <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
           </label>
         </div>
 
+        <p class="cc-mensagem-erro" id="cc-erro"></p>
+
       </div>
 
-      <button class="su-botao-criar" id="su-botao-criar">Criar conta gratuita</button>
+      <button class="cc-botao-criar" id="cc-botao-criar">Criar conta gratuita</button>
 
-      <div class="su-divisor">
-        <div class="su-linha-divisor"></div>
-        <span class="su-texto-divisor">Ou entre com</span>
-        <div class="su-linha-divisor"></div>
+      <div class="cc-divisor">
+        <div class="cc-linha-divisor"></div>
+        <span class="cc-texto-divisor">Ou entre com</span>
+        <div class="cc-linha-divisor"></div>
       </div>
 
-      <div class="su-botoes-sociais">
-        <button class="su-botao-social">Google</button>
-        <button class="su-botao-social">Facebook</button>
-        <button class="su-botao-social">X</button>
+      <div class="cc-botoes-sociais">
+        <button class="cc-botao-social">Google</button>
+        <button class="cc-botao-social">Facebook</button>
+        <button class="cc-botao-social">X</button>
       </div>
 
-      <p class="su-link-login">Já tem uma conta? <a href="login.html">Entrar</a></p>
+      <p class="cc-link-login">Já tem uma conta? <a href="login.html">Entrar</a></p>
 
     </div>
   </div>
 
-  <script type="module" src="auth.js"></script>
- <script src="script.js" defer></script>
+  <script type="module" src="criarconta.js"></script>
 
 </body>
 </html>

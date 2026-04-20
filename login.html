@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entrar</title>
-  <link rel="stylesheet" href="fonts.css"
-  >
+  <link rel="stylesheet" href="fonts.css">
 
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -78,12 +80,13 @@
       transition: 0.2s;
     }
 
-.area-imagem img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* preenche todo o quadrado */
-  border-radius: 18px;
-}
+    .area-imagem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* preenche todo o quadrado */
+      border-radius: 18px;
+    }
 
     .area-imagem:hover {
       border-color: var(--cor-dourado);
@@ -119,7 +122,7 @@
       padding: 18px 24px;
       color: var(--cor-creme);
       font-size: 0.95rem;
-      outline:none;
+      outline: none;
     }
 
     input::placeholder {
@@ -145,7 +148,7 @@
       color: var(--botao-texto);
       border: none;
       border-radius: 50px;
-     font-family: "Playfair Display SC", serif;
+      font-family: "Playfair Display SC", serif;
       font-size: 1.25rem;
       cursor: pointer;
     }
@@ -229,24 +232,24 @@
 
 <body>
 
-<div class="container-principal">
+  <div class="container-principal">
 
-  <div class="lado-esquerdo">
-    <h1>Bem-vindo</h1>
+    <div class="lado-esquerdo">
+      <h1>Bem-vindo</h1>
 
-   <div class="area-imagem">
-  <img src="Imagens/ImagemLogin.png" alt="Imagem de login">
-</div>
-  </div>
+      <div class="area-imagem">
+        <img src="Imagens/ImagemLogin.png" alt="Imagem de login">
+      </div>
+    </div>
 
-  <div class="lado-direito">
+    <div class="lado-direito">
 
-    <h2>Entrar</h2>
+      <h2>Entrar</h2>
 
-    <div class="campos-login">
-      <input type="text" id="input-email" placeholder="E-mail ou usuário" />
-  <input type="password" id="input-senha" placeholder="Senha" />
-<button type="button" id="botao-olho" style="
+      <div class="campos-login">
+        <input type="text" id="input-email" placeholder="E-mail ou usuário" />
+        <input type="password" id="input-senha" placeholder="Senha" />
+        <button type="button" id="botao-olho" style="
   background: none;
   border: none;
   color: #7a6a6a;
@@ -256,36 +259,37 @@
   margin-top: -12px;
 ">👁</button>
 
-      <label class="lembrar-login">
-        <input type="checkbox" /> Manter conectado
-      </label>
+        <label class="lembrar-login">
+          <input type="checkbox" /> Manter conectado
+        </label>
+      </div>
+
+      <button class="botao-entrar">Entrar</button>
+
+      <a class="link-esqueceu" href="#">Esqueceu sua senha?</a>
+
+      <div class="divisor">
+        <div class="linha-divisor"></div>
+        <span class="texto-divisor">Ou entre com</span>
+        <div class="linha-divisor"></div>
+      </div>
+
+      <div class="botoes-sociais">
+        <button class="botao-social">Google</button>
+        <button class="botao-social">Facebook</button>
+        <button class="botao-social">X</button>
+      </div>
+
     </div>
 
-    <button class="botao-entrar">Entrar</button>
-
-    <a class="link-esqueceu" href="#">Esqueceu sua senha?</a>
-
-    <div class="divisor">
-      <div class="linha-divisor"></div>
-      <span class="texto-divisor">Ou entre com</span>
-      <div class="linha-divisor"></div>
-    </div>
-
-    <div class="botoes-sociais">
-      <button class="botao-social">Google</button>
-      <button class="botao-social">Facebook</button>
-      <button class="botao-social">X</button>
+    <div class="rodape">
+      <p>Não possui conta? <a href="#">Criar conta</a></p>
     </div>
 
   </div>
 
-  <div class="rodape">
-    <p>Não possui conta? <a href="#">Criar conta</a></p>
-  </div>
-
-</div>
-
-<script type="module" src="firebase.js"></script>
+  <script type="module" src="firebase.js"></script>
   <script type="module" src="auth.js"></script>
 </body>
+
 </html>

@@ -16,7 +16,7 @@ if (barraPesquisa && overlay && painel) {
 }
 
 /* Data no index */
-(function() {
+(function () {
   const el = document.getElementById("dataHoje");
   if (!el) return;
   const agora = new Date();
@@ -31,7 +31,7 @@ if (barraPesquisa && overlay && painel) {
 /* carrousel */
 const trilha = document.getElementById('nov-carrossel-trilha');
 const botaoAnterior = document.getElementById('nov-anterior');
-const botaoProximo  = document.getElementById('nov-proximo');
+const botaoProximo = document.getElementById('nov-proximo');
 
 if (trilha && botaoAnterior && botaoProximo) {
 
@@ -148,23 +148,23 @@ if (secaoFiltros) {
   //   .then(dados => renderizarNovidades(dados));
 */
 
-   document.getElementById('su-botao-criar').addEventListener('click', () => {
-      const nome   = document.getElementById('su-nome').value.trim();
-      const email  = document.getElementById('su-email').value.trim();
-      const senha  = document.getElementById('su-senha').value;
-      const termos = document.getElementById('su-check-termos').checked;
+document.getElementById('su-botao-criar').addEventListener('click', () => {
+  const nome = document.getElementById('su-nome').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const senha = document.getElementById('su-senha').value;
+  const termos = document.getElementById('su-check-termos').checked;
 
-      if (!nome || !email || !senha) {
-        alert('Preencha todos os campos obrigatórios.');
-        return;
-      }
-      if (senha.length < 8) {
-        alert('A senha deve ter pelo menos 8 caracteres.');
-        return;
-      }
-      if (!termos) {
-        alert('Aceite os termos para continuar.');
-        return;
-      }
-      // Integrar com Firebase: createUserWithEmailAndPassword(auth, email, senha)
-    });
+  if (!nome || !email || !senha) {
+    alert('Preencha todos os campos obrigatórios.');
+    return;
+  }
+  if (senha.length < 8) {
+    alert('A senha deve ter pelo menos 8 caracteres.');
+    return;
+  }
+  if (!termos) {
+    alert('Aceite os termos para continuar.');
+    return;
+  }
+  // Integrar com Firebase: createUserWithEmailAndPassword(auth, email, senha)
+});
