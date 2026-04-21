@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — JoinRender</title>
+  <link rel="stylesheet" href="fonts.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --fundo:        #111010;
+      --painel:       #1a1414;
+      --painel2:      #211818;
+      --borda:        #2e2020;
+      --creme:        #E8DCC4;
+      --dourado:      #c8a96e;
+      --dourado-suave:#9e7f4a;
+      --erro:         #c0392b;
+      --sucesso:      #27ae60;
+      --texto-suave:  #6b5a5a;
+      --radius:       12px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--fundo);
+      color: var(--creme);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+    }
+
+    .sidebar {
+      background: var(--painel);
+      border-right: 1px solid var(--borda);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+    .sidebar-logo {
+      font-family: 'Playfair Display SC', serif;
+      font-size: 1.6rem;
+      color: var(--dourado);
+      padding: 0 24px 28px;
+      border-bottom: 1px solid var(--borda);
+      margin-bottom: 16px;
+    }
+    .sidebar-logo span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.65rem;
+      color: var(--texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 2px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 24px;
+      font-size: 0.88rem;
+      color: var(--texto-suave);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .nav-item:hover { color: var(--creme); background: var(--painel2); }
+    .nav-item.ativo  { color: var(--dourado); border-left-color: var(--dourado); background: var(--painel2); }
+    .nav-icon { font-size: 1rem; width: 18px; text-align: center; }
+
+    .main {
+      padding: 40px 48px;
+      overflow-y: auto;
+    }
+    .topo-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+    .titulo-pagina {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    .subtitulo-pagina {
+      font-size: 0.82rem;
+      color: var(--texto-suave);
+      margin-top: 4px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 50px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primario  { background: var(--dourado); color: #111; font-weight: 600; }
+    .btn-secundario{ background: var(--painel2); color: var(--creme); border: 1px solid var(--borda); }
+    .btn-perigo    { background: var(--erro); color: #fff; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: var(--painel);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .stat-label { font-size: 0.75rem; color: var(--texto-suave); text-transform: uppercase; letter-spacing: 1px; }
+    .stat-valor { font-family: 'Playfair Display', serif; font-size: 2rem; margin-top: 6px; }
+    .stat-tipo  { font-size: 0.78rem; color: var(--dourado-suave); margin-top: 4px; }
+
+    .tabela-wrapper {
+      background: var(--painel);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .tabela-topo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--borda);
+      gap: 12px;
+    }
+    .tabela-busca {
+      background: var(--painel2);
+      border: 1px solid var(--borda);
+      border-radius: 50px;
+      padding: 8px 16px;
+      color: var(--creme);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      width: 260px;
+      outline: none;
+    }
+    .tabela-busca:focus { border-color: var(--dourado); }
+    .filtro-tipo {
+      background: var(--painel2);
+      border: 1px solid var(--borda);
+      border-radius: 50px;
+      padding: 8px 14px;
+      color: var(--creme);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid var(--borda); }
+    thead th {
+      text-align: left;
+      padding: 12px 20px;
+      font-size: 0.72rem;
+      color: var(--texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+    tbody tr {
+      border-bottom: 1px solid #1c1515;
+      transition: background 0.1s;
+    }
+    tbody tr:hover { background: var(--painel2); }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 14px 20px; font-size: 0.88rem; vertical-align: middle; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-textura { background: #2a1f3d; color: #a78bfa; }
+    .badge-modelo  { background: #1a2e2a; color: #6ee7b7; }
+    .badge-hdri    { background: #2e251a; color: #fbbf24; }
+    .badge-gratis  { background: #1a2e1a; color: #6ee76e; }
+    .badge-pago    { background: #2e1a1a; color: #f87171; }
+    .badge-rascunho{ background: #222; color: #888; }
+
+    .acoes-td { display: flex; gap: 8px; }
+    .btn-mini {
+      padding: 5px 12px;
+      border-radius: 50px;
+      border: 1px solid var(--borda);
+      background: transparent;
+      color: var(--creme);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-mini:hover { border-color: var(--dourado); color: var(--dourado); }
+    .btn-mini.perigo:hover { border-color: var(--erro); color: var(--erro); }
+
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.aberto { display: flex; }
+    .modal {
+      background: var(--painel);
+      border: 1px solid var(--borda);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px 40px;
+    }
+    .modal-titulo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 28px;
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-grid.full { grid-template-columns: 1fr; }
+    .campo-form { display: flex; flex-direction: column; gap: 6px; }
+    .campo-form.span2 { grid-column: span 2; }
+    .label-form { font-size: 0.78rem; color: var(--texto-suave); text-transform: uppercase; letter-spacing: 0.8px; }
+    .input-form, .select-form, .textarea-form {
+      background: var(--painel2);
+      border: 1px solid var(--borda);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--creme);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+    }
+    .input-form:focus, .select-form:focus, .textarea-form:focus { border-color: var(--dourado); }
+    .textarea-form { resize: vertical; min-height: 90px; }
+    .input-form::placeholder { color: var(--texto-suave); }
+
+    .modal-rodape {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--borda);
+    }
+
+    .mensagem {
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .mensagem.sucesso { background: #1a2e1a; border: 1px solid #27ae60; color: #6ee76e; display: block; }
+    .mensagem.erro    { background: #2e1a1a; border: 1px solid var(--erro); color: #f87171; display: block; }
+
+    .loading { text-align: center; padding: 60px; color: var(--texto-suave); }
+
+    .secao { display: none; }
+    .secao.ativa { display: block; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">JR. <span>Painel Admin</span></div>
+    <div class="nav-item ativo" data-secao="produtos">
+      <span class="nav-icon">◈</span> Produtos
+    </div>
+    <div class="nav-item" data-secao="novo">
+      <span class="nav-icon">＋</span> Novo produto
+    </div>
+    <div class="nav-item" data-secao="stats">
+      <span class="nav-icon">◉</span> Estatísticas
+    </div>
+    <div style="margin-top:auto; padding: 0 24px 8px;">
+      <a href="index.html" style="font-size:0.82rem; color: var(--texto-suave); text-decoration:none;">
+        ← Voltar ao site
+      </a>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="secao ativa" id="secao-produtos">
+
+      <div class="topo-main">
+        <div>
+          <h1 class="titulo-pagina">Produtos</h1>
+          <p class="subtitulo-pagina">Gerencie todos os assets da plataforma</p>
+        </div>
+        <button class="btn btn-primario" id="btn-abrir-modal">+ Novo produto</button>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total</div>
+          <div class="stat-valor" id="stat-total">—</div>
+          <div class="stat-tipo">produtos ativos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Texturas</div>
+          <div class="stat-valor" id="stat-texturas">—</div>
+          <div class="stat-tipo">assets PBR</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Modelos 3D</div>
+          <div class="stat-valor" id="stat-modelos">—</div>
+          <div class="stat-tipo">meshes prontos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">HDRIs</div>
+          <div class="stat-valor" id="stat-hdris">—</div>
+          <div class="stat-tipo">iluminações</div>
+        </div>
+      </div>
+
+      <div id="mensagem-lista" class="mensagem"></div>
+
+      <div class="tabela-wrapper">
+        <div class="tabela-topo">
+          <input type="text" class="tabela-busca" id="busca-input" placeholder="🔍  Buscar produto..." />
+          <select class="filtro-tipo" id="filtro-tipo">
+            <option value="">Todos os tipos</option>
+            <option value="textura">Texturas</option>
+            <option value="modelo">Modelos 3D</option>
+            <option value="hdri">HDRIs</option>
+          </select>
+        </div>
+
+        <div id="conteudo-tabela">
+          <div class="loading">Carregando produtos...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="secao" id="secao-stats">
+      <div class="topo-main">
+        <div>
+          <h1 class="titulo-pagina">Estatísticas</h1>
+          <p class="subtitulo-pagina">Visão geral da plataforma</p>
+        </div>
+      </div>
+      <p style="color: var(--texto-suave);">Em desenvolvimento. Aqui aparecerão gráficos de downloads e produtos mais populares.</p>
+    </div>
+
+  </main>
+
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <h2 class="modal-titulo" id="modal-titulo">Novo produto</h2>
+
+      <div id="mensagem-modal" class="mensagem"></div>
+
+      <div class="form-grid">
+
+        <div class="campo-form span2">
+          <label class="label-form">Nome do produto *</label>
+          <input type="text" class="input-form" id="f-nome" placeholder="Ex: Mármore Carrara 8K" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Tipo *</label>
+          <select class="select-form" id="f-tipo">
+            <option value="">Selecione...</option>
+            <option value="textura">Textura</option>
+            <option value="modelo">Modelo 3D</option>
+            <option value="hdri">HDRI</option>
+          </select>
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Preço (R$)</label>
+          <input type="number" class="input-form" id="f-preco" placeholder="0 = gratuito" min="0" step="0.01" />
+        </div>
+
+        <div class="campo-form span2">
+          <label class="label-form">Descrição</label>
+          <textarea class="textarea-form" id="f-descricao" placeholder="Descreva o asset..."></textarea>
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Resolução</label>
+          <input type="text" class="input-form" id="f-resolucao" placeholder="Ex: 8K, 4K" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Tamanho (MB)</label>
+          <input type="number" class="input-form" id="f-tamanho" placeholder="Ex: 150" min="0" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Formatos (separados por vírgula)</label>
+          <input type="text" class="input-form" id="f-formatos" placeholder="EXR, PNG, TIF" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Suporte de Software</label>
+          <input type="text" class="input-form" id="f-suporte" placeholder="Blender, Cinema 4D" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Motores de Render</label>
+          <input type="text" class="input-form" id="f-render" placeholder="Cycles, EEVEE" />
+        </div>
+
+        <div class="campo-form">
+          <label class="label-form">Tags (separadas por vírgula)</label>
+          <input type="text" class="input-form" id="f-tags" placeholder="pedra, branco, pbr" />
+        </div>
+
+        <div class="campo-form span2">
+          <label class="label-form">URL da imagem de capa</label>
+          <input type="text" class="input-form" id="f-imagem" placeholder="https://..." />
+        </div>
+
+        <div class="campo-form" style="display:flex; align-items:center; gap:10px; flex-direction:row;">
+          <input type="checkbox" id="f-destaque" style="width:16px;height:16px;accent-color:var(--dourado);" />
+          <label class="label-form" for="f-destaque" style="margin:0;">Marcar como destaque</label>
+        </div>
+
+        <div class="campo-form" style="display:flex; align-items:center; gap:10px; flex-direction:row;">
+          <input type="checkbox" id="f-ativo" checked style="width:16px;height:16px;accent-color:var(--dourado);" />
+          <label class="label-form" for="f-ativo" style="margin:0;">Produto ativo (visível no site)</label>
+        </div>
+
+      </div>
+
+      <div class="modal-rodape">
+        <button class="btn btn-secundario" id="btn-cancelar">Cancelar</button>
+        <button class="btn btn-primario"   id="btn-salvar">Salvar produto</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import {
+      buscarProdutos,
+      criarProduto,
+      atualizarProduto,
+      desativarProduto,
+      buscarProdutoPorId
+    } from "./db.js";
+
+    let produtos = [];
+    let produtoEditandoId = null;
+
+    const conteudoTabela = document.getElementById("conteudo-tabela");
+    const buscaInput     = document.getElementById("busca-input");
+    const filtroTipo     = document.getElementById("filtro-tipo");
+    const modalOverlay   = document.getElementById("modal-overlay");
+    const mensagemLista  = document.getElementById("mensagem-lista");
+    const mensagemModal  = document.getElementById("mensagem-modal");
+
+    document.querySelectorAll(".nav-item[data-secao]").forEach(item => {
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("ativo"));
+        item.classList.add("ativo");
+
+        const alvo = item.dataset.secao;
+        document.querySelectorAll(".secao").forEach(s => s.classList.remove("ativa"));
+
+        if (alvo === "novo") {
+          document.getElementById("secao-produtos").classList.add("ativa");
+          abrirModal();
+        } else {
+          document.getElementById(`secao-${alvo}`)?.classList.add("ativa");
+        }
+      });
+    });
+    async function carregarProdutos() {
+      try {
+        produtos = await buscarProdutos({ limite: 200 });
+        atualizarStats();
+        renderizarTabela(produtos);
+      } catch (e) {
+        conteudoTabela.innerHTML = `<div class="loading">Erro ao carregar produtos.<br><small>${e.message}</small></div>`;
+      }
+    }
+
+    function atualizarStats() {
+      document.getElementById("stat-total").textContent    = produtos.length;
+      document.getElementById("stat-texturas").textContent = produtos.filter(p => p.tipo === "textura").length;
+      document.getElementById("stat-modelos").textContent  = produtos.filter(p => p.tipo === "modelo").length;
+      document.getElementById("stat-hdris").textContent    = produtos.filter(p => p.tipo === "hdri").length;
+    }
+
+    function badgeTipo(tipo) {
+      const map = { textura: ["badge-textura","Textura"], modelo: ["badge-modelo","Modelo 3D"], hdri: ["badge-hdri","HDRI"] };
+      const [cls, label] = map[tipo] || ["","—"];
+      return `<span class="badge ${cls}">${label}</span>`;
+    }
+
+    function badgePreco(p) {
+      if (!p.ativo) return `<span class="badge badge-rascunho">Rascunho</span>`;
+      return p.gratuito
+        ? `<span class="badge badge-gratis">Grátis</span>`
+        : `<span class="badge badge-pago">R$ ${Number(p.preco).toFixed(2)}</span>`;
+    }
+
+    function renderizarTabela(lista) {
+      if (!lista.length) {
+        conteudoTabela.innerHTML = `<div class="loading">Nenhum produto encontrado.</div>`;
+        return;
+      }
+
+      conteudoTabela.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Preço</th>
+              <th>Downloads</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lista.map(p => `
+              <tr>
+                <td>${p.nome || "—"}</td>
+                <td>${badgeTipo(p.tipo)}</td>
+                <td>${badgePreco(p)}</td>
+                <td>${p.downloads ?? 0}</td>
+                <td>
+                  <div class="acoes-td">
+                    <button class="btn-mini" onclick="editarProduto('${p.id}')">Editar</button>
+                    <button class="btn-mini perigo" onclick="confirmarDesativar('${p.id}', '${(p.nome||'').replace(/'/g,"\\'")}')">
+                      ${p.ativo ? "Desativar" : "Ativar"}
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function filtrar() {
+      const termo = buscaInput.value.toLowerCase();
+      const tipo  = filtroTipo.value;
+      const lista = produtos.filter(p =>
+        (!tipo || p.tipo === tipo) &&
+        (!termo || (p.nome || "").toLowerCase().includes(termo))
+      );
+      renderizarTabela(lista);
+    }
+
+    buscaInput.addEventListener("input", filtrar);
+    filtroTipo.addEventListener("change", filtrar);
+
+    function abrirModal(produto = null) {
+      produtoEditandoId = produto?.id || null;
+      document.getElementById("modal-titulo").textContent = produto ? "Editar produto" : "Novo produto";
+      mensagemModal.className = "mensagem";
+      mensagemModal.textContent = "";
+
+      document.getElementById("f-nome").value       = produto?.nome || "";
+      document.getElementById("f-tipo").value       = produto?.tipo || "";
+      document.getElementById("f-preco").value      = produto?.preco ?? 0;
+      document.getElementById("f-descricao").value  = produto?.descricao || "";
+      document.getElementById("f-resolucao").value  = produto?.resolucao || "";
+      document.getElementById("f-tamanho").value    = produto?.tamanhoMB || "";
+      document.getElementById("f-formatos").value   = (produto?.formato || []).join(", ");
+      document.getElementById("f-suporte").value    = (produto?.suporte || []).join(", ");
+      document.getElementById("f-render").value     = (produto?.render || []).join(", ");
+      document.getElementById("f-tags").value       = (produto?.tags || []).join(", ");
+      document.getElementById("f-imagem").value     = produto?.urlImagem || "";
+      document.getElementById("f-destaque").checked = produto?.destaque || false;
+      document.getElementById("f-ativo").checked    = produto?.ativo ?? true;
+
+      modalOverlay.classList.add("aberto");
+    }
+
+    function fecharModal() {
+      modalOverlay.classList.remove("aberto");
+      produtoEditandoId = null;
+    }
+
+    document.getElementById("btn-abrir-modal").addEventListener("click", () => abrirModal());
+    document.getElementById("btn-cancelar").addEventListener("click", fecharModal);
+    modalOverlay.addEventListener("click", e => { if (e.target === modalOverlay) fecharModal(); });
+
+    document.getElementById("btn-salvar").addEventListener("click", async () => {
+      const nome = document.getElementById("f-nome").value.trim();
+      const tipo = document.getElementById("f-tipo").value;
+
+      if (!nome || !tipo) {
+        mostrarMensagem(mensagemModal, "erro", "Preencha os campos obrigatórios: nome e tipo.");
+        return;
+      }
+
+      const dados = {
+        nome,
+        tipo,
+        preco:      parseFloat(document.getElementById("f-preco").value) || 0,
+        descricao:  document.getElementById("f-descricao").value.trim(),
+        resolucao:  document.getElementById("f-resolucao").value.trim(),
+        tamanhoMB:  parseFloat(document.getElementById("f-tamanho").value) || 0,
+        formato:    document.getElementById("f-formatos").value.split(",").map(s => s.trim()).filter(Boolean),
+        suporte:    document.getElementById("f-suporte").value.split(",").map(s => s.trim()).filter(Boolean),
+        render:     document.getElementById("f-render").value.split(",").map(s => s.trim()).filter(Boolean),
+        tags:       document.getElementById("f-tags").value.split(",").map(s => s.trim()).filter(Boolean),
+        urlImagem:  document.getElementById("f-imagem").value.trim(),
+        destaque:   document.getElementById("f-destaque").checked,
+        ativo:      document.getElementById("f-ativo").checked,
+      };
+
+      const btnSalvar = document.getElementById("btn-salvar");
+      btnSalvar.disabled = true;
+      btnSalvar.textContent = "Salvando...";
+
+      try {
+        if (produtoEditandoId) {
+          await atualizarProduto(produtoEditandoId, dados);
+          mostrarMensagem(mensagemLista, "sucesso", `"${nome}" atualizado com sucesso.`);
+        } else {
+          await criarProduto(dados);
+          mostrarMensagem(mensagemLista, "sucesso", `"${nome}" criado com sucesso.`);
+        }
+        fecharModal();
+        await carregarProdutos();
+      } catch (e) {
+        mostrarMensagem(mensagemModal, "erro", "Erro ao salvar: " + e.message);
+      } finally {
+        btnSalvar.disabled = false;
+        btnSalvar.textContent = "Salvar produto";
+      }
+    });
+
+    window.editarProduto = async (id) => {
+      const produto = await buscarProdutoPorId(id);
+      if (produto) abrirModal(produto);
+    };
+
+    window.confirmarDesativar = async (id, nome) => {
+      const produto = produtos.find(p => p.id === id);
+      const acao = produto?.ativo ? "desativar" : "reativar";
+      if (!confirm(`Tem certeza que deseja ${acao} "${nome}"?`)) return;
+
+      try {
+        await atualizarProduto(id, { ativo: !produto?.ativo });
+        mostrarMensagem(mensagemLista, "sucesso", `"${nome}" ${acao === "desativar" ? "desativado" : "reativado"} com sucesso.`);
+        await carregarProdutos();
+      } catch (e) {
+        mostrarMensagem(mensagemLista, "erro", "Erro: " + e.message);
+      }
+    };
+    function mostrarMensagem(el, tipo, texto) {
+      el.textContent  = texto;
+      el.className    = `mensagem ${tipo}`;
+      setTimeout(() => { el.className = "mensagem"; }, 5000);
+    }
+
+    carregarProdutos();
+  </script>
+
+</body>
+</html>

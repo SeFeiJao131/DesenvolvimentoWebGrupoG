@@ -1,4 +1,3 @@
-/* ── Hero ── */
 .hero-novidades {
   position: relative;
   display: flex;
@@ -58,7 +57,6 @@
   opacity: 90%;
 }
 
-/* ── Seção Modelos ── */
 .secao-modelos {
   padding: 60px 60px 80px;
   display: flex;
@@ -155,7 +153,6 @@
   width: 100%;
 }
 
-/* ── Seção Texturas ── */
 .Texturas {
   display: flex;
   flex-direction: column;
@@ -246,7 +243,6 @@
   padding-left: 125px;
 }
 
-/* ── Curadoria ── */
 .curadoria {
   display: flex;
   justify-content: flex-start;

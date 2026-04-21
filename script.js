@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
 /* Painel de busca */
 const barraPesquisa = document.querySelector(".barra-pesquisa input");
 const overlay = document.querySelector(".overlay-busca");
@@ -78,75 +81,85 @@ if (secaoFiltros) {
     });
   });
 }
-/*
- integrar com o bd
-  {
-    id:           1,
-    tipo:         "textura" | "modelo" | "hdri",
-    tipoRotulo:   "Textura" | "Modelo 3D" | "HDRI",
-    nome:         "Mármore Carrara",
-    descricao:    "Textura procedural...",
-    url_imagem:   "https://...",
-    data:         "2026-04-17",
-    url:          "/produto/marmore-carrara",
-    destaque:     true
-  }
-
-  function renderizarNovidades(dados) {
-    const destaque = dados.find(item => item.destaque);
-    const recentes = dados.filter(item => !item.destaque).slice(0, 8);
-    const todos    = dados.filter(item => !item.destaque);
-
-    if (destaque) {
-      document.querySelector('.nov-destaque-etiqueta').textContent  = `NOVO · ${destaque.tipoRotulo.toUpperCase()}`;
-      document.querySelector('.nov-destaque-nome').innerHTML        = destaque.nome;
-      document.querySelector('.nov-destaque-descricao').innerHTML   = destaque.descricao;
-      document.querySelector('.nov-destaque-botao').href            = destaque.url;
-      document.querySelector('.nov-destaque-data').textContent      = `Lançado em ${formatarData(destaque.data)}`;
-      document.querySelector('.nov-destaque-imagem').innerHTML      = `<img src="${destaque.url_imagem}" alt="${destaque.nome}">`;
+const firebaseConfig = {
+  apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
+  authDomain: "joinrender-2ac79.firebaseapp.com",
+  projectId: "joinrender-2ac79",
+  storageBucket: "joinrender-2ac79.firebasestorage.app",
+  messagingSenderId: "786464902095",
+  appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba",
+  measurementId: "G-DXF6PVHFXV"
+};
+ 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+ 
+function formatarData(timestamp) {
+  if (!timestamp) return "";
+  const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+  return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
+}
+ 
+function criarCard(doc) {
+  const p = doc.data();
+  const id = doc.id;
+ 
+  const imagemTag = p.imagem
+    ? `<img src="${p.imagem}" alt="${p.nome}">`
+    : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
+ 
+  const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
+  const badgeGratis = p.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+ 
+  return `
+    <a href="produto.html?id=${id}" class="card-categoria">
+      ${imagemTag}
+      ${badgeNovo}
+      ${badgeGratis}
+      <div class="card-categoria-info">
+        <span class="card-categoria-nome">${p.nome || "Sem nome"}</span>
+        <span class="card-categoria-tipo">${p.tipo || "Textura"}</span>
+        <div class="card-categoria-meta">
+          <span class="card-categoria-resolucao">${p.resolucao || ""}</span>
+          <span class="card-categoria-data">${formatarData(p.criadoEm)}</span>
+        </div>
+      </div>
+    </a>
+  `;
+}
+ 
+async function carregarProdutos() {
+  const grade    = document.getElementById("grade-produtos");
+  const contagem = document.getElementById("contagem-produtos");
+ 
+  try {
+    const q = query(
+      collection(db, "produtos"),
+      where("categoria", "==", "metais"),
+      orderBy("criadoEm", "desc")
+    );
+ 
+    const snapshot = await getDocs(q);
+ 
+    if (snapshot.empty) {
+      contagem.textContent = "Nenhuma textura ainda";
+      grade.innerHTML = "";
+      return;
     }
-
-    if (trilha) {
-      trilha.innerHTML = recentes.map(item => `
-        <a class="nov-carrossel-cartao" href="${item.url}" data-id="${item.id}">
-          <div class="nov-cartao-imagem">
-            <img src="${item.url_imagem}" alt="${item.nome}">
-          </div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">${item.tipoRotulo}</span>
-            <span class="nov-cartao-nome">${item.nome}</span>
-          </div>
-        </a>
-      `).join('');
-    }
-
-    const grade = document.getElementById('nov-grade');
-    if (grade) {
-      grade.innerHTML = todos.map(item => `
-        <a class="nov-grade-cartao" href="${item.url}" data-id="${item.id}" data-tipo="${item.tipo}">
-          <div class="nov-grade-imagem">
-            <img src="${item.url_imagem}" alt="${item.nome}">
-          </div>
-          <div class="nov-grade-corpo">
-            <span class="nov-cartao-rotulo">${item.tipoRotulo}</span>
-            <span class="nov-cartao-nome">${item.nome}</span>
-            <span class="nov-grade-data">${formatarData(item.data)}</span>
-          </div>
-        </a>
-      `).join('');
-    }
+ 
+    const total = snapshot.size;
+    contagem.textContent = `${total} textura${total !== 1 ? "s" : ""} de metal`;
+    grade.innerHTML = snapshot.docs.map(criarCard).join("");
+ 
+  } catch (erro) {
+    console.error("Erro ao carregar produtos:", erro);
+    contagem.textContent = "";
+    grade.innerHTML = "";
   }
-
-  function formatarData(iso) {
-    return new Date(iso).toLocaleDateString('pt-BR', {
-      day: 'numeric', month: 'short', year: 'numeric'
-    });
-  }
-
-  // fetch('/api/novidades')
-  //   .then(resposta => resposta.json())
-  //   .then(dados => renderizarNovidades(dados));
-*/
+}
+ 
+carregarProdutos();
+ 
 
 document.getElementById('su-botao-criar').addEventListener('click', () => {
   const nome = document.getElementById('su-nome').value.trim();

@@ -13,7 +13,6 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
-// Mostrar/ocultar senha
 const inputSenha = document.getElementById("input-senha");
 const botaoOlho = document.getElementById("botao-olho");
 

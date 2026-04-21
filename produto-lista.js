@@ -1,0 +1,57 @@
+import { buscarProdutos } from "./db.js";
+const meta = document.querySelector('meta[name="tipo-asset"]');
+const tipo = meta?.content || "textura"; 
+
+const container = document.querySelector(".alinhar-cards, .alinhar-modelos, .alinhar-hdri");
+if (!container) {
+  console.warn("[produtos-lista] Container de cards não encontrado.");
+} else {
+  carregarLista();
+}
+
+async function carregarLista() {
+  container.innerHTML = `<p style="color:#6b5a5a; padding: 40px;">Carregando assets...</p>`;
+
+  try {
+    const produtos = await buscarProdutos({ tipo, limite: 60 });
+
+    if (!produtos.length) {
+      container.innerHTML = `<p style="color:#6b5a5a; padding: 40px;">Nenhum asset encontrado.</p>`;
+      return;
+    }
+
+    container.innerHTML = produtos.map(produto => gerarCard(produto, tipo)).join("");
+
+  } catch (e) {
+    container.innerHTML = `<p style="color:#c0392b; padding: 40px;">Erro ao carregar: ${e.message}</p>`;
+  }
+}
+
+function gerarCard(produto, tipo) {
+  const href       = `produto.html?id=${produto.id}`;
+  const imagemSrc  = produto.urlImagem || "Imagens/ImagemTexturas.png";
+  const nome       = produto.nome || "Sem nome";
+  const desc       = produto.resolucao || (produto.gratuito ? "Grátis" : `R$ ${Number(produto.preco).toFixed(2)}`);
+
+  const classeCard   = tipo === "textura" ? "card-layout"   : tipo === "modelo" ? "card-modelo"   : "card-hdri";
+  const classeImagem = tipo === "textura" ? "imagem-card-layout" : tipo === "modelo" ? "imagem-card-modelo" : "imagem-card-hdri";
+  const classeInfo   = tipo === "textura" ? "info-card-layout"   : tipo === "modelo" ? "info-card-modelo"   : "info-card-hdri";
+  const classeTitulo = tipo === "textura" ? "titulo-card-layout"  : tipo === "modelo" ? "titulo-card-modelo"  : "titulo-card-hdri";
+  const classeDesc   = tipo === "textura" ? "descricao-card-layout" : tipo === "modelo" ? "descricao-card-modelo" : "descricao-card-hdri";
+
+  return `
+    <a href="${href}" class="${classeCard}">
+      <div class="${classeImagem}">
+        <img src="${imagemSrc}" alt="${nome}" loading="lazy" />
+      </div>
+      <div class="${classeInfo}">
+        <h2 class="${classeTitulo}">${tipoLabel(tipo)}</h2>
+        <p class="${classeDesc}">${nome}</p>
+      </div>
+    </a>
+  `;
+}
+
+function tipoLabel(tipo) {
+  return tipo === "textura" ? "Textura" : tipo === "modelo" ? "Modelo 3D" : "HDRI";
+}

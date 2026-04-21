@@ -1,4 +1,3 @@
-/* ── Linha topo compartilhada ── */
 .linha-topo-pgProduto,
 .linha-topo-modelos,
 .linha-topo-hdri {
@@ -7,7 +6,6 @@
   opacity: 0.5;
 }
 
-/* ── Breadcrumb compartilhado ── */
 .caminho-pgLayout,
 .caminho-modelos,
 .caminho-hdri {
@@ -29,7 +27,6 @@
   margin: 0 3px;
 }
 
-/* ── Grids de cards ── */
 .alinhar-cards,
 .alinhar-modelos,
 .alinhar-hdri {
@@ -37,7 +34,6 @@
   flex-wrap: wrap;
 }
 
-/* ===== TEXTURAS ===== */
 .layout-textos,
 .modelos-textos,
 .hdri-textos {
