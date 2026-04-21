@@ -433,6 +433,12 @@
         </div>
 
         <div class="campo-form span2">
+          <label class="label-form">Categorias (separadas por vírgula) *</label>
+          <input type="text" class="input-form" id="f-categorias" placeholder="Ex: metais, madeiras" />
+          <small style="color:var(--texto-suave);font-size:0.75rem;margin-top:4px;">Texturas: metais, madeiras, pedras, concreto, tecidos, organicos, solo | Modelos: mobiliario, personagens, veiculos, arquitetura, natureza, eletronicos | HDRIs: exteriores, interiores, estudio, ceu, noturno</small>
+        </div>
+
+        <div class="campo-form span2">
           <label class="label-form">URL da imagem de capa</label>
           <input type="text" class="input-form" id="f-imagem" placeholder="https://..." />
         </div>
@@ -589,6 +595,7 @@
       document.getElementById("f-suporte").value    = (produto?.suporte || []).join(", ");
       document.getElementById("f-render").value     = (produto?.render || []).join(", ");
       document.getElementById("f-tags").value       = (produto?.tags || []).join(", ");
+      document.getElementById("f-categorias").value = (produto?.categorias || []).join(", ");
       document.getElementById("f-imagem").value     = produto?.urlImagem || "";
       document.getElementById("f-destaque").checked = produto?.destaque || false;
       document.getElementById("f-ativo").checked    = produto?.ativo ?? true;
@@ -625,6 +632,7 @@
         suporte:    document.getElementById("f-suporte").value.split(",").map(s => s.trim()).filter(Boolean),
         render:     document.getElementById("f-render").value.split(",").map(s => s.trim()).filter(Boolean),
         tags:       document.getElementById("f-tags").value.split(",").map(s => s.trim()).filter(Boolean),
+        categorias: document.getElementById("f-categorias").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean),
         urlImagem:  document.getElementById("f-imagem").value.trim(),
         destaque:   document.getElementById("f-destaque").checked,
         ativo:      document.getElementById("f-ativo").checked,
