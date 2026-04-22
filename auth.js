@@ -35,7 +35,7 @@ onAuthStateChanged(auth, (usuario) => {
   } else {
     acoesHeader.innerHTML = `
       <a class="signupbotao" href="login.html">Login</a>
-      <a class="loginbotao" href="signup.html">Sign Up</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
       <a class="textobranco" href="#">Sobre</a>
     `;
   }

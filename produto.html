@@ -74,14 +74,30 @@
         <span class="loader-texto">CARREGANDO ASSET</span>
       </div>
 
-      <canvas id="viewer-canvas" style="display:none;"></canvas>
+      <!-- model-viewer (3D glTF/GLB) -->
+      <model-viewer
+        id="model-viewer-el"
+        style="width:100%;height:100%;background:#0e0b0b;display:none;"
+        camera-controls
+        auto-rotate
+        auto-rotate-delay="500"
+        rotation-per-second="20deg"
+        shadow-intensity="1"
+        environment-image="neutral"
+        exposure="1.1"
+        tone-mapping="aces"
+        interaction-prompt="none"
+        ar
+      ></model-viewer>
 
+      <!-- Fallback imagem quando não há modelo 3D -->
       <img id="viewer-imagem" class="viewer-imagem-fallback" src="" alt="" style="display:none;">
 
+      <!-- Controles extras sobrepostos -->
       <div class="viewer-controls" id="viewer-controls" style="display:none;">
-        <button class="viewer-btn" id="btn-reset-cam" title="Resetar câmera">⟳</button>
-        <button class="viewer-btn" id="btn-wireframe" title="Wireframe">⬡</button>
-        <button class="viewer-btn" id="btn-autorotate" title="Auto-rotação">▷</button>
+        <button class="viewer-btn" id="btn-reset-cam"    title="Resetar câmera">⟳</button>
+        <button class="viewer-btn" id="btn-wireframe"    title="Wireframe">⬡</button>
+        <button class="viewer-btn" id="btn-autorotate"   title="Auto-rotação">▷</button>
       </div>
 
       <div class="viewer-overlay-info" id="viewer-badges" style="display:none;">
@@ -194,7 +210,7 @@
     </div>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
   <script type="module" src="produto-pagina.js"></script>
   <script type="module" src="auth.js"></script>
   <script src="script.js" defer></script>

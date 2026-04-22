@@ -1,5 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 /* Painel de busca */
 const barraPesquisa = document.querySelector(".barra-pesquisa input");
@@ -159,25 +159,3 @@ async function carregarProdutos() {
 }
  
 carregarProdutos();
- 
-
-document.getElementById('su-botao-criar').addEventListener('click', () => {
-  const nome = document.getElementById('su-nome').value.trim();
-  const email = document.getElementById('su-email').value.trim();
-  const senha = document.getElementById('su-senha').value;
-  const termos = document.getElementById('su-check-termos').checked;
-
-  if (!nome || !email || !senha) {
-    alert('Preencha todos os campos obrigatórios.');
-    return;
-  }
-  if (senha.length < 8) {
-    alert('A senha deve ter pelo menos 8 caracteres.');
-    return;
-  }
-  if (!termos) {
-    alert('Aceite os termos para continuar.');
-    return;
-  }
-  // Integrar com Firebase: createUserWithEmailAndPassword(auth, email, senha)
-});

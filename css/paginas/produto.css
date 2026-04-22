@@ -190,6 +190,16 @@
   background: #0e0b0b;
 }
 
+/* model-viewer precisa de display block e dimensões explícitas */
+model-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  --poster-color: #0e0b0b;
+  /* Oculta o botão AR nativo — usamos os nossos próprios controles */
+  --ar-button-display: none;
+}
+
 #viewer-canvas {
   width: 100%;
   height: 100%;
