@@ -391,6 +391,18 @@
 </head>
 <body>
 
+  <!-- ── Tela de login ────────────────────────────────────────── -->
+  <div id="tela-login" style="position:fixed;inset:0;z-index:999;background:#111010;display:flex;align-items:center;justify-content:center;">
+    <div style="background:#1a1414;border:1px solid #2e2020;border-radius:18px;padding:48px 52px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:20px;">
+      <div style="font-family:'Playfair Display SC',serif;font-size:1.8rem;color:#c8a96e;">JR.<span style="display:block;font-family:'DM Sans',sans-serif;font-size:0.65rem;color:#6b5a5a;letter-spacing:2px;text-transform:uppercase;margin-top:2px;">Painel Admin</span></div>
+      <input id="login-email" type="email" placeholder="E-mail" style="background:#211818;border:1px solid #2e2020;border-radius:10px;padding:13px 16px;color:#E8DCC4;font-size:0.9rem;font-family:'DM Sans',sans-serif;outline:none;width:100%;"/>
+      <input id="login-senha" type="password" placeholder="Senha" style="background:#211818;border:1px solid #2e2020;border-radius:10px;padding:13px 16px;color:#E8DCC4;font-size:0.9rem;font-family:'DM Sans',sans-serif;outline:none;width:100%;"/>
+      <p id="login-erro" style="color:#f87171;font-size:0.82rem;font-family:'DM Sans',sans-serif;min-height:16px;margin-top:-8px;"></p>
+      <button id="btn-login-admin" style="background:#c8a96e;color:#111;border:none;border-radius:50px;padding:14px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.9rem;cursor:pointer;">Entrar</button>
+    </div>
+  </div>
+
+
   <!-- ── Sidebar ──────────────────────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-logo">JR. <span>Painel Admin</span></div>
@@ -403,10 +415,10 @@
     <div class="nav-item" data-secao="stats">
       <span class="nav-icon">◉</span> Estatísticas
     </div>
-    <div style="margin-top:auto; padding: 0 24px 8px;">
-      <a href="index.html" style="font-size:0.82rem; color: var(--texto-suave); text-decoration:none;">
-        ← Voltar ao site
-      </a>
+    <div style="margin-top:auto;padding:0 24px 16px;display:flex;flex-direction:column;gap:10px;">
+      <span id="info-usuario" style="font-size:0.72rem;color:#6b5a5a;word-break:break-all;"></span>
+      <button id="btn-signout-admin" style="background:transparent;border:1px solid #2e2020;border-radius:50px;color:#6b5a5a;font-size:0.78rem;font-family:'DM Sans',sans-serif;padding:7px 14px;cursor:pointer;">Sair da conta</button>
+      <a href="index.html" style="font-size:0.82rem;color:#6b5a5a;text-decoration:none;">← Voltar ao site</a>
     </div>
   </aside>
 
@@ -1042,8 +1054,47 @@
       setTimeout(() => { el.className = "mensagem"; }, 6000);
     }
 
-    // ── Inicializa ────────────────────────────────────────────────
-    carregarProdutos();
+    // ── Auth — só deixa usar o admin se estiver logado ───────────
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+
+    const auth = getAuth(app);
+
+    // Tela de login sobreposta
+    const telaLogin = document.getElementById("tela-login");
+    const loginErro  = document.getElementById("login-erro");
+
+    document.getElementById("btn-login-admin").addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value.trim();
+      const senha = document.getElementById("login-senha").value;
+      loginErro.textContent = "";
+      if (!email || !senha) { loginErro.textContent = "Preencha e-mail e senha."; return; }
+      try {
+        await signInWithEmailAndPassword(auth, email, senha);
+      } catch (e) {
+        loginErro.textContent = "E-mail ou senha incorretos.";
+      }
+    });
+
+    document.getElementById("btn-signout-admin").addEventListener("click", async () => {
+      await signOut(auth);
+    });
+
+    onAuthStateChanged(auth, (usuario) => {
+      if (usuario) {
+        // Logado — esconde tela de login, mostra painel
+        telaLogin.style.display = "none";
+        document.getElementById("info-usuario").textContent = usuario.email;
+        carregarProdutos();
+      } else {
+        // Deslogado — mostra tela de login, esconde painel
+        telaLogin.style.display = "flex";
+      }
+    });
   </script>
 
 </body>
