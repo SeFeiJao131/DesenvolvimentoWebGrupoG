@@ -8,7 +8,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-// ── Firebase ───────────────────────────────────────────────────────────────────
+//Firebase  
 
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
@@ -22,12 +22,7 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db  = getFirestore(app);
 
-// ── Metadados das categorias ───────────────────────────────────────────────────
-// Usado para preencher título, descrição e breadcrumb de forma amigável.
-// Chave: "<tipo>/<cat>" — deve bater com os parâmetros da URL.
-
 const META = {
-  // ── Texturas ──
   "textura/metais":    { titulo: "Metais",    desc: "Superfícies metálicas PBR de alta fidelidade — aço, ferro, cobre, ouro e muito mais.",         pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
   "textura/madeiras":  { titulo: "Madeiras",  desc: "Madeiras procedurais com veios naturais e suporte completo a Cycles e EEVEE.",                  pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
   "textura/pedras":    { titulo: "Pedras",    desc: "Pedras e rochas fotorrealistas mapeadas em PBR para renderização profissional.",                 pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
@@ -36,23 +31,21 @@ const META = {
   "textura/organicos": { titulo: "Vidros",    desc: "Vidros e materiais translúcidos com suporte a subsurface scattering e refração.",               pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
   "textura/solo":      { titulo: "Mármore",   desc: "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",         pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
 
-  // ── Modelos ──
   "modelo/mobiliario":  { titulo: "Banheiro",    desc: "Modelos 3D otimizados de ambientes de banheiro prontos para renderização em tempo real.",       pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
-  "modelo/personagens": { titulo: "Cozinha",     desc: "Modelos de cozinha e utensílios domésticos de alta fidelidade.",                              pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
+  "modelo/cozinha":     { titulo: "Cozinha",     desc: "Modelos de cozinha e utensílios domésticos de alta fidelidade.",                              pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
+  "modelo/comida":      { titulo: "Comida",      desc: "Modelos 3D de alimentos e pratos prontos para renders fotorrealistas.",                        pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
+  "modelo/personagens": { titulo: "Personagens", desc: "Personagens 3D prontos para animação e jogos.",                                               pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
   "modelo/veiculos":    { titulo: "Móveis",      desc: "Mobiliário moderno e clássico, otimizado para Blender, Unity e Unreal.",                       pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
   "modelo/arquitetura": { titulo: "Tijolo",      desc: "Estruturas e elementos arquitetônicos em tijolo para visualização e jogos.",                   pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
   "modelo/natureza":    { titulo: "Eletrônicos", desc: "Eletrônicos e gadgets 3D com topologia limpa prontos para close-up renders.",                  pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
   "modelo/eletronicos": { titulo: "Portas",      desc: "Portas e esquadrias detalhadas para projetos de arquitetura e visualização interior.",         pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },
 
-  // ── HDRIs ──
   "hdri/exteriores": { titulo: "Ensolarado",     desc: "HDRIs de ambientes externos ensolarados para iluminação fotorrealista de alto contraste.",     pai: { nome: "HDRIs", href: "LayoutHdri.html" } },
   "hdri/interiores": { titulo: "Nublado",        desc: "Iluminações de céu nublado com luz difusa e uniforme, ideal para produtos e arquitetura.",     pai: { nome: "HDRIs", href: "LayoutHdri.html" } },
   "hdri/estudio":    { titulo: "Pôr-do-sol",     desc: "HDRIs de pôr-do-sol com tons quentes e dramáticos para cenas cinematográficas.",              pai: { nome: "HDRIs", href: "LayoutHdri.html" } },
   "hdri/ceu":        { titulo: "Noite",          desc: "HDRIs noturnos com céu estrelado para renders fotorrealistas e cenas de exterior à noite.",    pai: { nome: "HDRIs", href: "LayoutHdri.html" } },
   "hdri/noturno":    { titulo: "Nascer do sol",  desc: "Iluminações de nascer do sol com gradientes suaves entre azul e laranja para renders únicos.", pai: { nome: "HDRIs", href: "LayoutHdri.html" } },
 };
-
-// ── Helpers ────────────────────────────────────────────────────────────────────
 
 function formatarData(timestamp) {
   if (!timestamp) return "";
@@ -100,8 +93,6 @@ function pluralItem(tipo, n) {
   return `${n} textura${n !== 1 ? "s" : ""}`;
 }
 
-// ── Main ───────────────────────────────────────────────────────────────────────
-
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const tipo   = (params.get("tipo") || "textura").toLowerCase();
@@ -114,7 +105,6 @@ async function init() {
     pai:    { nome: "Assets", href: "index.html" }
   };
 
-  // ── Preenche cabeçalho ──
   document.title = `${meta.titulo} — JoinRender`;
 
   const elTitulo = document.querySelector(".categoria-titulo");
@@ -126,7 +116,6 @@ async function init() {
   if (elDesc)    elDesc.textContent    = meta.desc;
   if (elCont)    elCont.textContent    = "Carregando…";
 
-  // Breadcrumb: Home / Texturas / Metais
   if (elCaminho) {
     elCaminho.innerHTML = `
       <a href="index.html">Home</a>
@@ -137,13 +126,10 @@ async function init() {
     `;
   }
 
-  // ── Busca no Firestore ──
   const grade = document.getElementById("grade-produtos");
   if (!grade) return;
 
   try {
-    // Tenta primeiro pela campo "categorias" (array-contains)
-    // Se não houver resultados, tenta pelo campo "categoria" (string simples)
     let docs = await buscarPorArrayCategoria(tipo, cat);
 
     if (docs.length === 0) {
@@ -166,7 +152,6 @@ async function init() {
   }
 }
 
-// Busca usando campo "categorias" (array) — padrão do db.js
 async function buscarPorArrayCategoria(tipo, cat) {
   const q = query(
     collection(db, "produtos"),
@@ -179,7 +164,6 @@ async function buscarPorArrayCategoria(tipo, cat) {
   return snap.docs;
 }
 
-// Fallback: campo "categoria" como string simples (compatibilidade com script.js legado)
 async function buscarPorCategoriaString(tipo, cat) {
   const q = query(
     collection(db, "produtos"),
