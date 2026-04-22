@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
-   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="fonts.css">
-  <script src="script.js" defer></script>
-
-  <title>Mármore — JoinRender</title>
+  <title>Produto — JoinRender</title>
 </head>
 
 <body>
@@ -52,120 +50,105 @@
         </div>
       </div>
       <div class="conteudo-busca">
-        <div class="linha">
-          <a class="texto-painel" href="#"><i class="fi fi-tr-home"></i> Casa</a>
-          <span>CoisaCoisaCoisaMuitaCoisa</span>
-          <span>15</span>
-        </div>
-        <div class="linha">
-          <a class="texto-painel" href="#"><i class="fi fi-ts-farm"></i> Fazenda</a>
-          <span>CoisaCoisaCoisa</span>
-          <span>16</span>
-        </div>
-        <div class="linha">
-          <a class="texto-painel" href="#"><i class="fi fi-ts-seedling"></i> Natureza</a>
-          <span>CoisaCoisaMaisCoisa</span>
-          <span>21</span>
-        </div>
-        <div class="linha">
-          <a class="texto-painel" href="#"><i class="fi fi-ts-building"></i> Cidade</a>
-          <span>CoisaCoisasCoisas</span>
-          <span>24</span>
-        </div>
-        <div class="linha">
-          <a class="texto-painel" href="#"><i class="fi fi-tr-grocery-basket"></i> Loja</a>
-          <span>CoisaMuitaCoisaEMaisCoisa</span>
-          <span>5</span>
-        </div>
+        <div class="linha"><a class="texto-painel" href="#"><i class="fi fi-tr-home"></i> Casa</a><span>CoisaCoisaCoisaMuitaCoisa</span><span>15</span></div>
+        <div class="linha"><a class="texto-painel" href="#"><i class="fi fi-ts-farm"></i> Fazenda</a><span>CoisaCoisaCoisa</span><span>16</span></div>
+        <div class="linha"><a class="texto-painel" href="#"><i class="fi fi-ts-seedling"></i> Natureza</a><span>CoisaCoisaMaisCoisa</span><span>21</span></div>
+        <div class="linha"><a class="texto-painel" href="#"><i class="fi fi-ts-building"></i> Cidade</a><span>CoisaCoisasCoisas</span><span>24</span></div>
+        <div class="linha"><a class="texto-painel" href="#"><i class="fi fi-tr-grocery-basket"></i>Loja</a><span>CoisaMuitaCoisaEMaisCoisa</span><span>5</span></div>
       </div>
     </div>
   </div>
 
   <div class="linha-topo-pgProduto"></div>
 
-  <div class="caminho-pgProduto">
-    <a href="index.html">Home</a><span>/</span><a href="#">texturas</a><span>/</span><a
-      href="#">Mármore</a><span>/</span><span>Mármore branca</span>
+  <div class="caminho-pgProduto" id="breadcrumb">
+    <a href="index.html">Home</a><span>/</span><span>Carregando…</span>
   </div>
 
   <div class="layout-pgProduto">
 
     <div class="visualizador-pgProduto">
-      <div class="placeholder-visualizador-pgProduto"></div>
+
+      <div class="viewer-loader" id="viewer-loader">
+        <div class="loader-spinner"></div>
+        <span class="loader-texto">CARREGANDO ASSET</span>
+      </div>
+
+      <canvas id="viewer-canvas" style="display:none;"></canvas>
+
+      <img id="viewer-imagem" class="viewer-imagem-fallback" src="" alt="" style="display:none;">
+
+      <div class="viewer-controls" id="viewer-controls" style="display:none;">
+        <button class="viewer-btn" id="btn-reset-cam" title="Resetar câmera">⟳</button>
+        <button class="viewer-btn" id="btn-wireframe" title="Wireframe">⬡</button>
+        <button class="viewer-btn" id="btn-autorotate" title="Auto-rotação">▷</button>
+      </div>
+
+      <div class="viewer-overlay-info" id="viewer-badges" style="display:none;">
+        <span class="viewer-badge" id="badge-tipo">—</span>
+        <span class="viewer-badge" id="badge-resolucao">—</span>
+      </div>
+
     </div>
 
     <div class="info-pgProduto">
 
-      <h1 class="nome-pgProduto">Mármore</h1>
+      <h1 class="nome-pgProduto" id="nome-produto">Carregando…</h1>
 
       <div class="descricao-pgProduto">
         <div class="linha-descricao-pgProduto">
-          <p>Descrição do produto vai aqui.</p>
+          <p id="descricao-produto"></p>
         </div>
-
       </div>
 
       <div class="card-pgProduto">
 
-        <div class="preco-pgProduto">R$ 00,00</div>
+        <div class="preco-pgProduto" id="preco-produto">—</div>
 
         <div class="especificacoes-pgProduto">
           <div class="linha-spec-pgProduto">
             <span class="chave-spec-pgProduto">Resolução</span>
-            <span class="valor-spec-pgProduto">8K ULTRA HD</span>
+            <span class="valor-spec-pgProduto" id="spec-resolucao">—</span>
           </div>
           <div class="linha-spec-pgProduto">
             <span class="chave-spec-pgProduto">Formato</span>
-            <span class="valor-spec-pgProduto">EXR, PNG, TIF</span>
+            <span class="valor-spec-pgProduto" id="spec-formato">—</span>
           </div>
           <div class="linha-spec-pgProduto">
             <span class="chave-spec-pgProduto">Armazenamento</span>
-            <span class="valor-spec-pgProduto">150 MB</span>
+            <span class="valor-spec-pgProduto" id="spec-tamanho">—</span>
           </div>
         </div>
 
         <div class="suporte-render-pgProduto">
           <div class="bloco-sr-pgProduto">
             <span class="label-sr-pgProduto">Suporte</span>
-            <span class="valor-sr-pgProduto">Blender</span>
+            <span class="valor-sr-pgProduto" id="spec-suporte">—</span>
           </div>
           <div class="bloco-sr-pgProduto">
             <span class="label-sr-pgProduto">Render</span>
-            <span class="valor-sr-pgProduto">Cycles</span>
+            <span class="valor-sr-pgProduto" id="spec-render">—</span>
           </div>
         </div>
 
-        <button class="botao-download-pgProduto">Download</button>
+        <div id="area-acao"></div>
 
       </div>
     </div>
   </div>
 
   <footer>
-
     <div class="divisao">
-
       <div class="lado-esquerdo-footer">
-
         <h3>JoinRender</h3>
-
-        <p class="descricao">
-          High-quality 3D models, textures and environments <br> ready for games,
-          renders and real-time projects.
-        </p>
-
+        <p class="descricao">Modelos 3D, texturas e ambientes de alta fidelidade,<br>prontos para jogos, renders e projetos em tempo real.</p>
         <p class="newsletter">Receber todas as novidades</p>
-
         <div class="campo-email">
           <input type="email" placeholder="Informe seu e-mail" />
           <button>Receber →</button>
         </div>
-
       </div>
-
-      <!-- LADO DIREITO -->
       <div class="lado-direito-footer">
-
         <div class="campo">
           <h4>EXPLORAR</h4>
           <ul>
@@ -174,7 +157,6 @@
             <li><a href="#">Contato</a></li>
           </ul>
         </div>
-
         <div class="campo">
           <h4>JURÍDICO</h4>
           <ul>
@@ -183,7 +165,6 @@
             <li><a href="#">Termos</a></li>
           </ul>
         </div>
-
         <div class="campo">
           <h4>SOCIAL</h4>
           <ul>
@@ -194,9 +175,7 @@
         </div>
       </div>
     </div>
-    <div class="linhaa">
-      <hr>
-    </div>
+    <div class="linhaa"><hr></div>
     <div class="baixo-baixo">
       <div class="divisaoNegocio">
         <div class="baixo-esquerda">
@@ -209,15 +188,16 @@
           <p class="Visao">Visão da excêlencia</p>
         </div>
       </div>
-
       <div class="baixo-direita">
         <p>© 2026 JoinRender. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
- <script type="module" src="produto-pagina.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script type="module" src="produto-pagina.js"></script>
   <script type="module" src="auth.js"></script>
-</body>
+  <script src="script.js" defer></script>
 
+</body>
 </html>

@@ -31,6 +31,7 @@
       grid-template-columns: 220px 1fr;
     }
 
+    /* ── Sidebar ─────────────────────────────────────────────── */
     .sidebar {
       background: var(--painel);
       border-right: 1px solid var(--borda);
@@ -75,6 +76,7 @@
     .nav-item.ativo  { color: var(--dourado); border-left-color: var(--dourado); background: var(--painel2); }
     .nav-icon { font-size: 1rem; width: 18px; text-align: center; }
 
+    /* ── Main ────────────────────────────────────────────────── */
     .main {
       padding: 40px 48px;
       overflow-y: auto;
@@ -96,6 +98,7 @@
       margin-top: 4px;
     }
 
+    /* ── Botões ──────────────────────────────────────────────── */
     .btn {
       padding: 10px 20px;
       border-radius: 50px;
@@ -106,10 +109,11 @@
       transition: opacity 0.15s;
     }
     .btn:hover { opacity: 0.85; }
-    .btn-primario  { background: var(--dourado); color: #111; font-weight: 600; }
-    .btn-secundario{ background: var(--painel2); color: var(--creme); border: 1px solid var(--borda); }
-    .btn-perigo    { background: var(--erro); color: #fff; }
+    .btn-primario   { background: var(--dourado); color: #111; font-weight: 600; }
+    .btn-secundario { background: var(--painel2); color: var(--creme); border: 1px solid var(--borda); }
+    .btn-perigo     { background: var(--erro); color: #fff; }
 
+    /* ── Stats ───────────────────────────────────────────────── */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -126,6 +130,7 @@
     .stat-valor { font-family: 'Playfair Display', serif; font-size: 2rem; margin-top: 6px; }
     .stat-tipo  { font-size: 0.78rem; color: var(--dourado-suave); margin-top: 4px; }
 
+    /* ── Tabela ──────────────────────────────────────────────── */
     .tabela-wrapper {
       background: var(--painel);
       border: 1px solid var(--borda);
@@ -163,7 +168,6 @@
       outline: none;
       cursor: pointer;
     }
-
     table { width: 100%; border-collapse: collapse; }
     thead tr { border-bottom: 1px solid var(--borda); }
     thead th {
@@ -175,14 +179,12 @@
       letter-spacing: 1px;
       font-weight: 500;
     }
-    tbody tr {
-      border-bottom: 1px solid #1c1515;
-      transition: background 0.1s;
-    }
+    tbody tr { border-bottom: 1px solid #1c1515; transition: background 0.1s; }
     tbody tr:hover { background: var(--painel2); }
     tbody tr:last-child { border-bottom: none; }
     td { padding: 14px 20px; font-size: 0.88rem; vertical-align: middle; }
 
+    /* ── Badges ──────────────────────────────────────────────── */
     .badge {
       display: inline-block;
       padding: 3px 10px;
@@ -192,12 +194,12 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .badge-textura { background: #2a1f3d; color: #a78bfa; }
-    .badge-modelo  { background: #1a2e2a; color: #6ee7b7; }
-    .badge-hdri    { background: #2e251a; color: #fbbf24; }
-    .badge-gratis  { background: #1a2e1a; color: #6ee76e; }
-    .badge-pago    { background: #2e1a1a; color: #f87171; }
-    .badge-rascunho{ background: #222; color: #888; }
+    .badge-textura  { background: #2a1f3d; color: #a78bfa; }
+    .badge-modelo   { background: #1a2e2a; color: #6ee7b7; }
+    .badge-hdri     { background: #2e251a; color: #fbbf24; }
+    .badge-gratis   { background: #1a2e1a; color: #6ee76e; }
+    .badge-pago     { background: #2e1a1a; color: #f87171; }
+    .badge-rascunho { background: #222;    color: #888; }
 
     .acoes-td { display: flex; gap: 8px; }
     .btn-mini {
@@ -213,6 +215,7 @@
     .btn-mini:hover { border-color: var(--dourado); color: var(--dourado); }
     .btn-mini.perigo:hover { border-color: var(--erro); color: var(--erro); }
 
+    /* ── Modal ───────────────────────────────────────────────── */
     .modal-overlay {
       display: none;
       position: fixed; inset: 0;
@@ -227,7 +230,7 @@
       border: 1px solid var(--borda);
       border-radius: 18px;
       width: 100%;
-      max-width: 680px;
+      max-width: 720px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 36px 40px;
@@ -237,12 +240,15 @@
       font-size: 1.5rem;
       margin-bottom: 28px;
     }
-
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-    .form-grid.full { grid-template-columns: 1fr; }
     .campo-form { display: flex; flex-direction: column; gap: 6px; }
     .campo-form.span2 { grid-column: span 2; }
-    .label-form { font-size: 0.78rem; color: var(--texto-suave); text-transform: uppercase; letter-spacing: 0.8px; }
+    .label-form {
+      font-size: 0.78rem;
+      color: var(--texto-suave);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
     .input-form, .select-form, .textarea-form {
       background: var(--painel2);
       border: 1px solid var(--borda);
@@ -258,6 +264,98 @@
     .textarea-form { resize: vertical; min-height: 90px; }
     .input-form::placeholder { color: var(--texto-suave); }
 
+    /* ── Upload de arquivo ───────────────────────────────────── */
+    .upload-area {
+      border: 1.5px dashed var(--borda);
+      border-radius: 10px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .upload-area:hover { border-color: var(--dourado); }
+
+    .upload-linha {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .upload-btn {
+      padding: 7px 16px;
+      background: var(--painel2);
+      border: 1px solid var(--borda);
+      border-radius: 50px;
+      color: var(--creme);
+      font-size: 0.8rem;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.15s;
+    }
+    .upload-btn:hover { border-color: var(--dourado); color: var(--dourado); }
+
+    .upload-nome {
+      font-size: 0.82rem;
+      color: var(--texto-suave);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .upload-progresso-wrapper {
+      width: 100%;
+      height: 4px;
+      background: var(--borda);
+      border-radius: 4px;
+      overflow: hidden;
+      display: none;
+    }
+    .upload-progresso-wrapper.visivel { display: block; }
+    .upload-progresso-barra {
+      height: 100%;
+      background: var(--dourado);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .upload-url-preview {
+      font-size: 0.75rem;
+      color: var(--dourado-suave);
+      word-break: break-all;
+      display: none;
+    }
+    .upload-url-preview.visivel { display: block; }
+
+    /* Preview de imagem */
+    .img-preview {
+      width: 100%;
+      max-height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: none;
+      margin-top: 6px;
+    }
+    .img-preview.visivel { display: block; }
+
+    /* Separador de seção no formulário */
+    .form-secao {
+      grid-column: span 2;
+      border-top: 1px solid var(--borda);
+      padding-top: 18px;
+      margin-top: 4px;
+    }
+    .form-secao-titulo {
+      font-size: 0.75rem;
+      color: var(--dourado-suave);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 14px;
+    }
+
+    /* ── Rodapé modal ────────────────────────────────────────── */
     .modal-rodape {
       display: flex;
       justify-content: flex-end;
@@ -267,6 +365,7 @@
       border-top: 1px solid var(--borda);
     }
 
+    /* ── Mensagens ───────────────────────────────────────────── */
     .mensagem {
       padding: 12px 18px;
       border-radius: 10px;
@@ -278,13 +377,21 @@
     .mensagem.erro    { background: #2e1a1a; border: 1px solid var(--erro); color: #f87171; display: block; }
 
     .loading { text-align: center; padding: 60px; color: var(--texto-suave); }
-
     .secao { display: none; }
     .secao.ativa { display: block; }
+
+    /* Dica pequena */
+    .dica {
+      font-size: 0.72rem;
+      color: var(--texto-suave);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
 
+  <!-- ── Sidebar ──────────────────────────────────────────────── -->
   <aside class="sidebar">
     <div class="sidebar-logo">JR. <span>Painel Admin</span></div>
     <div class="nav-item ativo" data-secao="produtos">
@@ -303,8 +410,10 @@
     </div>
   </aside>
 
+  <!-- ── Main ─────────────────────────────────────────────────── -->
   <main class="main">
 
+    <!-- Seção: Produtos -->
     <div class="secao ativa" id="secao-produtos">
 
       <div class="topo-main">
@@ -315,7 +424,7 @@
         <button class="btn btn-primario" id="btn-abrir-modal">+ Novo produto</button>
       </div>
 
-      <div class="stats-grid" id="stats-grid">
+      <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-label">Total</div>
           <div class="stat-valor" id="stat-total">—</div>
@@ -350,13 +459,13 @@
             <option value="hdri">HDRIs</option>
           </select>
         </div>
-
         <div id="conteudo-tabela">
           <div class="loading">Carregando produtos...</div>
         </div>
       </div>
     </div>
 
+    <!-- Seção: Estatísticas -->
     <div class="secao" id="secao-stats">
       <div class="topo-main">
         <div>
@@ -369,6 +478,7 @@
 
   </main>
 
+  <!-- ── Modal: Novo / Editar produto ─────────────────────────── -->
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <h2 class="modal-titulo" id="modal-titulo">Novo produto</h2>
@@ -377,11 +487,13 @@
 
       <div class="form-grid">
 
+        <!-- Nome -->
         <div class="campo-form span2">
           <label class="label-form">Nome do produto *</label>
           <input type="text" class="input-form" id="f-nome" placeholder="Ex: Mármore Carrara 8K" />
         </div>
 
+        <!-- Tipo + Preço -->
         <div class="campo-form">
           <label class="label-form">Tipo *</label>
           <select class="select-form" id="f-tipo">
@@ -395,13 +507,16 @@
         <div class="campo-form">
           <label class="label-form">Preço (R$)</label>
           <input type="number" class="input-form" id="f-preco" placeholder="0 = gratuito" min="0" step="0.01" />
+          <span class="dica">Deixe 0 para produto gratuito</span>
         </div>
 
+        <!-- Descrição -->
         <div class="campo-form span2">
           <label class="label-form">Descrição</label>
           <textarea class="textarea-form" id="f-descricao" placeholder="Descreva o asset..."></textarea>
         </div>
 
+        <!-- Resolução + Tamanho -->
         <div class="campo-form">
           <label class="label-form">Resolução</label>
           <input type="text" class="input-form" id="f-resolucao" placeholder="Ex: 8K, 4K" />
@@ -412,6 +527,7 @@
           <input type="number" class="input-form" id="f-tamanho" placeholder="Ex: 150" min="0" />
         </div>
 
+        <!-- Formatos + Suporte -->
         <div class="campo-form">
           <label class="label-form">Formatos (separados por vírgula)</label>
           <input type="text" class="input-form" id="f-formatos" placeholder="EXR, PNG, TIF" />
@@ -422,6 +538,7 @@
           <input type="text" class="input-form" id="f-suporte" placeholder="Blender, Cinema 4D" />
         </div>
 
+        <!-- Render + Tags -->
         <div class="campo-form">
           <label class="label-form">Motores de Render</label>
           <input type="text" class="input-form" id="f-render" placeholder="Cycles, EEVEE" />
@@ -432,17 +549,85 @@
           <input type="text" class="input-form" id="f-tags" placeholder="pedra, branco, pbr" />
         </div>
 
+        <!-- Categorias -->
         <div class="campo-form span2">
           <label class="label-form">Categorias (separadas por vírgula) *</label>
           <input type="text" class="input-form" id="f-categorias" placeholder="Ex: metais, madeiras" />
-          <small style="color:var(--texto-suave);font-size:0.75rem;margin-top:4px;">Texturas: metais, madeiras, pedras, concreto, tecidos, organicos, solo | Modelos: mobiliario, personagens, veiculos, arquitetura, natureza, eletronicos | HDRIs: exteriores, interiores, estudio, ceu, noturno</small>
+          <span class="dica">
+            Texturas: metais, madeiras, pedras, concreto, tecidos, organicos, solo &nbsp;|&nbsp;
+            Modelos: mobiliario, personagens, veiculos, arquitetura, natureza, eletronicos &nbsp;|&nbsp;
+            HDRIs: exteriores, interiores, estudio, ceu, noturno
+          </span>
         </div>
 
-        <div class="campo-form span2">
-          <label class="label-form">URL da imagem de capa</label>
-          <input type="text" class="input-form" id="f-imagem" placeholder="https://..." />
+        <!-- ══════════════════════════════════════════════════════
+             SEÇÃO: ARQUIVOS
+        ══════════════════════════════════════════════════════ -->
+        <div class="form-secao">
+          <p class="form-secao-titulo">📁 Arquivos do produto</p>
+
+          <div class="form-grid" style="gap:18px;">
+
+            <!-- Imagem de capa -->
+            <div class="campo-form span2">
+              <label class="label-form">Imagem de capa (preview)</label>
+              <div class="upload-area" id="area-imagem">
+                <div class="upload-linha">
+                  <button type="button" class="upload-btn" id="btn-escolher-imagem">Escolher imagem</button>
+                  <span class="upload-nome" id="nome-imagem">Nenhum arquivo selecionado</span>
+                  <input type="file" id="input-imagem" accept="image/*" style="display:none" />
+                </div>
+                <div class="upload-progresso-wrapper" id="prog-imagem">
+                  <div class="upload-progresso-barra" id="barra-imagem"></div>
+                </div>
+                <span class="upload-url-preview" id="url-imagem-preview"></span>
+                <img class="img-preview" id="preview-imagem" src="" alt="Preview" />
+              </div>
+              <!-- URL manual (alternativa ao upload) -->
+              <input type="text" class="input-form" id="f-imagem" placeholder="Ou cole uma URL de imagem aqui" style="margin-top:8px;" />
+            </div>
+
+            <!-- Arquivo para download -->
+            <div class="campo-form span2">
+              <label class="label-form">Arquivo para download (.zip, .blend, .fbx, etc.)</label>
+              <div class="upload-area" id="area-arquivo">
+                <div class="upload-linha">
+                  <button type="button" class="upload-btn" id="btn-escolher-arquivo">Escolher arquivo</button>
+                  <span class="upload-nome" id="nome-arquivo">Nenhum arquivo selecionado</span>
+                  <input type="file" id="input-arquivo" accept=".zip,.blend,.fbx,.obj,.gltf,.glb,.hdr,.exr,.png,.tif,.tiff" style="display:none" />
+                </div>
+                <div class="upload-progresso-wrapper" id="prog-arquivo">
+                  <div class="upload-progresso-barra" id="barra-arquivo"></div>
+                </div>
+                <span class="upload-url-preview" id="url-arquivo-preview"></span>
+              </div>
+              <input type="text" class="input-form" id="f-arquivo" placeholder="Ou cole a URL do arquivo aqui" style="margin-top:8px;" />
+            </div>
+
+            <!-- Modelo 3D (.glb) para o visualizador -->
+            <div class="campo-form span2">
+              <label class="label-form">Modelo 3D para visualizador (.glb / .gltf) — opcional</label>
+              <div class="upload-area" id="area-modelo">
+                <div class="upload-linha">
+                  <button type="button" class="upload-btn" id="btn-escolher-modelo">Escolher modelo</button>
+                  <span class="upload-nome" id="nome-modelo">Nenhum arquivo selecionado</span>
+                  <input type="file" id="input-modelo" accept=".glb,.gltf" style="display:none" />
+                </div>
+                <div class="upload-progresso-wrapper" id="prog-modelo">
+                  <div class="upload-progresso-barra" id="barra-modelo"></div>
+                </div>
+                <span class="upload-url-preview" id="url-modelo-preview"></span>
+              </div>
+              <input type="text" class="input-form" id="f-modelo" placeholder="Ou cole a URL do .glb aqui" style="margin-top:8px;" />
+              <span class="dica">Apenas para Modelos 3D. O visualizador Three.js usará este arquivo.</span>
+            </div>
+
+          </div>
         </div>
 
+        <!-- ══════════════════════════════════════════════════════
+             Checkboxes
+        ══════════════════════════════════════════════════════ -->
         <div class="campo-form" style="display:flex; align-items:center; gap:10px; flex-direction:row;">
           <input type="checkbox" id="f-destaque" style="width:16px;height:16px;accent-color:var(--dourado);" />
           <label class="label-form" for="f-destaque" style="margin:0;">Marcar como destaque</label>
@@ -453,7 +638,7 @@
           <label class="label-form" for="f-ativo" style="margin:0;">Produto ativo (visível no site)</label>
         </div>
 
-      </div>
+      </div><!-- /form-grid -->
 
       <div class="modal-rodape">
         <button class="btn btn-secundario" id="btn-cancelar">Cancelar</button>
@@ -462,15 +647,56 @@
     </div>
   </div>
 
+  <!-- ── Scripts ───────────────────────────────────────────────── -->
   <script type="module">
     import {
       buscarProdutos,
       criarProduto,
       atualizarProduto,
-      desativarProduto,
       buscarProdutoPorId
     } from "./db.js";
 
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytesResumable,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-storage.js";
+
+    // ── Firebase Storage ─────────────────────────────────────────
+    const firebaseConfig = {
+      apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
+      authDomain: "joinrender-2ac79.firebaseapp.com",
+      projectId: "joinrender-2ac79",
+      storageBucket: "joinrender-2ac79.firebasestorage.app",
+      messagingSenderId: "786464902095",
+      appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
+    };
+    const app     = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+    const storage = getStorage(app);
+
+    // ── Estado dos uploads ────────────────────────────────────────
+    // Guarda as URLs já enviadas ao Storage enquanto o modal está aberto
+    const urlsUpload = { imagem: "", arquivo: "", modelo: "" };
+
+    // ── Navegação sidebar ─────────────────────────────────────────
+    document.querySelectorAll(".nav-item[data-secao]").forEach(item => {
+      item.addEventListener("click", () => {
+        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("ativo"));
+        item.classList.add("ativo");
+        const alvo = item.dataset.secao;
+        document.querySelectorAll(".secao").forEach(s => s.classList.remove("ativa"));
+        if (alvo === "novo") {
+          document.getElementById("secao-produtos").classList.add("ativa");
+          abrirModal();
+        } else {
+          document.getElementById(`secao-${alvo}`)?.classList.add("ativa");
+        }
+      });
+    });
+
+    // ── Carrega produtos ──────────────────────────────────────────
     let produtos = [];
     let produtoEditandoId = null;
 
@@ -481,22 +707,6 @@
     const mensagemLista  = document.getElementById("mensagem-lista");
     const mensagemModal  = document.getElementById("mensagem-modal");
 
-    document.querySelectorAll(".nav-item[data-secao]").forEach(item => {
-      item.addEventListener("click", () => {
-        document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("ativo"));
-        item.classList.add("ativo");
-
-        const alvo = item.dataset.secao;
-        document.querySelectorAll(".secao").forEach(s => s.classList.remove("ativa"));
-
-        if (alvo === "novo") {
-          document.getElementById("secao-produtos").classList.add("ativa");
-          abrirModal();
-        } else {
-          document.getElementById(`secao-${alvo}`)?.classList.add("ativa");
-        }
-      });
-    });
     async function carregarProdutos() {
       try {
         produtos = await buscarProdutos({ limite: 200 });
@@ -515,8 +725,12 @@
     }
 
     function badgeTipo(tipo) {
-      const map = { textura: ["badge-textura","Textura"], modelo: ["badge-modelo","Modelo 3D"], hdri: ["badge-hdri","HDRI"] };
-      const [cls, label] = map[tipo] || ["","—"];
+      const map = {
+        textura: ["badge-textura", "Textura"],
+        modelo:  ["badge-modelo",  "Modelo 3D"],
+        hdri:    ["badge-hdri",    "HDRI"]
+      };
+      const [cls, label] = map[tipo] || ["", "—"];
       return `<span class="badge ${cls}">${label}</span>`;
     }
 
@@ -532,7 +746,6 @@
         conteudoTabela.innerHTML = `<div class="loading">Nenhum produto encontrado.</div>`;
         return;
       }
-
       conteudoTabela.innerHTML = `
         <table>
           <thead>
@@ -541,16 +754,33 @@
               <th>Tipo</th>
               <th>Preço</th>
               <th>Downloads</th>
+              <th>Arquivo</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody>
             ${lista.map(p => `
               <tr>
-                <td>${p.nome || "—"}</td>
+                <td style="display:flex;align-items:center;gap:10px;">
+                  ${p.urlImagem
+                    ? `<img src="${p.urlImagem}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;" />`
+                    : `<div style="width:36px;height:36px;background:var(--painel2);border-radius:6px;"></div>`
+                  }
+                  ${p.nome || "—"}
+                </td>
                 <td>${badgeTipo(p.tipo)}</td>
                 <td>${badgePreco(p)}</td>
                 <td>${p.downloads ?? 0}</td>
+                <td>
+                  ${p.urlArquivo
+                    ? `<span style="color:#6ee7b7;font-size:0.78rem;">✓ Arquivo</span>`
+                    : `<span style="color:var(--texto-suave);font-size:0.78rem;">— sem arquivo</span>`
+                  }
+                  ${p.urlModelo
+                    ? ` <span style="color:#fbbf24;font-size:0.78rem;margin-left:6px;">✓ 3D</span>`
+                    : ""
+                  }
+                </td>
                 <td>
                   <div class="acoes-td">
                     <button class="btn-mini" onclick="editarProduto('${p.id}')">Editar</button>
@@ -570,35 +800,77 @@
       const termo = buscaInput.value.toLowerCase();
       const tipo  = filtroTipo.value;
       const lista = produtos.filter(p =>
-        (!tipo || p.tipo === tipo) &&
+        (!tipo  || p.tipo === tipo) &&
         (!termo || (p.nome || "").toLowerCase().includes(termo))
       );
       renderizarTabela(lista);
     }
-
     buscaInput.addEventListener("input", filtrar);
     filtroTipo.addEventListener("change", filtrar);
 
+    // ── Modal: abrir / fechar ─────────────────────────────────────
     function abrirModal(produto = null) {
       produtoEditandoId = produto?.id || null;
       document.getElementById("modal-titulo").textContent = produto ? "Editar produto" : "Novo produto";
       mensagemModal.className = "mensagem";
       mensagemModal.textContent = "";
 
-      document.getElementById("f-nome").value       = produto?.nome || "";
-      document.getElementById("f-tipo").value       = produto?.tipo || "";
-      document.getElementById("f-preco").value      = produto?.preco ?? 0;
-      document.getElementById("f-descricao").value  = produto?.descricao || "";
-      document.getElementById("f-resolucao").value  = produto?.resolucao || "";
-      document.getElementById("f-tamanho").value    = produto?.tamanhoMB || "";
-      document.getElementById("f-formatos").value   = (produto?.formato || []).join(", ");
-      document.getElementById("f-suporte").value    = (produto?.suporte || []).join(", ");
-      document.getElementById("f-render").value     = (produto?.render || []).join(", ");
-      document.getElementById("f-tags").value       = (produto?.tags || []).join(", ");
-      document.getElementById("f-categorias").value = (produto?.categorias || []).join(", ");
-      document.getElementById("f-imagem").value     = produto?.urlImagem || "";
-      document.getElementById("f-destaque").checked = produto?.destaque || false;
-      document.getElementById("f-ativo").checked    = produto?.ativo ?? true;
+      // Limpa estado de uploads
+      urlsUpload.imagem  = "";
+      urlsUpload.arquivo = "";
+      urlsUpload.modelo  = "";
+
+      // Campos de texto
+      document.getElementById("f-nome").value       = produto?.nome       || "";
+      document.getElementById("f-tipo").value       = produto?.tipo       || "";
+      document.getElementById("f-preco").value      = produto?.preco      ?? 0;
+      document.getElementById("f-descricao").value  = produto?.descricao  || "";
+      document.getElementById("f-resolucao").value  = produto?.resolucao  || "";
+      document.getElementById("f-tamanho").value    = produto?.tamanhoMB  || "";
+      document.getElementById("f-formatos").value   = (produto?.formato   || []).join(", ");
+      document.getElementById("f-suporte").value    = (produto?.suporte   || []).join(", ");
+      document.getElementById("f-render").value     = (produto?.render    || []).join(", ");
+      document.getElementById("f-tags").value       = (produto?.tags      || []).join(", ");
+      document.getElementById("f-categorias").value = (produto?.categorias|| []).join(", ");
+      document.getElementById("f-destaque").checked = produto?.destaque   || false;
+      document.getElementById("f-ativo").checked    = produto?.ativo      ?? true;
+
+      // Campos de URL (manual)
+      document.getElementById("f-imagem").value   = produto?.urlImagem  || "";
+      document.getElementById("f-arquivo").value  = produto?.urlArquivo || "";
+      document.getElementById("f-modelo").value   = produto?.urlModelo  || "";
+
+      // Preview de imagem existente
+      const previewImg = document.getElementById("preview-imagem");
+      if (produto?.urlImagem) {
+        previewImg.src = produto.urlImagem;
+        previewImg.classList.add("visivel");
+      } else {
+        previewImg.src = "";
+        previewImg.classList.remove("visivel");
+      }
+
+      // Limpa nomes de arquivo e barras de progresso
+      ["imagem","arquivo","modelo"].forEach(k => {
+        document.getElementById(`nome-${k}`).textContent = "Nenhum arquivo selecionado";
+        document.getElementById(`prog-${k}`).classList.remove("visivel");
+        document.getElementById(`barra-${k}`).style.width = "0%";
+        document.getElementById(`url-${k}-preview`).textContent = "";
+        document.getElementById(`url-${k}-preview`).classList.remove("visivel");
+      });
+
+      // Preenche URL previews se já existem
+      if (produto?.urlArquivo) {
+        urlsUpload.arquivo = produto.urlArquivo;
+        mostrarUrlPreview("arquivo", produto.urlArquivo);
+      }
+      if (produto?.urlModelo) {
+        urlsUpload.modelo = produto.urlModelo;
+        mostrarUrlPreview("modelo", produto.urlModelo);
+      }
+      if (produto?.urlImagem) {
+        urlsUpload.imagem = produto.urlImagem;
+      }
 
       modalOverlay.classList.add("aberto");
     }
@@ -612,6 +884,82 @@
     document.getElementById("btn-cancelar").addEventListener("click", fecharModal);
     modalOverlay.addEventListener("click", e => { if (e.target === modalOverlay) fecharModal(); });
 
+    // ── Upload para Firebase Storage ──────────────────────────────
+    function configurarUpload(btnId, inputId, campo, pasta) {
+      const btn   = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+
+      btn.addEventListener("click", () => input.click());
+
+      input.addEventListener("change", async () => {
+        const arquivo = input.files[0];
+        if (!arquivo) return;
+
+        document.getElementById(`nome-${campo}`).textContent = arquivo.name;
+
+        const ext      = arquivo.name.split(".").pop();
+        const nomeFinal = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+        const storageRef = ref(storage, `${pasta}/${nomeFinal}`);
+
+        // Barra de progresso
+        const progWrapper = document.getElementById(`prog-${campo}`);
+        const progBarra   = document.getElementById(`barra-${campo}`);
+        progWrapper.classList.add("visivel");
+        progBarra.style.width = "0%";
+
+        const uploadTask = uploadBytesResumable(storageRef, arquivo);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            progBarra.style.width = `${pct}%`;
+          },
+          (erro) => {
+            console.error(`[upload ${campo}]`, erro);
+            mostrarMensagem(mensagemModal, "erro", `Erro no upload de ${campo}: ${erro.message}`);
+            progWrapper.classList.remove("visivel");
+          },
+          async () => {
+            const url = await getDownloadURL(uploadTask.snapshot.ref);
+            urlsUpload[campo] = url;
+
+            // Atualiza campo de URL manual também
+            const inputUrl = document.getElementById(`f-${campo === "imagem" ? "imagem" : campo === "arquivo" ? "arquivo" : "modelo"}`);
+            if (inputUrl) inputUrl.value = url;
+
+            mostrarUrlPreview(campo, url);
+
+            // Preview de imagem
+            if (campo === "imagem") {
+              const prev = document.getElementById("preview-imagem");
+              prev.src = url;
+              prev.classList.add("visivel");
+            }
+          }
+        );
+      });
+    }
+
+    function mostrarUrlPreview(campo, url) {
+      const el = document.getElementById(`url-${campo}-preview`);
+      if (!el) return;
+      const curta = url.length > 60 ? url.slice(0, 57) + "…" : url;
+      el.textContent = `✓ ${curta}`;
+      el.classList.add("visivel");
+    }
+
+    // Configura os três campos de upload
+    configurarUpload("btn-escolher-imagem",  "input-imagem",  "imagem",  "capas");
+    configurarUpload("btn-escolher-arquivo", "input-arquivo", "arquivo", "assets");
+    configurarUpload("btn-escolher-modelo",  "input-modelo",  "modelo",  "modelos3d");
+
+    // Quando o usuário digita URL manualmente, atualiza o estado
+    document.getElementById("f-imagem").addEventListener("input",  e => { urlsUpload.imagem  = e.target.value.trim(); });
+    document.getElementById("f-arquivo").addEventListener("input", e => { urlsUpload.arquivo = e.target.value.trim(); });
+    document.getElementById("f-modelo").addEventListener("input",  e => { urlsUpload.modelo  = e.target.value.trim(); });
+
+    // ── Salvar produto no Firestore ───────────────────────────────
     document.getElementById("btn-salvar").addEventListener("click", async () => {
       const nome = document.getElementById("f-nome").value.trim();
       const tipo = document.getElementById("f-tipo").value;
@@ -621,21 +969,28 @@
         return;
       }
 
+      // Resolve URL da imagem: upload tem prioridade sobre o campo manual
+      const urlImagem  = urlsUpload.imagem  || document.getElementById("f-imagem").value.trim();
+      const urlArquivo = urlsUpload.arquivo || document.getElementById("f-arquivo").value.trim();
+      const urlModelo  = urlsUpload.modelo  || document.getElementById("f-modelo").value.trim();
+
       const dados = {
         nome,
         tipo,
-        preco:      parseFloat(document.getElementById("f-preco").value) || 0,
-        descricao:  document.getElementById("f-descricao").value.trim(),
-        resolucao:  document.getElementById("f-resolucao").value.trim(),
-        tamanhoMB:  parseFloat(document.getElementById("f-tamanho").value) || 0,
-        formato:    document.getElementById("f-formatos").value.split(",").map(s => s.trim()).filter(Boolean),
-        suporte:    document.getElementById("f-suporte").value.split(",").map(s => s.trim()).filter(Boolean),
-        render:     document.getElementById("f-render").value.split(",").map(s => s.trim()).filter(Boolean),
-        tags:       document.getElementById("f-tags").value.split(",").map(s => s.trim()).filter(Boolean),
-        categorias: document.getElementById("f-categorias").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean),
-        urlImagem:  document.getElementById("f-imagem").value.trim(),
-        destaque:   document.getElementById("f-destaque").checked,
-        ativo:      document.getElementById("f-ativo").checked,
+        preco:       parseFloat(document.getElementById("f-preco").value) || 0,
+        descricao:   document.getElementById("f-descricao").value.trim(),
+        resolucao:   document.getElementById("f-resolucao").value.trim(),
+        tamanhoMB:   parseFloat(document.getElementById("f-tamanho").value) || 0,
+        formato:     document.getElementById("f-formatos").value.split(",").map(s => s.trim()).filter(Boolean),
+        suporte:     document.getElementById("f-suporte").value.split(",").map(s => s.trim()).filter(Boolean),
+        render:      document.getElementById("f-render").value.split(",").map(s => s.trim()).filter(Boolean),
+        tags:        document.getElementById("f-tags").value.split(",").map(s => s.trim()).filter(Boolean),
+        categorias:  document.getElementById("f-categorias").value.split(",").map(s => s.trim().toLowerCase()).filter(Boolean),
+        urlImagem,
+        urlArquivo,
+        urlModelo,
+        destaque:    document.getElementById("f-destaque").checked,
+        ativo:       document.getElementById("f-ativo").checked,
       };
 
       const btnSalvar = document.getElementById("btn-salvar");
@@ -647,8 +1002,8 @@
           await atualizarProduto(produtoEditandoId, dados);
           mostrarMensagem(mensagemLista, "sucesso", `"${nome}" atualizado com sucesso.`);
         } else {
-          await criarProduto(dados);
-          mostrarMensagem(mensagemLista, "sucesso", `"${nome}" criado com sucesso.`);
+          const novoId = await criarProduto(dados);
+          mostrarMensagem(mensagemLista, "sucesso", `"${nome}" criado com sucesso. ID: ${novoId}`);
         }
         fecharModal();
         await carregarProdutos();
@@ -660,16 +1015,17 @@
       }
     });
 
+    // ── Editar produto ────────────────────────────────────────────
     window.editarProduto = async (id) => {
       const produto = await buscarProdutoPorId(id);
       if (produto) abrirModal(produto);
     };
 
+    // ── Desativar / Ativar ────────────────────────────────────────
     window.confirmarDesativar = async (id, nome) => {
       const produto = produtos.find(p => p.id === id);
-      const acao = produto?.ativo ? "desativar" : "reativar";
+      const acao    = produto?.ativo ? "desativar" : "reativar";
       if (!confirm(`Tem certeza que deseja ${acao} "${nome}"?`)) return;
-
       try {
         await atualizarProduto(id, { ativo: !produto?.ativo });
         mostrarMensagem(mensagemLista, "sucesso", `"${nome}" ${acao === "desativar" ? "desativado" : "reativado"} com sucesso.`);
@@ -678,12 +1034,15 @@
         mostrarMensagem(mensagemLista, "erro", "Erro: " + e.message);
       }
     };
+
+    // ── Mensagens ─────────────────────────────────────────────────
     function mostrarMensagem(el, tipo, texto) {
-      el.textContent  = texto;
-      el.className    = `mensagem ${tipo}`;
-      setTimeout(() => { el.className = "mensagem"; }, 5000);
+      el.textContent = texto;
+      el.className   = `mensagem ${tipo}`;
+      setTimeout(() => { el.className = "mensagem"; }, 6000);
     }
 
+    // ── Inicializa ────────────────────────────────────────────────
     carregarProdutos();
   </script>
 
