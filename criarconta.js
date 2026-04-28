@@ -1,5 +1,12 @@
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider
+} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
@@ -13,6 +20,12 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
+// 🔐 Providers sociais
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const twitterProvider = new TwitterAuthProvider();
+
+// 👁 Mostrar/ocultar senha
 const inputSenha = document.getElementById("cc-senha");
 const botaoOlho = document.getElementById("cc-botao-olho");
 
@@ -22,6 +35,7 @@ botaoOlho.addEventListener("click", () => {
   botaoOlho.textContent = visivel ? "👁" : "🙈";
 });
 
+// 📧 Criar conta com email
 document.getElementById("cc-botao-criar").addEventListener("click", async () => {
   const nome = document.getElementById("cc-nome").value.trim();
   const email = document.getElementById("cc-email").value.trim();
@@ -55,5 +69,41 @@ document.getElementById("cc-botao-criar").addEventListener("click", async () => 
     } else {
       erro.textContent = "Erro ao criar conta. Tente novamente.";
     }
+  }
+});
+
+// 🔵 Login com Google
+document.getElementById("google-login")?.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    console.log("Google:", result.user);
+    window.location.href = "index.html";
+  } catch (e) {
+    console.error(e);
+    alert("Erro ao entrar com Google");
+  }
+});
+
+// 🔵 Login com Facebook
+document.getElementById("facebook-login")?.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, facebookProvider);
+    console.log("Facebook:", result.user);
+    window.location.href = "index.html";
+  } catch (e) {
+    console.error(e);
+    alert("Erro ao entrar com Facebook");
+  }
+});
+
+// 🔵 Login com X (Twitter)
+document.getElementById("twitter-login")?.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, twitterProvider);
+    console.log("X:", result.user);
+    window.location.href = "index.html";
+  } catch (e) {
+    console.error(e);
+    alert("Erro ao entrar com X");
   }
 });
