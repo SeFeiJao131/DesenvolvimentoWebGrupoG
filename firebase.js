@@ -62,5 +62,12 @@ async function loginComProvider(provider) {
   }
 }
 
+// ── Botões sociais ────────────────────────────────────────────────────────────
+document.getElementById("google-login")
+  ?.addEventListener("click", () => loginComProvider(new GoogleAuthProvider()));
+
+document.getElementById("github-login")
+  ?.addEventListener("click", () => loginComProvider(new GithubAuthProvider()));
+
 document.getElementById("twitter-login")
   ?.addEventListener("click", () => loginComProvider(new TwitterAuthProvider()));
