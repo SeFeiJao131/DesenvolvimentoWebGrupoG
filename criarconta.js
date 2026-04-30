@@ -1,12 +1,13 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { 
-  getAuth, 
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
-  TwitterAuthProvider
-} from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+  GithubAuthProvider,
+  TwitterAuthProvider,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
@@ -17,93 +18,76 @@ const firebaseConfig = {
   appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
-// 🔐 Providers sociais
-const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
-const twitterProvider = new TwitterAuthProvider();
-
-// 👁 Mostrar/ocultar senha
+// ── Mostrar/ocultar senha ─────────────────────────────────────────────────────
 const inputSenha = document.getElementById("cc-senha");
-const botaoOlho = document.getElementById("cc-botao-olho");
+const botaoOlho  = document.getElementById("cc-botao-olho");
 
-botaoOlho.addEventListener("click", () => {
-  const visivel = inputSenha.type === "text";
-  inputSenha.type = visivel ? "password" : "text";
-  botaoOlho.textContent = visivel ? "👁" : "🙈";
-});
+if (botaoOlho) {
+  botaoOlho.addEventListener("click", () => {
+    const visivel = inputSenha.type === "text";
+    inputSenha.type       = visivel ? "password" : "text";
+    botaoOlho.textContent = visivel ? "👁" : "🙈";
+  });
+}
 
-// 📧 Criar conta com email
-document.getElementById("cc-botao-criar").addEventListener("click", async () => {
-  const nome = document.getElementById("cc-nome").value.trim();
-  const email = document.getElementById("cc-email").value.trim();
-  const senha = inputSenha.value;
-  const termos = document.getElementById("cc-check-termos").checked;
-  const erro = document.getElementById("cc-erro");
+// ── Exibir erro ───────────────────────────────────────────────────────────────
+function mostrarErro(msg) {
+  const el = document.getElementById("cc-erro");
+  if (el) el.textContent = msg;
+}
 
-  erro.textContent = "";
+// ── Criar conta com e-mail/senha ──────────────────────────────────────────────
+document.getElementById("cc-botao-criar")?.addEventListener("click", async () => {
+  mostrarErro("");
+
+  const nome      = document.getElementById("cc-nome").value.trim();
+  const sobrenome = document.getElementById("cc-sobrenome").value.trim();
+  const email     = document.getElementById("cc-email").value.trim();
+  const senha     = document.getElementById("cc-senha").value;
+  const termos    = document.getElementById("cc-check-termos").checked;
 
   if (!nome || !email || !senha) {
-    erro.textContent = "Preencha todos os campos obrigatórios.";
+    mostrarErro("Preencha todos os campos obrigatórios.");
     return;
   }
   if (senha.length < 8) {
-    erro.textContent = "A senha deve ter pelo menos 8 caracteres.";
+    mostrarErro("A senha deve ter pelo menos 8 caracteres.");
     return;
   }
   if (!termos) {
-    erro.textContent = "Aceite os termos para continuar.";
+    mostrarErro("Você precisa aceitar os Termos de Uso.");
     return;
   }
 
   try {
-    await createUserWithEmailAndPassword(auth, email, senha);
+    const resultado = await createUserWithEmailAndPassword(auth, email, senha);
+    await updateProfile(resultado.user, { displayName: `${nome} ${sobrenome}`.trim() });
     window.location.href = "index.html";
-  } catch (e) {
-    if (e.code === "auth/email-already-in-use") {
-      erro.textContent = "Este e-mail já está cadastrado.";
-    } else if (e.code === "auth/invalid-email") {
-      erro.textContent = "E-mail inválido.";
+  } catch (erro) {
+    if (erro.code === "auth/email-already-in-use") {
+      mostrarErro("Este e-mail já está cadastrado.");
+    } else if (erro.code === "auth/invalid-email") {
+      mostrarErro("E-mail inválido.");
     } else {
-      erro.textContent = "Erro ao criar conta. Tente novamente.";
+      mostrarErro("Erro ao criar conta. Tente novamente.");
     }
   }
 });
 
-// 🔵 Login com Google
-document.getElementById("google-login")?.addEventListener("click", async () => {
+// ── Helper para login social ──────────────────────────────────────────────────
+async function loginComProvider(provider) {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
-    console.log("Google:", result.user);
+    await signInWithPopup(auth, provider);
     window.location.href = "index.html";
-  } catch (e) {
-    console.error(e);
-    alert("Erro ao entrar com Google");
+  } catch (erro) {
+    if (erro.code !== "auth/popup-closed-by-user") {
+      mostrarErro("Erro ao entrar: " + erro.message);
+    }
   }
-});
+}
 
-// 🔵 Login com Facebook
-document.getElementById("facebook-login")?.addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, facebookProvider);
-    console.log("Facebook:", result.user);
-    window.location.href = "index.html";
-  } catch (e) {
-    console.error(e);
-    alert("Erro ao entrar com Facebook");
-  }
-});
-
-// 🔵 Login com X (Twitter)
-document.getElementById("twitter-login")?.addEventListener("click", async () => {
-  try {
-    const result = await signInWithPopup(auth, twitterProvider);
-    console.log("X:", result.user);
-    window.location.href = "index.html";
-  } catch (e) {
-    console.error(e);
-    alert("Erro ao entrar com X");
-  }
-});
+document.getElementById("twitter-login")
+  ?.addEventListener("click", () => loginComProvider(new TwitterAuthProvider()));

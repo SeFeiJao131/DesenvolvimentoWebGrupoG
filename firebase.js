@@ -1,5 +1,12 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  TwitterAuthProvider
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
@@ -10,22 +17,24 @@ const firebaseConfig = {
   appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
+// ── Mostrar/ocultar senha ─────────────────────────────────────────────────────
 const inputSenha = document.getElementById("input-senha");
-const botaoOlho = document.getElementById("botao-olho");
+const botaoOlho  = document.getElementById("botao-olho");
 
 if (botaoOlho) {
   botaoOlho.addEventListener("click", () => {
     const visivel = inputSenha.type === "text";
-    inputSenha.type = visivel ? "password" : "text";
+    inputSenha.type       = visivel ? "password" : "text";
     botaoOlho.textContent = visivel ? "👁" : "🙈";
   });
 }
 
+// ── Login com e-mail/senha ────────────────────────────────────────────────────
 document.querySelector(".botao-entrar").addEventListener("click", async () => {
-  const email = document.getElementById("input-email").value;
+  const email = document.getElementById("input-email").value.trim();
   const senha = document.getElementById("input-senha").value;
 
   if (!email || !senha) {
@@ -36,7 +45,22 @@ document.querySelector(".botao-entrar").addEventListener("click", async () => {
   try {
     await signInWithEmailAndPassword(auth, email, senha);
     window.location.href = "index.html";
-  } catch (erro) {
+  } catch {
     alert("E-mail ou senha incorretos.");
   }
 });
+
+// ── Helper para login social ──────────────────────────────────────────────────
+async function loginComProvider(provider) {
+  try {
+    await signInWithPopup(auth, provider);
+    window.location.href = "index.html";
+  } catch (erro) {
+    if (erro.code !== "auth/popup-closed-by-user") {
+      alert("Erro ao entrar: " + erro.message);
+    }
+  }
+}
+
+document.getElementById("twitter-login")
+  ?.addEventListener("click", () => loginComProvider(new TwitterAuthProvider()));

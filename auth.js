@@ -1,5 +1,5 @@
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
@@ -18,7 +18,7 @@ onAuthStateChanged(auth, (usuario) => {
   if (!acoesHeader) return;
 
   if (usuario) {
-    const nomeUsuario = usuario.email.split("@")[0];
+    const nomeUsuario = usuario.displayName || usuario.email.split("@")[0];
 
     acoesHeader.innerHTML = `
       <span class="textobranco">${nomeUsuario}</span>
