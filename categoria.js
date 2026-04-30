@@ -34,7 +34,7 @@ const META = {
   "textura/concreto":  { titulo: "Concreto",  desc: "Concreto, cimento e argamassa em alta resolução para projetos de arquitetura e visualização.", pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
   "textura/tecidos":   { titulo: "Tecidos",   desc: "Tecidos e fibras com mapas de normal e rugosidade para renders detalhados.",                    pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
   "textura/organicos": { titulo: "Vidros",    desc: "Vidros e materiais translúcidos com suporte a subsurface scattering e refração.",               pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
-  "textura/solo":      { titulo: "Mármore",   desc: "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",         pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
+  "textura/marmore":   { titulo: "Mármore",   desc: "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",         pai: { nome: "Texturas", href: "LayoutTexturas.html" } },
 
   // ── Modelos ──
   "modelo/mobiliario":  { titulo: "Banheiro",    desc: "Modelos 3D otimizados de ambientes de banheiro prontos para renderização em tempo real.",       pai: { nome: "Modelos 3D", href: "LayoutModelos.html" } },

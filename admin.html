@@ -566,7 +566,7 @@
           <label class="label-form">Categorias (separadas por vírgula) *</label>
           <input type="text" class="input-form" id="f-categorias" placeholder="Ex: metais, madeiras" />
           <span class="dica">
-            Texturas: metais, madeiras, pedras, concreto, tecidos, organicos, solo &nbsp;|&nbsp;
+            Texturas: metais, madeiras, pedras, concreto, tecidos, organicos, marmore &nbsp;|&nbsp;
             Modelos: mobiliario, personagens, veiculos, arquitetura, natureza, eletronicos &nbsp;|&nbsp;
             HDRIs: exteriores, interiores, estudio, ceu, noturno
           </span>
@@ -1072,7 +1072,7 @@
       const email = document.getElementById("login-email").value.trim();
       const senha = document.getElementById("login-senha").value;
       loginErro.textContent = "";
-      if (!email || !senha) { loginErro.textContent = "Preencha e-mail e senha."; return; }
+      if (!email || !senha) {loginErro.textContent = "Preencha e-mail e senha."; return; }
       try {
         await signInWithEmailAndPassword(auth, email, senha);
       } catch (e) {
