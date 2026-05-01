@@ -3,6 +3,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
+  onAuthStateChanged,
+  signOut,
   GoogleAuthProvider,
   GithubAuthProvider,
   TwitterAuthProvider
@@ -20,11 +22,37 @@ const firebaseConfig = {
 const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
+// ── Auth state — atualiza o header ────────────────────────────────────────────
+onAuthStateChanged(auth, (usuario) => {
+  const acoesHeader = document.querySelector(".acoes-header");
+  if (!acoesHeader) return;
+
+  if (usuario) {
+    const nome = usuario.displayName || usuario.email?.split("@")[0] || "Usuário";
+    acoesHeader.innerHTML = `
+      <span class="textobranco">${nome}</span>
+      <a class="loginbotao" id="botao-signout" href="#">Sign Out</a>
+      <a class="textobranco" href="#">Sobre</a>
+    `;
+    document.getElementById("botao-signout")?.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await signOut(auth);
+      window.location.reload();
+    });
+  } else {
+    acoesHeader.innerHTML = `
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+      <a class="textobranco" href="#">Sobre</a>
+    `;
+  }
+});
+
 // ── Mostrar/ocultar senha ─────────────────────────────────────────────────────
 const inputSenha = document.getElementById("input-senha");
 const botaoOlho  = document.getElementById("botao-olho");
 
-if (botaoOlho) {
+if (botaoOlho && inputSenha) {
   botaoOlho.addEventListener("click", () => {
     const visivel = inputSenha.type === "text";
     inputSenha.type       = visivel ? "password" : "text";
@@ -33,7 +61,7 @@ if (botaoOlho) {
 }
 
 // ── Login com e-mail/senha ────────────────────────────────────────────────────
-document.querySelector(".botao-entrar").addEventListener("click", async () => {
+document.querySelector(".botao-entrar")?.addEventListener("click", async () => {
   const email = document.getElementById("input-email").value.trim();
   const senha = document.getElementById("input-senha").value;
 
