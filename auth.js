@@ -18,15 +18,16 @@ onAuthStateChanged(auth, (usuario) => {
   if (!acoesHeader) return;
 
   if (usuario) {
-    const nomeUsuario = usuario.displayName || usuario.email.split("@")[0];
+    // Funciona com Google, GitHub, Twitter (que podem não ter email)
+    const nome = usuario.displayName || usuario.email?.split("@")[0] || "Usuário";
 
     acoesHeader.innerHTML = `
-      <span class="textobranco">${nomeUsuario}</span>
+      <span class="textobranco">${nome}</span>
       <a class="loginbotao" id="botao-signout" href="#">Sign Out</a>
       <a class="textobranco" href="#">Sobre</a>
     `;
 
-    document.getElementById("botao-signout").addEventListener("click", async (e) => {
+    document.getElementById("botao-signout")?.addEventListener("click", async (e) => {
       e.preventDefault();
       await signOut(auth);
       window.location.reload();

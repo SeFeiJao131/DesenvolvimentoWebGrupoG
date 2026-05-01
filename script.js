@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 /* Painel de busca */
@@ -31,13 +31,12 @@ if (barraPesquisa && overlay && painel) {
   el.textContent = formatada;
 })();
 
-/* carrousel */
+/* Carrossel */
 const trilha = document.getElementById('nov-carrossel-trilha');
 const botaoAnterior = document.getElementById('nov-anterior');
 const botaoProximo = document.getElementById('nov-proximo');
 
 if (trilha && botaoAnterior && botaoProximo) {
-
   let posicao = 0;
 
   function obterPasso() {
@@ -62,7 +61,7 @@ if (trilha && botaoAnterior && botaoProximo) {
   });
 }
 
-/* ── FILTROS ── */
+/* Filtros */
 const secaoFiltros = document.getElementById('nov-filtros');
 
 if (secaoFiltros) {
@@ -74,43 +73,43 @@ if (secaoFiltros) {
     botao.classList.add('ativo');
 
     const filtroSelecionado = botao.dataset.filtro;
-
     document.querySelectorAll('.nov-grade-cartao').forEach(cartao => {
       const visivel = filtroSelecionado === 'todos' || cartao.dataset.tipo === filtroSelecionado;
       cartao.style.display = visivel ? 'flex' : 'none';
     });
   });
 }
+
+/* Firebase — reutiliza app já inicializado pelo auth.js */
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
   authDomain: "joinrender-2ac79.firebaseapp.com",
   projectId: "joinrender-2ac79",
   storageBucket: "joinrender-2ac79.firebasestorage.app",
   messagingSenderId: "786464902095",
-  appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba",
-  measurementId: "G-DXF6PVHFXV"
+  appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
 };
- 
-const app = initializeApp(firebaseConfig);
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
- 
+
 function formatarData(timestamp) {
   if (!timestamp) return "";
   const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
   return data.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 }
- 
+
 function criarCard(doc) {
   const p = doc.data();
   const id = doc.id;
- 
+
   const imagemTag = p.imagem
     ? `<img src="${p.imagem}" alt="${p.nome}">`
     : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
- 
+
   const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
   const badgeGratis = p.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
- 
+
   return `
     <a href="produto.html?id=${id}" class="card-categoria">
       ${imagemTag}
@@ -127,35 +126,34 @@ function criarCard(doc) {
     </a>
   `;
 }
- 
+
 async function carregarProdutos() {
   const grade    = document.getElementById("grade-produtos");
   const contagem = document.getElementById("contagem-produtos");
- 
+  if (!grade || !contagem) return;
+
   try {
     const q = query(
       collection(db, "produtos"),
       where("categoria", "==", "metais"),
       orderBy("criadoEm", "desc")
     );
- 
+
     const snapshot = await getDocs(q);
- 
+
     if (snapshot.empty) {
       contagem.textContent = "Nenhuma textura ainda";
       grade.innerHTML = "";
       return;
     }
- 
+
     const total = snapshot.size;
     contagem.textContent = `${total} textura${total !== 1 ? "s" : ""} de metal`;
     grade.innerHTML = snapshot.docs.map(criarCard).join("");
- 
+
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);
-    contagem.textContent = "";
-    grade.innerHTML = "";
   }
 }
- 
+
 carregarProdutos();
