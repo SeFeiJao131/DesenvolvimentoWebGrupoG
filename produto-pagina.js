@@ -101,6 +101,43 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
   if (produto.urlImagem) mv.poster = produto.urlImagem;
   mv.style.display = "block";
 
+  // ── Ajuste automático de renderização por tipo de material ──────────────────
+  const nome = (produto.nome || "").toLowerCase();
+  const tags = (produto.tags || []).join(" ").toLowerCase();
+  const tudo = nome + " " + tags;
+
+  if (tudo.includes("vidro") || tudo.includes("glass") || tudo.includes("cristal") || tudo.includes("transparente")) {
+    // Materiais transmissivos: exposição baixa, ambiente escuro, sem ACES
+    mv.setAttribute("environment-image", "legacy");
+    mv.setAttribute("exposure", "0.6");
+    mv.setAttribute("tone-mapping", "commerce");
+    mv.setAttribute("shadow-intensity", "0.3");
+  } else if (tudo.includes("metal") || tudo.includes("aço") || tudo.includes("steel") || tudo.includes("aluminio") || tudo.includes("alumínio")) {
+    // Metais: alto contraste, HDRI neutro
+    mv.setAttribute("environment-image", "neutral");
+    mv.setAttribute("exposure", "1.0");
+    mv.setAttribute("tone-mapping", "aces");
+    mv.setAttribute("shadow-intensity", "0.8");
+  } else if (
+    tudo.includes("madeira") || tudo.includes("tecido") ||
+    tudo.includes("pedra")   || tudo.includes("concreto") ||
+    tudo.includes("tijolo")  || tudo.includes("mármore") ||
+    tudo.includes("marmore") || tudo.includes("superficie")
+  ) {
+    // Materiais difusos: configuração equilibrada
+    mv.setAttribute("environment-image", "neutral");
+    mv.setAttribute("exposure", "0.9");
+    mv.setAttribute("tone-mapping", "commerce");
+    mv.setAttribute("shadow-intensity", "0.6");
+  } else {
+    // Padrão genérico seguro para qualquer outro material
+    mv.setAttribute("environment-image", "legacy");
+    mv.setAttribute("exposure", "0.8");
+    mv.setAttribute("tone-mapping", "commerce");
+    mv.setAttribute("shadow-intensity", "0.5");
+  }
+  // ───────────────────────────────────────────────────────────────────────────
+
   mv.addEventListener("load", () => {
     if (loader)   loader.classList.add("oculto");
     if (badges)   badges.style.display   = "flex";
