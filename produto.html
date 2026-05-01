@@ -81,11 +81,6 @@
         camera-controls
         auto-rotate
         auto-rotate-delay="500"
-        rotation-per-second="20deg"
-        shadow-intensity="0.5"
-        environment-image="legacy"
-        exposure="0.7"
-        tone-mapping="commerce"
         interaction-prompt="none"
         ar
       ></model-viewer>
@@ -95,9 +90,10 @@
 
       <!-- Controles extras sobrepostos -->
       <div class="viewer-controls" id="viewer-controls" style="display:none;">
-        <button class="viewer-btn" id="btn-reset-cam"    title="Resetar câmera">⟳</button>
-        <button class="viewer-btn" id="btn-wireframe"    title="Wireframe">⬡</button>
-        <button class="viewer-btn" id="btn-autorotate"   title="Auto-rotação">▷</button>
+        <button class="viewer-btn" id="btn-reset-cam"  title="Resetar câmera">⟳</button>
+        <button class="viewer-btn" id="btn-wireframe"  title="Wireframe">⬡</button>
+        <button class="viewer-btn" id="btn-autorotate" title="Auto-rotação">▷</button>
+        <button class="viewer-btn" id="btn-hdri"       title="Alternar iluminação">◑</button>
       </div>
 
       <div class="viewer-overlay-info" id="viewer-badges" style="display:none;">

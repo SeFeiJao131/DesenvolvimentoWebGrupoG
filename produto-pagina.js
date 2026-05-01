@@ -77,6 +77,112 @@ function setText(id, valor) {
   if (el) el.textContent = valor;
 }
 
+// ── Iluminação inteligente por material ────────────────────────────────────────
+//
+// O model-viewer usa IBL (Image-Based Lighting) via HDRIs reais.
+// HDRIs do Poly Haven são gratuitos e funcionam direto por URL.
+//
+// Estratégia:
+//   - HDRI_STUDIO   → estúdio suave com reflexos nítidos. Ideal para: vidro,
+//                     metal, mármore, cerâmica, qualquer material especular.
+//   - HDRI_EXTERIOR → luz solar com céu. Ideal para: pedra, concreto, tijolo,
+//                     materiais de arquitetura exterior.
+//   - HDRI_INTERIOR → luz de ambiente interno difusa. Ideal para: madeira,
+//                     couro, tecido, materiais orgânicos.
+
+const HDRI_STUDIO   = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_03_1k.hdr";
+const HDRI_EXTERIOR = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/kloppenheim_02_1k.hdr";
+const HDRI_INTERIOR = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/lebombo_1k.hdr";
+
+const HDRI_NOMES = {
+  [HDRI_STUDIO]:   "Estúdio",
+  [HDRI_EXTERIOR]: "Exterior",
+  [HDRI_INTERIOR]: "Interior",
+};
+
+/**
+ * Detecta o tipo de material pelo nome/tags do produto e retorna a
+ * configuração de iluminação ideal para o model-viewer.
+ */
+function detectarConfigIluminacao(produto) {
+  const texto = [
+    produto.nome || "",
+    produto.descricao || "",
+    ...(produto.tags || []),
+  ].join(" ").toLowerCase();
+
+  // Vidro e materiais transparentes — prioridade máxima
+  // Precisam de: exposição alta, sombra suave, ACES para especulares vívidos
+  if (/vidro|glass|cristal|crystal|transparente|transparent|glazed/.test(texto)) {
+    return {
+      hdri:           HDRI_STUDIO,
+      exposure:       "1.5",
+      shadowIntensity:"0.25",   // vidro projeta sombra muito suave
+      shadowSoftness: "1.0",
+      toneMapping:    "aces",
+      rotationPerSec: "15deg",
+    };
+  }
+
+  // Metais, cromados, reflexivos
+  if (/metal|aco|aço|steel|chrome|cromo|alumin|copper|cobre|gold|ouro|silver|prata|iron|ferro|brass|latao|latão/.test(texto)) {
+    return {
+      hdri:           HDRI_STUDIO,
+      exposure:       "1.15",
+      shadowIntensity:"0.75",
+      shadowSoftness: "0.5",
+      toneMapping:    "aces",
+      rotationPerSec: "20deg",
+    };
+  }
+
+  // Pedras, mármore, cerâmica, concreto — difusos com reflexo médio
+  if (/pedra|stone|marmore|marble|concreto|concrete|granito|granite|tijolo|brick|ceramic|ceramica|ceramica|tile|azulejo/.test(texto)) {
+    return {
+      hdri:           HDRI_EXTERIOR,
+      exposure:       "1.05",
+      shadowIntensity:"1.0",
+      shadowSoftness: "0.85",
+      toneMapping:    "commerce",
+      rotationPerSec: "18deg",
+    };
+  }
+
+  // Madeira, tecido, couro, orgânicos — difusos suaves
+  if (/madeira|wood|tecido|fabric|couro|leather|pano|cloth|carpet|tapete|veludo|velvet|linen|linho/.test(texto)) {
+    return {
+      hdri:           HDRI_INTERIOR,
+      exposure:       "1.1",
+      shadowIntensity:"0.9",
+      shadowSoftness: "0.9",
+      toneMapping:    "commerce",
+      rotationPerSec: "18deg",
+    };
+  }
+
+  // Plástico, borracha, resina — semi-especular
+  if (/plastico|plastic|borracha|rubber|resina|resin|silicone/.test(texto)) {
+    return {
+      hdri:           HDRI_STUDIO,
+      exposure:       "1.1",
+      shadowIntensity:"0.85",
+      shadowSoftness: "0.7",
+      toneMapping:    "aces",
+      rotationPerSec: "20deg",
+    };
+  }
+
+  // Default universal — estúdio neutro, funciona bem para qualquer PBR
+  return {
+    hdri:           HDRI_STUDIO,
+    exposure:       "1.1",
+    shadowIntensity:"0.8",
+    shadowSoftness: "0.8",
+    toneMapping:    "aces",
+    rotationPerSec: "20deg",
+  };
+}
+
 // ── Viewer ─────────────────────────────────────────────────────────────────────
 
 function iniciarViewer(produto) {
@@ -97,46 +203,18 @@ function iniciarViewer(produto) {
 }
 
 function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
-  mv.src = url3d;
+  const cfg = detectarConfigIluminacao(produto);
+
+  mv.src               = url3d;
+  mv.environmentImage  = cfg.hdri;
+  mv.exposure          = cfg.exposure;
+  mv.shadowIntensity   = cfg.shadowIntensity;
+  mv.shadowSoftness    = cfg.shadowSoftness;
+  mv.toneMapping       = cfg.toneMapping;
+  mv.rotationPerSecond = cfg.rotationPerSec;
+
   if (produto.urlImagem) mv.poster = produto.urlImagem;
   mv.style.display = "block";
-
-  // ── Ajuste automático de renderização por tipo de material ──────────────────
-  const nome = (produto.nome || "").toLowerCase();
-  const tags = (produto.tags || []).join(" ").toLowerCase();
-  const tudo = nome + " " + tags;
-
-  if (tudo.includes("vidro") || tudo.includes("glass") || tudo.includes("cristal") || tudo.includes("transparente")) {
-    // Materiais transmissivos: exposição baixa, ambiente escuro, sem ACES
-    mv.setAttribute("environment-image", "legacy");
-    mv.setAttribute("exposure", "0.6");
-    mv.setAttribute("tone-mapping", "commerce");
-    mv.setAttribute("shadow-intensity", "0.3");
-  } else if (tudo.includes("metal") || tudo.includes("aço") || tudo.includes("steel") || tudo.includes("aluminio") || tudo.includes("alumínio")) {
-    // Metais: alto contraste, HDRI neutro
-    mv.setAttribute("environment-image", "neutral");
-    mv.setAttribute("exposure", "1.0");
-    mv.setAttribute("tone-mapping", "aces");
-    mv.setAttribute("shadow-intensity", "0.8");
-  } else if (
-    tudo.includes("madeira") || tudo.includes("tecido") ||
-    tudo.includes("pedra")   || tudo.includes("concreto") ||
-    tudo.includes("tijolo")  || tudo.includes("mármore") ||
-    tudo.includes("marmore") || tudo.includes("superficie")
-  ) {
-    // Materiais difusos: configuração equilibrada
-    mv.setAttribute("environment-image", "neutral");
-    mv.setAttribute("exposure", "0.9");
-    mv.setAttribute("tone-mapping", "commerce");
-    mv.setAttribute("shadow-intensity", "0.6");
-  } else {
-    // Padrão genérico seguro para qualquer outro material
-    mv.setAttribute("environment-image", "legacy");
-    mv.setAttribute("exposure", "0.8");
-    mv.setAttribute("tone-mapping", "commerce");
-    mv.setAttribute("shadow-intensity", "0.5");
-  }
-  // ───────────────────────────────────────────────────────────────────────────
 
   mv.addEventListener("load", () => {
     if (loader)   loader.classList.add("oculto");
@@ -157,7 +235,7 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
     if (txt) txt.textContent = `CARREGANDO ${pct}%`;
   });
 
-  // Botão resetar câmera
+  // ── Botão: resetar câmera ────────────────────────────────────────────────────
   const btnReset = document.getElementById("btn-reset-cam");
   if (btnReset) {
     btnReset.onclick = () => {
@@ -167,7 +245,7 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
     };
   }
 
-  // Botão wireframe — model-viewer expõe materiais via getMaterial
+  // ── Botão: wireframe ─────────────────────────────────────────────────────────
   let wireframe = false;
   const btnWire = document.getElementById("btn-wireframe");
   if (btnWire) {
@@ -178,22 +256,27 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
         const mat = mv.model?.getMaterialByIndex(i);
         if (mat) mat.setWireframe?.(wireframe);
       }
-      btnWire.style.color = wireframe ? "var(--cor-dourado-vivo)" : "var(--cor-dourado-alt)";
+      btnWire.style.color = wireframe
+        ? "var(--cor-dourado-vivo)"
+        : "var(--cor-dourado-alt)";
     };
   }
 
-  // Botão auto-rotação
+  // ── Botão: auto-rotação ──────────────────────────────────────────────────────
   let autoRot = true;
   const btnAuto = document.getElementById("btn-autorotate");
   if (btnAuto) {
     btnAuto.style.color = "var(--cor-dourado-vivo)";
     btnAuto.onclick = () => {
       autoRot = !autoRot;
-      autoRot ? mv.setAttribute("auto-rotate", "") : mv.removeAttribute("auto-rotate");
-      btnAuto.style.color = autoRot ? "var(--cor-dourado-vivo)" : "var(--cor-dourado-alt)";
+      autoRot
+        ? mv.setAttribute("auto-rotate", "")
+        : mv.removeAttribute("auto-rotate");
+      btnAuto.style.color = autoRot
+        ? "var(--cor-dourado-vivo)"
+        : "var(--cor-dourado-alt)";
     };
 
-    // Para auto-rotate quando o usuário arrastar
     mv.addEventListener("camera-change", (e) => {
       if (e.detail.source === "user-interaction" && autoRot) {
         autoRot = false;
@@ -201,6 +284,32 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
         btnAuto.style.color = "var(--cor-dourado-alt)";
       }
     });
+  }
+
+  // ── Botão: ciclar HDRI ───────────────────────────────────────────────────────
+  // Permite testar o modelo em iluminação de estúdio, exterior e interior.
+  const btnHdri = document.getElementById("btn-hdri");
+  if (btnHdri) {
+    const hdriCiclo = [cfg.hdri, HDRI_STUDIO, HDRI_EXTERIOR, HDRI_INTERIOR]
+      .filter((h, i, arr) => arr.indexOf(h) === i); // sem duplicatas
+
+    let hdriIdx = 0;
+
+    const atualizarHdriBtn = () => {
+      const nome = HDRI_NOMES[hdriCiclo[hdriIdx]] || "HDRI";
+      btnHdri.title = `Iluminação: ${nome}`;
+      btnHdri.style.color = hdriIdx === 0
+        ? "var(--cor-dourado-alt)"
+        : "var(--cor-dourado-vivo)";
+    };
+
+    atualizarHdriBtn();
+
+    btnHdri.onclick = () => {
+      hdriIdx = (hdriIdx + 1) % hdriCiclo.length;
+      mv.environmentImage = hdriCiclo[hdriIdx];
+      atualizarHdriBtn();
+    };
   }
 }
 
