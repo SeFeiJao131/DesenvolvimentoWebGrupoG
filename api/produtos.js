@@ -1,15 +1,7 @@
 // api/produtos.js
-// GET /api/produtos
-// GET /api/produtos?tipo=textura
-// GET /api/produtos?gratuito=true
-// GET /api/produtos?destaque=true
-// GET /api/produtos?limite=20
-// GET /api/produtos?tipo=modelo&gratuito=true
+const { initializeApp, getApps, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore }                  from "firebase-admin/firestore";
-
-// ── Inicializa Firebase Admin (uma vez) ───────────────────
 if (!getApps().length) {
   initializeApp({
     credential: cert({
@@ -22,8 +14,7 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
-export default async function handler(req, res) {
-  // ── CORS — permite qualquer origem ────────────────────────
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin",  "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -35,7 +26,6 @@ export default async function handler(req, res) {
   try {
     const { tipo, gratuito, destaque, limite = "24" } = req.query;
 
-    // ── Valida parâmetros ──────────────────────────────────
     const tiposValidos = ["textura", "modelo", "hdri"];
     if (tipo && !tiposValidos.includes(tipo.toLowerCase())) {
       return res.status(400).json({
@@ -43,15 +33,14 @@ export default async function handler(req, res) {
       });
     }
 
-    const limiteNum = Math.min(parseInt(limite) || 24, 100); // máx 100
+    const limiteNum = Math.min(parseInt(limite) || 24, 100);
 
-    // ── Monta query no Firestore ───────────────────────────
     let ref = db.collection("produtos").where("ativo", "==", true);
 
-    if (tipo)     ref = ref.where("tipo",      "==", tipo.toLowerCase());
-    if (destaque) ref = ref.where("destaque",  "==", true);
+    if (tipo)     ref = ref.where("tipo",     "==", tipo.toLowerCase());
+    if (destaque) ref = ref.where("destaque", "==", true);
     if (gratuito !== undefined)
-                  ref = ref.where("gratuito",  "==", gratuito === "true");
+                  ref = ref.where("gratuito", "==", gratuito === "true");
 
     ref = ref.orderBy("criadoEm", "desc").limit(limiteNum);
 
@@ -61,26 +50,26 @@ export default async function handler(req, res) {
       const d = doc.data();
       return {
         id:        doc.id,
-        nome:      d.nome       || "",
-        slug:      d.slug       || "",
-        tipo:      d.tipo       || "",
-        descricao: d.descricao  || "",
-        gratuito:  d.gratuito   ?? true,
-        preco:     d.preco      ?? 0,
-        resolucao: d.resolucao  || "",
-        formato:   d.formato    || [],
-        tags:      d.tags       || [],
-        urlImagem: d.urlImagem  || "",
-        downloads: d.downloads  || 0,
-        destaque:  d.destaque   ?? false,
+        nome:      d.nome      || "",
+        slug:      d.slug      || "",
+        tipo:      d.tipo      || "",
+        descricao: d.descricao || "",
+        gratuito:  d.gratuito  ?? true,
+        preco:     d.preco     ?? 0,
+        resolucao: d.resolucao || "",
+        formato:   d.formato   || [],
+        tags:      d.tags      || [],
+        urlImagem: d.urlImagem || "",
+        downloads: d.downloads || 0,
+        destaque:  d.destaque  ?? false,
         criadoEm:  d.criadoEm?.toDate().toISOString() || null,
       };
     });
 
     return res.status(200).json({
-      total:     produtos.length,
-      limite:    limiteNum,
-      filtros:   { tipo: tipo || null, gratuito: gratuito || null, destaque: destaque || null },
+      total:   produtos.length,
+      limite:  limiteNum,
+      filtros: { tipo: tipo || null, gratuito: gratuito || null, destaque: destaque || null },
       produtos,
     });
 
@@ -88,4 +77,4 @@ export default async function handler(req, res) {
     console.error("Erro ao buscar produtos:", err);
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
-}
+};

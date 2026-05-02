@@ -1,8 +1,6 @@
 // api/stats.js
-// GET /api/stats
-
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore }                  from "firebase-admin/firestore";
+const { initializeApp, getApps, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
 if (!getApps().length) {
   initializeApp({
@@ -16,7 +14,7 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin",  "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -57,4 +55,4 @@ export default async function handler(req, res) {
     console.error("Erro ao buscar stats:", err);
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
-}
+};

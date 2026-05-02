@@ -1,8 +1,6 @@
 // api/produtos/[id].js
-// GET /api/produtos/abc123
-
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore }                  from "firebase-admin/firestore";
+const { initializeApp, getApps, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
 if (!getApps().length) {
   initializeApp({
@@ -16,7 +14,7 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin",  "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -43,24 +41,24 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({
-      id:        snap.id,
-      nome:      d.nome       || "",
-      slug:      d.slug       || "",
-      tipo:      d.tipo       || "",
-      descricao: d.descricao  || "",
-      gratuito:  d.gratuito   ?? true,
-      preco:     d.preco      ?? 0,
-      resolucao: d.resolucao  || "",
-      formato:   d.formato    || [],
-      suporte:   d.suporte    || [],
-      render:    d.render     || [],
-      categorias:d.categorias || [],
-      tags:      d.tags       || [],
-      urlImagem: d.urlImagem  || "",
-      imagens:   d.imagens    || [],
-      downloads: d.downloads  || 0,
-      destaque:  d.destaque   ?? false,
-      criadoEm:  d.criadoEm?.toDate().toISOString() || null,
+      id:          snap.id,
+      nome:        d.nome        || "",
+      slug:        d.slug        || "",
+      tipo:        d.tipo        || "",
+      descricao:   d.descricao   || "",
+      gratuito:    d.gratuito    ?? true,
+      preco:       d.preco       ?? 0,
+      resolucao:   d.resolucao   || "",
+      formato:     d.formato     || [],
+      suporte:     d.suporte     || [],
+      render:      d.render      || [],
+      categorias:  d.categorias  || [],
+      tags:        d.tags        || [],
+      urlImagem:   d.urlImagem   || "",
+      imagens:     d.imagens     || [],
+      downloads:   d.downloads   || 0,
+      destaque:    d.destaque    ?? false,
+      criadoEm:    d.criadoEm?.toDate().toISOString()      || null,
       atualizadoEm: d.atualizadoEm?.toDate().toISOString() || null,
     });
 
@@ -68,4 +66,4 @@ export default async function handler(req, res) {
     console.error("Erro ao buscar produto:", err);
     return res.status(500).json({ erro: "Erro interno do servidor." });
   }
-}
+};
