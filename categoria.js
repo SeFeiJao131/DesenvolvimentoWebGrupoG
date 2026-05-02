@@ -1,84 +1,5 @@
 import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-
-/* Painel de busca */
-const barraPesquisa = document.querySelector(".barra-pesquisa input");
-const overlay = document.querySelector(".overlay-busca");
-const painel = document.querySelector(".painel-busca");
-
-if (barraPesquisa && overlay && painel) {
-  barraPesquisa.addEventListener("focus", () => {
-    overlay.classList.add("ativo");
-  });
-
-  overlay.addEventListener("click", (e) => {
-    if (!painel.contains(e.target)) {
-      overlay.classList.remove("ativo");
-    }
-  });
-}
-
-/* Data no index */
-(function () {
-  const el = document.getElementById("dataHoje");
-  if (!el) return;
-  const agora = new Date();
-  const formatada = agora.toLocaleDateString("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
-  el.textContent = formatada;
-})();
-
-/* Carrossel */
-const trilha = document.getElementById('nov-carrossel-trilha');
-const botaoAnterior = document.getElementById('nov-anterior');
-const botaoProximo = document.getElementById('nov-proximo');
-
-if (trilha && botaoAnterior && botaoProximo) {
-  let posicao = 0;
-
-  function obterPasso() {
-    const cartao = trilha.querySelector('.nov-carrossel-cartao');
-    return cartao ? cartao.offsetWidth + 12 : 180;
-  }
-
-  function atualizarCarrossel() {
-    const larguraMaxima = trilha.scrollWidth - trilha.parentElement.offsetWidth;
-    posicao = Math.max(0, Math.min(posicao, larguraMaxima));
-    trilha.style.transform = `translateX(-${posicao}px)`;
-  }
-
-  botaoProximo.addEventListener('click', () => {
-    posicao += obterPasso() * 2;
-    atualizarCarrossel();
-  });
-
-  botaoAnterior.addEventListener('click', () => {
-    posicao -= obterPasso() * 2;
-    atualizarCarrossel();
-  });
-}
-
-/* Filtros */
-const secaoFiltros = document.getElementById('nov-filtros');
-
-if (secaoFiltros) {
-  secaoFiltros.addEventListener('click', evento => {
-    const botao = evento.target.closest('.nov-filtro');
-    if (!botao) return;
-
-    document.querySelectorAll('.nov-filtro').forEach(b => b.classList.remove('ativo'));
-    botao.classList.add('ativo');
-
-    const filtroSelecionado = botao.dataset.filtro;
-    document.querySelectorAll('.nov-grade-cartao').forEach(cartao => {
-      const visivel = filtroSelecionado === 'todos' || cartao.dataset.tipo === filtroSelecionado;
-      cartao.style.display = visivel ? 'flex' : 'none';
-    });
-  });
-}
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 /* Firebase */
 const firebaseConfig = {
@@ -132,12 +53,11 @@ async function carregarProdutos() {
   const contagem = document.getElementById("contagem-produtos");
   if (!grade || !contagem) return;
 
-  // Lê os parâmetros da URL (?tipo=modelo&cat=mobiliario)
   const params = new URLSearchParams(window.location.search);
-  const tipo = params.get("tipo");  // ex: "modelo", "textura", "hdri"
-  const cat  = params.get("cat");   // ex: "mobiliario", "cozinha", etc.
+  const tipo = params.get("tipo");
+  const cat  = params.get("cat");
 
-  // Atualiza o título da página com o nome da categoria
+  // Atualiza título
   const titulo = document.querySelector(".categoria-titulo");
   if (titulo && cat) {
     titulo.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -146,31 +66,25 @@ async function carregarProdutos() {
   try {
     let q;
 
-    // O campo no Firestore é "categorias" (array), então usa array-contains
+    // Sem orderBy — ordenação feita no JS para evitar índice composto
     if (tipo && cat) {
       q = query(
         collection(db, "produtos"),
         where("tipo", "==", tipo),
-        where("categorias", "array-contains", cat),
-        orderBy("criadoEm", "desc")
+        where("categorias", "array-contains", cat)
       );
     } else if (cat) {
       q = query(
         collection(db, "produtos"),
-        where("categorias", "array-contains", cat),
-        orderBy("criadoEm", "desc")
+        where("categorias", "array-contains", cat)
       );
     } else if (tipo) {
       q = query(
         collection(db, "produtos"),
-        where("tipo", "==", tipo),
-        orderBy("criadoEm", "desc")
+        where("tipo", "==", tipo)
       );
     } else {
-      q = query(
-        collection(db, "produtos"),
-        orderBy("criadoEm", "desc")
-      );
+      q = query(collection(db, "produtos"));
     }
 
     const snapshot = await getDocs(q);
@@ -181,9 +95,16 @@ async function carregarProdutos() {
       return;
     }
 
-    const total = snapshot.size;
+    // Ordena por data no JavaScript
+    const docs = snapshot.docs.sort((a, b) => {
+      const dataA = a.data().criadoEm?.toDate?.() ?? new Date(0);
+      const dataB = b.data().criadoEm?.toDate?.() ?? new Date(0);
+      return dataB - dataA; // mais recente primeiro
+    });
+
+    const total = docs.length;
     contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
-    grade.innerHTML = snapshot.docs.map(criarCard).join("");
+    grade.innerHTML = docs.map(criarCard).join("");
 
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);
