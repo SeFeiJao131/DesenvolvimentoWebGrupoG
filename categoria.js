@@ -80,7 +80,7 @@ if (secaoFiltros) {
   });
 }
 
-/* Firebase — reutiliza app já inicializado pelo auth.js */
+/* Firebase */
 const firebaseConfig = {
   apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
   authDomain: "joinrender-2ac79.firebaseapp.com",
@@ -117,7 +117,7 @@ function criarCard(doc) {
       ${badgeGratis}
       <div class="card-categoria-info">
         <span class="card-categoria-nome">${p.nome || "Sem nome"}</span>
-        <span class="card-categoria-tipo">${p.tipo || "Textura"}</span>
+        <span class="card-categoria-tipo">${p.tipo || ""}</span>
         <div class="card-categoria-meta">
           <span class="card-categoria-resolucao">${p.resolucao || ""}</span>
           <span class="card-categoria-data">${formatarData(p.criadoEm)}</span>
@@ -146,17 +146,18 @@ async function carregarProdutos() {
   try {
     let q;
 
+    // O campo no Firestore é "categorias" (array), então usa array-contains
     if (tipo && cat) {
       q = query(
         collection(db, "produtos"),
         where("tipo", "==", tipo),
-        where("categoria", "==", cat),
+        where("categorias", "array-contains", cat),
         orderBy("criadoEm", "desc")
       );
     } else if (cat) {
       q = query(
         collection(db, "produtos"),
-        where("categoria", "==", cat),
+        where("categorias", "array-contains", cat),
         orderBy("criadoEm", "desc")
       );
     } else if (tipo) {
@@ -166,7 +167,6 @@ async function carregarProdutos() {
         orderBy("criadoEm", "desc")
       );
     } else {
-      // Sem filtros: carrega tudo ordenado por data
       q = query(
         collection(db, "produtos"),
         orderBy("criadoEm", "desc")
