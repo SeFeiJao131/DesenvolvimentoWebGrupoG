@@ -24,8 +24,8 @@ function criarCard(doc) {
   const p = doc.data();
   const id = doc.id;
 
-  const imagemTag = p.imagem
-    ? `<img src="${p.imagem}" alt="${p.nome}">`
+  const imagemTag = p.urlImagem
+    ? `<img src="${p.urlImagem}" alt="${p.nome}">`
     : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
 
   const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
