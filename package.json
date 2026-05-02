@@ -1,0 +1,9 @@
+{
+  "name": "joinrender-api",
+  "version": "1.0.0",
+  "description": "API pública de produtos do JoinRender",
+  "type": "module",
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}
