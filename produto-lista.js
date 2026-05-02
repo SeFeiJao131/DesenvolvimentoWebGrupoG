@@ -1,6 +1,10 @@
-import { buscarProdutos } from "./db.js";
+// produto-lista.js
+// Busca produtos via API REST própria em vez de Firestore direto
+
+const API_BASE = "/api";
+
 const meta = document.querySelector('meta[name="tipo-asset"]');
-const tipo = meta?.content || "textura"; 
+const tipo  = meta?.content || "textura";
 
 const container = document.querySelector(".alinhar-cards, .alinhar-modelos, .alinhar-hdri");
 if (!container) {
@@ -13,7 +17,13 @@ async function carregarLista() {
   container.innerHTML = `<p style="color:#6b5a5a; padding: 40px;">Carregando assets...</p>`;
 
   try {
-    const produtos = await buscarProdutos({ tipo, limite: 60 });
+    const url      = `${API_BASE}/produtos?tipo=${tipo}&limite=60`;
+    const resposta = await fetch(url);
+
+    if (!resposta.ok) throw new Error(`Erro ${resposta.status}`);
+
+    const dados   = await resposta.json();
+    const produtos = dados.produtos || [];
 
     if (!produtos.length) {
       container.innerHTML = `<p style="color:#6b5a5a; padding: 40px;">Nenhum asset encontrado.</p>`;
