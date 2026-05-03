@@ -16,21 +16,41 @@ const db = getFirestore(app);
 
 /* ── Descrições por categoria ── */
 const descricoesCat = {
-  marmore:   "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",
-  madeira:   "Madeiras procedurais com grãos realistas e variações de cor para qualquer ambiente.",
-  tijolo:    "Tijolos artesanais e industriais com detalhamento de juntas e desgaste.",
-  concreto:  "Concretos lisos e texturizados com variações de imperfeições e fissuras.",
-  metal:     "Metais polidos, enferrujados e escovados com reflexos físicos precisos.",
-  pedra:     "Pedras naturais com superfícies irregulares e mapeamento de deslocamento.",
-  vidro:     "Vidros com transparência, reflexos e efeitos de sujeira realistas.",
-  tecido:    "Tecidos com fibras detalhadas e padrões variados para interiores.",
+  /* Texturas */
+  metais:     "Metais polidos, enferrujados e escovados com reflexos físicos precisos e mapeamento PBR completo.",
+  madeiras:   "Madeiras procedurais com grãos realistas, nós e variações de cor para qualquer ambiente.",
+  pedras:     "Pedras naturais com superfícies irregulares, fissuras e mapeamento de deslocamento detalhado.",
+  concreto:   "Concretos lisos e texturizados com variações de imperfeições, manchas e fissuras reais.",
+  tecidos:    "Tecidos com fibras detalhadas, costuras e padrões variados para interiores e personagens.",
+  vidros:     "Vidros com transparência, reflexos e efeitos de sujeira, arranhões e condensação.",
+  marmore:    "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",
+  organicos:  "Materiais orgânicos como terra, musgo, folhas e solo com detalhes procedurais realistas.",
+  superficie: "Superfícies mistas e genéricas com variações de desgaste, sujeira e rugosidade.",
+  tijolo:     "Tijolos artesanais e industriais com detalhamento de juntas, argamassa e desgaste.",
+
+  /* HDRIs */
+  ensolarado:  "Ambientes HDRI com iluminação solar intensa, céu limpo e sombras nítidas para cenas diurnas.",
+  nascerdosol: "HDRIs de nascer do sol com tons quentes de laranja e rosa para iluminação atmosférica suave.",
+  noite:       "Ambientes noturnos estrelados e urbanos com luzes artificiais e tons frios de azul profundo.",
+  nublado:     "Céus encobertos com iluminação difusa e uniforme, ideais para renders sem sombras duras.",
+  pordosol:    "HDRIs de pôr do sol com gradientes dourados e violetas para cenas de fim de tarde.",
+
+  /* Modelos */
+  banheiro:    "Modelos 3D de banheiros com acessórios, louças e acabamentos de alta fidelidade.",
+  comida:      "Modelos de alimentos e bebidas com materiais realistas, prontos para cenas de produto.",
+  cozinha:     "Modelos de utensílios, eletrodomésticos e mobília de cozinha com detalhes construtivos.",
+  eletronicos: "Eletrônicos e gadgets modelados com precisão técnica e materiais PBR calibrados.",
+  moveis:      "Mobiliário residencial e corporativo com geometria limpa e texturas prontas para uso.",
+  natureza:    "Plantas, árvores, rochas e elementos naturais otimizados para cenas externas e interiores.",
+  objetos:     "Objetos de uso cotidiano com geometria detalhada e materiais calibrados para render.",
+  portas:      "Portas, janelas e esquadrias arquitetônicas com mecanismos e acabamentos variados.",
 };
 
 /* ── Rótulos de tipo ── */
 const labelTipo = {
-  Textura: "Texturas",
-  Modelo:  "Modelos",
-  HDRI:    "HDRIs",
+  textura: "Texturas",
+  modelo:  "Modelos",
+  hdri:    "HDRIs",
 };
 
 /* ── Breadcrumb ── */
@@ -41,7 +61,8 @@ function preencherBreadcrumb(tipo, cat) {
   const partes = [{ label: "Home", href: "index.html" }];
 
   if (tipo) {
-    partes.push({ label: labelTipo[tipo] || tipo, href: "#" });
+    const tipoLower = tipo.toLowerCase();
+    partes.push({ label: labelTipo[tipoLower] || tipo, href: "#" });
   }
   if (cat) {
     const label = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -64,6 +85,14 @@ function preencherDescricao(cat) {
   el.textContent = descricoesCat[cat.toLowerCase()] || "";
 }
 
+/* ── Verifica se o produto é novo (menos de 7 dias) ── */
+function ehNovo(timestamp) {
+  if (!timestamp) return false;
+  const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+  const seteDias = 7 * 24 * 60 * 60 * 1000;
+  return Date.now() - data.getTime() < seteDias;
+}
+
 function formatarData(timestamp) {
   if (!timestamp) return "";
   const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
@@ -78,10 +107,11 @@ function criarCard(doc) {
     ? `<img src="${p.urlImagem}" alt="${p.nome}">`
     : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
 
-  /* Badge GRÁTIS no canto superior direito;
-     Badge NOVO logo abaixo (via CSS) quando ambos aparecem */
+  /* Badge GRÁTIS no canto superior direito.
+     Badge NOVO: quando há grátis, empilha abaixo via CSS; senão fica no mesmo lugar. */
   const badgeGratis = p.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
-  const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
+  const isNovo = p.novo || ehNovo(p.criadoEm);
+  const badgeNovo = isNovo ? `<span class="badge-novo-cat">Novo</span>` : "";
 
   return `
     <a href="produto.html?id=${id}" class="card-categoria">
@@ -158,7 +188,7 @@ async function carregarProdutos() {
     });
 
     const total = docs.length;
-    contagem.textContent = `${total} textura${total !== 1 ? "s" : ""}`;
+    contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
     grade.innerHTML = docs.map(criarCard).join("");
 
   } catch (erro) {
