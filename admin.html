@@ -416,6 +416,10 @@
       <span class="nav-icon">◉</span> Estatísticas
     </div>
     <div style="margin-top:auto;padding:0 24px 16px;display:flex;flex-direction:column;gap:10px;">
+      <button id="btn-sync-algolia" title="Importa todos os produtos do Firestore para o Algolia" style="background:transparent;border:1px solid #2e2020;border-radius:50px;color:#c8a84e;font-size:0.78rem;font-family:'DM Sans',sans-serif;padding:7px 14px;cursor:pointer;transition:border-color 0.2s;">
+        🔍 Sincronizar Algolia
+      </button>
+      <div id="algolia-sync-status" style="font-size:0.7rem;color:#6b5a5a;text-align:center;min-height:16px;"></div>
       <span id="info-usuario" style="font-size:0.72rem;color:#6b5a5a;word-break:break-all;"></span>
       <button id="btn-signout-admin" style="background:transparent;border:1px solid #2e2020;border-radius:50px;color:#6b5a5a;font-size:0.78rem;font-family:'DM Sans',sans-serif;padding:7px 14px;cursor:pointer;">Sair da conta</button>
       <a href="index.html" style="font-size:0.82rem;color:#6b5a5a;text-decoration:none;">← Voltar ao site</a>
@@ -667,6 +671,8 @@
       atualizarProduto,
       buscarProdutoPorId
     } from "./db.js";
+
+    import { algoliaUpsert, algoliaDelete } from "./algolia.js";
 
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
     import {
@@ -1012,9 +1018,11 @@
       try {
         if (produtoEditandoId) {
           await atualizarProduto(produtoEditandoId, dados);
+          await algoliaUpsert(produtoEditandoId, dados);
           mostrarMensagem(mensagemLista, "sucesso", `"${nome}" atualizado com sucesso.`);
         } else {
           const novoId = await criarProduto(dados);
+          await algoliaUpsert(novoId, dados);
           mostrarMensagem(mensagemLista, "sucesso", `"${nome}" criado com sucesso. ID: ${novoId}`);
         }
         fecharModal();
@@ -1039,7 +1047,14 @@
       const acao    = produto?.ativo ? "desativar" : "reativar";
       if (!confirm(`Tem certeza que deseja ${acao} "${nome}"?`)) return;
       try {
-        await atualizarProduto(id, { ativo: !produto?.ativo });
+        const novoAtivo = !produto?.ativo;
+        await atualizarProduto(id, { ativo: novoAtivo });
+        // Remove do índice se desativado, atualiza se reativado
+        if (!novoAtivo) {
+          await algoliaDelete(id);
+        } else {
+          await algoliaUpsert(id, { ...produto, ativo: novoAtivo });
+        }
         mostrarMensagem(mensagemLista, "sucesso", `"${nome}" ${acao === "desativar" ? "desativado" : "reativado"} com sucesso.`);
         await carregarProdutos();
       } catch (e) {
@@ -1053,6 +1068,76 @@
       el.className   = `mensagem ${tipo}`;
       setTimeout(() => { el.className = "mensagem"; }, 6000);
     }
+
+    // ── Algolia: sincronização completa ──────────────────────────
+    async function sincronizarAlgolia() {
+      const btn    = document.getElementById("btn-sync-algolia");
+      const status = document.getElementById("algolia-sync-status");
+
+      btn.disabled = true;
+      btn.textContent = "⏳ Sincronizando...";
+      status.style.color = "#c8a84e";
+      status.textContent = "Buscando produtos...";
+
+      try {
+        // Busca todos os produtos (sem filtro de ativo para indexar tudo)
+        const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js");
+        const db   = getFirestore(app);
+        const snap = await getDocs(collection(db, "produtos"));
+        const total = snap.size;
+
+        if (!total) {
+          status.textContent = "Nenhum produto encontrado.";
+          return;
+        }
+
+        status.textContent = `Enviando ${total} produtos...`;
+
+        // Normaliza e monta lotes de 50
+        function norm(id, data) {
+          const obj = { objectID: id, ...data };
+          if (obj.criadoEm?.toDate)     obj.criadoEm     = Math.floor(obj.criadoEm.toDate().getTime() / 1000);
+          if (obj.atualizadoEm?.toDate) obj.atualizadoEm = Math.floor(obj.atualizadoEm.toDate().getTime() / 1000);
+          return obj;
+        }
+
+        const todos = snap.docs.map(d => norm(d.id, d.data()));
+        const LOTE  = 50;
+        let feito   = 0;
+
+        for (let i = 0; i < todos.length; i += LOTE) {
+          const lote = todos.slice(i, i + LOTE);
+          const url  = `https://AC7XL6FVL6.algolia.net/1/indexes/produtos/batch`;
+          const res  = await fetch(url, {
+            method: "POST",
+            headers: {
+              "X-Algolia-Application-Id": "AC7XL6FVL6",
+              "X-Algolia-API-Key":        "69484ede99d6d05a2d582dd8aa08591b",
+              "Content-Type":             "application/json",
+            },
+            body: JSON.stringify({
+              requests: lote.map(o => ({ action: "updateObject", body: o }))
+            }),
+          });
+          if (!res.ok) throw new Error((await res.json()).message || `HTTP ${res.status}`);
+          feito += lote.length;
+          status.textContent = `${feito}/${total} enviados...`;
+        }
+
+        status.style.color = "#6ee7b7";
+        status.textContent = `✓ ${total} produtos sincronizados!`;
+        setTimeout(() => { status.textContent = ""; }, 5000);
+      } catch (e) {
+        status.style.color = "#f87171";
+        status.textContent = "Erro: " + e.message;
+        console.error("Algolia sync erro:", e);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🔍 Sincronizar Algolia";
+      }
+    }
+
+    document.getElementById("btn-sync-algolia").addEventListener("click", sincronizarAlgolia);
 
     // ── Auth — só deixa usar o admin se estiver logado ───────────
     import {
