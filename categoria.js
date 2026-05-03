@@ -14,6 +14,56 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
+/* ── Descrições por categoria ── */
+const descricoesCat = {
+  marmore:   "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",
+  madeira:   "Madeiras procedurais com grãos realistas e variações de cor para qualquer ambiente.",
+  tijolo:    "Tijolos artesanais e industriais com detalhamento de juntas e desgaste.",
+  concreto:  "Concretos lisos e texturizados com variações de imperfeições e fissuras.",
+  metal:     "Metais polidos, enferrujados e escovados com reflexos físicos precisos.",
+  pedra:     "Pedras naturais com superfícies irregulares e mapeamento de deslocamento.",
+  vidro:     "Vidros com transparência, reflexos e efeitos de sujeira realistas.",
+  tecido:    "Tecidos com fibras detalhadas e padrões variados para interiores.",
+};
+
+/* ── Rótulos de tipo ── */
+const labelTipo = {
+  Textura: "Texturas",
+  Modelo:  "Modelos",
+  HDRI:    "HDRIs",
+};
+
+/* ── Breadcrumb ── */
+function preencherBreadcrumb(tipo, cat) {
+  const container = document.querySelector(".caminho-categoria");
+  if (!container) return;
+
+  const partes = [{ label: "Home", href: "index.html" }];
+
+  if (tipo) {
+    partes.push({ label: labelTipo[tipo] || tipo, href: "#" });
+  }
+  if (cat) {
+    const label = cat.charAt(0).toUpperCase() + cat.slice(1);
+    partes.push({ label });
+  }
+
+  container.innerHTML = partes
+    .map((p, i) =>
+      i < partes.length - 1
+        ? `<a href="${p.href || "#"}">${p.label}</a> / `
+        : `<span>${p.label}</span>`
+    )
+    .join("");
+}
+
+/* ── Descrição ── */
+function preencherDescricao(cat) {
+  const el = document.querySelector(".categoria-descricao");
+  if (!el || !cat) return;
+  el.textContent = descricoesCat[cat.toLowerCase()] || "";
+}
+
 function formatarData(timestamp) {
   if (!timestamp) return "";
   const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
@@ -28,14 +78,16 @@ function criarCard(doc) {
     ? `<img src="${p.urlImagem}" alt="${p.nome}">`
     : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
 
-  const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
+  /* Badge GRÁTIS no canto superior direito;
+     Badge NOVO logo abaixo (via CSS) quando ambos aparecem */
   const badgeGratis = p.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+  const badgeNovo   = p.novo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
 
   return `
     <a href="produto.html?id=${id}" class="card-categoria">
       ${imagemTag}
-      ${badgeNovo}
       ${badgeGratis}
+      ${badgeNovo}
       <div class="card-categoria-info">
         <span class="card-categoria-nome">${p.nome || "Sem nome"}</span>
         <span class="card-categoria-tipo">${p.tipo || ""}</span>
@@ -57,7 +109,11 @@ async function carregarProdutos() {
   const tipo = params.get("tipo");
   const cat  = params.get("cat");
 
-  // Atualiza título
+  /* Preenche breadcrumb e descrição */
+  preencherBreadcrumb(tipo, cat);
+  preencherDescricao(cat);
+
+  /* Atualiza título */
   const titulo = document.querySelector(".categoria-titulo");
   if (titulo && cat) {
     titulo.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -66,7 +122,6 @@ async function carregarProdutos() {
   try {
     let q;
 
-    // Sem orderBy — ordenação feita no JS para evitar índice composto
     if (tipo && cat) {
       q = query(
         collection(db, "produtos"),
@@ -95,15 +150,15 @@ async function carregarProdutos() {
       return;
     }
 
-    // Ordena por data no JavaScript
+    /* Ordena por data no JavaScript (mais recente primeiro) */
     const docs = snapshot.docs.sort((a, b) => {
       const dataA = a.data().criadoEm?.toDate?.() ?? new Date(0);
       const dataB = b.data().criadoEm?.toDate?.() ?? new Date(0);
-      return dataB - dataA; // mais recente primeiro
+      return dataB - dataA;
     });
 
     const total = docs.length;
-    contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
+    contagem.textContent = `${total} textura${total !== 1 ? "s" : ""}`;
     grade.innerHTML = docs.map(criarCard).join("");
 
   } catch (erro) {
