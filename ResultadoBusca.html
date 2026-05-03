@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados da Busca — JoinRender</title>
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="css/paginas/resultados-busca.css">
+</head>
+
+<body>
+
+  <!-- ════════════════ HEADER ════════════════ -->
+  <header>
+    <nav class="navheader">
+      <div class="lado-esquerdo">
+        <div class="Logo">JR.</div>
+        <ul class="headerlinks">
+          <li><a class="textobranco" href="#">Explorar <i class="fi fi-rr-angle-small-down"></i></a></li>
+          <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
+          <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
+          <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
+        </ul>
+      </div>
+      <form class="barra-pesquisa">
+        <i class="fi fi-rr-menu-burger"></i>
+        <input type="text" id="input-busca-header" placeholder="Pesquisar...">
+        <i class="fi fi-rr-search"></i>
+      </form>
+      <div class="acoes-header">
+        <a class="signupbotao" href="login.html">Login</a>
+        <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+        <a class="textobranco" href="sobre.html">Sobre</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ════════════════ OVERLAY DE BUSCA ════════════════ -->
+  <div class="overlay-busca">
+    <div class="painel-busca">
+      <div class="topo-busca">
+        <div class="Logo">JR.</div>
+        <div class="busca-expandida">
+          <i class="fi fi-rr-menu-burger"></i>
+          <input type="text" placeholder="Pesquisar...">
+          <i class="fi fi-rr-search"></i>
+        </div>
+      </div>
+      <div class="conteudo-busca"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════ CONTEÚDO PRINCIPAL ════════════════ -->
+  <main>
+
+    <div class="linha-topo-busca-pg"></div>
+
+    <!-- Breadcrumb -->
+    <div class="caminho-busca-pg">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <a href="#">busca</a>
+      <span>/</span>
+      <span id="breadcrumb-termo"></span>
+    </div>
+
+    <!-- Cabeçalho -->
+    <div class="busca-pg-cabecalho">
+      <span class="busca-pg-label">Resultados</span>
+      <h1 class="busca-pg-titulo">
+        Busca por <span id="titulo-termo"></span>
+      </h1>
+      <p class="busca-pg-meta">
+        <strong id="total-resultados">0</strong> resultados encontrados
+      </p>
+    </div>
+
+    <!-- Filtros rápidos -->
+    <div class="busca-pg-filtros">
+      <span class="filtro-label">Filtrar:</span>
+      <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+      <button class="filtro-btn" data-filtro="modelo">Modelos 3D</button>
+      <button class="filtro-btn" data-filtro="textura">Texturas</button>
+      <button class="filtro-btn" data-filtro="gratis">Grátis</button>
+      <button class="filtro-btn" data-filtro="novo">Novidades</button>
+    </div>
+
+    <div class="linha-divisor-busca-pg"></div>
+
+    <!-- ══ SEÇÃO: MODELOS 3D ══ -->
+    <section class="secao-resultados" id="secao-modelos">
+      <div class="secao-resultados-topo">
+        <div class="secao-resultados-esquerda">
+          <h2 class="secao-resultados-titulo">Modelos <span>3D</span></h2>
+          <span class="secao-resultados-count" id="count-modelos">0 resultados</span>
+        </div>
+        <button class="btn-expandir" id="btn-modelos">
+          <span class="btn-expandir-texto">Ver todos</span>
+          <i class="seta-icon fi fi-rr-angle-small-down"></i>
+        </button>
+      </div>
+
+      <div class="grade-busca-pg" id="grade-modelos">
+        <!-- Cards injetados por resultados-busca.js -->
+      </div>
+
+      <div class="secao-resultados-rodape">
+        <span>Ver todos os modelos</span>
+        <span>→</span>
+        <a href="LayoutModelos.html">Modelos 3D</a>
+      </div>
+    </section>
+
+    <div class="secao-divisor-busca"></div>
+
+    <!-- ══ SEÇÃO: TEXTURAS ══ -->
+    <section class="secao-resultados" id="secao-texturas">
+      <div class="secao-resultados-topo">
+        <div class="secao-resultados-esquerda">
+          <h2 class="secao-resultados-titulo">Texturas <span>Procedurais</span></h2>
+          <span class="secao-resultados-count" id="count-texturas">0 resultados</span>
+        </div>
+        <button class="btn-expandir" id="btn-texturas">
+          <span class="btn-expandir-texto">Ver todos</span>
+          <i class="seta-icon fi fi-rr-angle-small-down"></i>
+        </button>
+      </div>
+
+      <div class="grade-busca-pg" id="grade-texturas">
+        <!-- Cards injetados por resultados-busca.js -->
+      </div>
+
+      <div class="secao-resultados-rodape">
+        <span>Ver todas as texturas</span>
+        <span>→</span>
+        <a href="LayoutTexturas.html">Texturas Procedurais</a>
+      </div>
+    </section>
+
+    <div class="spacer-footer-busca"></div>
+
+  </main>
+
+  <!-- ════════════════ FOOTER ════════════════ -->
+  <footer>
+    <div class="divisao">
+      <div class="lado-esquerdo-footer">
+        <h3>JoinRender</h3>
+        <p class="descricao">
+          Modelos 3D, texturas e ambientes de alta fidelidade, <br>
+          prontos para jogos, renders e projetos em tempo real.
+        </p>
+        <p class="newsletter">Receber todas as novidades</p>
+        <div class="campo-email">
+          <input type="email" placeholder="Informe seu e-mail" />
+          <button>Receber →</button>
+        </div>
+      </div>
+      <div class="lado-direito-footer">
+        <div class="campo">
+          <h4>EXPLORAR</h4>
+          <ul>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="Novidade.html">Novidades</a></li>
+            <li><a href="contato.html">Contato</a></li>
+          </ul>
+        </div>
+        <div class="campo">
+          <h4>JURÍDICO</h4>
+          <ul>
+            <li><a href="#">Licenças</a></li>
+            <li><a href="privacidade.html">Privacidade</a></li>
+            <li><a href="termos.html">Termos</a></li>
+          </ul>
+        </div>
+        <div class="campo">
+          <h4>SOCIAL</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">X</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="linhaa"><hr></div>
+    <div class="baixo-baixo">
+      <div class="divisaoNegocio">
+        <div class="baixo-esquerda">
+          <p class="systemFilosofia">Sytem status</p>
+          <p class="minimalista">Minimalista</p>
+        </div>
+        <div class="linha-vertical"></div>
+        <div class="baixo-meio-esquerda">
+          <p class="systemFilosofia">Filosofia</p>
+          <p class="Visao">Visão da excêlencia</p>
+        </div>
+      </div>
+      <div class="baixo-direita">
+        <p>© 2026 JoinRender. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════ SCRIPTS ════════════════ -->
+  <script type="module" src="auth.js"></script>
+  <script src="busca.js" defer></script>
+  <script src="resultados-busca.js" defer></script>
+
+</body>
+</html>
