@@ -1,89 +1,56 @@
 /* ═══════════════════════════════════════════════════════════════
-   busca.js  —  Painel de busca JoinRender
+   busca.js — Algolia Search para JoinRender
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── Sugestões pré-selecionadas (estado inicial do painel) ────── */
-const SUGESTOES = [
-  {
-    icon:  "fi-rr-home",
-    label: "Casa",
-    tag:   "casa",
-    desc:  "Materiais e modelos para ambientes residenciais",
-    count: 24,
-  },
-  {
-    icon:  "fi-rr-tree",
-    label: "Natureza",
-    tag:   "natureza",
-    desc:  "Vegetação, terra, pedras e elementos orgânicos",
-    count: 18,
-  },
-  {
-    icon:  "fi-rr-box-alt",
-    label: "Objetos",
-    tag:   "objetos",
-    desc:  "Assets de uso geral prontos para cena",
-    count: 31,
-  },
-  {
-    icon:  "fi-rr-gem",
-    label: "Mármore",
-    tag:   "marmore",
-    desc:  "Pedras naturais polidas com veios procedurais",
-    count: 12,
-  },
+const ALGOLIA_APP_ID  = "AC7XL6FVL6";
+const ALGOLIA_API_KEY = "d468aee7cc91ad6d128571bd8b782d2a";
+const ALGOLIA_INDEX   = "produtos";
+
+/* ─── Tags do estado inicial ─────────────────────────────────── */
+const TAGS_INICIAIS = [
+  { icon: "fi-rr-home",          label: "Casa",         tag: "casa",         desc: "Materiais e modelos para ambientes residenciais" },
+  { icon: "fi-rr-tree",          label: "Natureza",     tag: "natureza",     desc: "Vegetação, terra, pedras e elementos orgânicos"   },
+  { icon: "fi-rr-building",      label: "Arquitetura",  tag: "arquitetura",  desc: "Estruturas, fachadas e elementos construtivos"    },
+  { icon: "fi-rr-couch",         label: "Mobiliário",   tag: "mobiliario",   desc: "Móveis e acessórios para interiores"              },
+  { icon: "fi-rr-utensils",      label: "Cozinha",      tag: "cozinha",      desc: "Utensílios, eletrodomésticos e bancadas"          },
+  { icon: "fi-rr-gem",           label: "Mármore",      tag: "marmore",      desc: "Pedras naturais polidas com veios procedurais"    },
+  { icon: "fi-rr-sun",           label: "HDRI",         tag: "hdri",         desc: "Ambientes de iluminação para renders realistas"   },
+  { icon: "fi-rr-cube",          label: "Modelos 3D",   tag: "modelo",       desc: "Assets prontos para usar em cenas 3D"            },
 ];
 
-/* ─── Ícones por tipo de asset ─────────────────────────────────── */
-const ICONE_TIPO = {
+/* ─── Ícones por tipo ─────────────────────────────────────────── */
+const iconeTipo = {
   textura: "fi-rr-picture",
   modelo:  "fi-rr-cube",
   hdri:    "fi-rr-sun",
 };
 
-/* ─── Verifica se um produto é recente (últimos 7 dias) ─────────── */
+/* ─── Badge Novo ─────────────────────────────────────────────── */
 function ehNovo(ts) {
   if (!ts) return false;
   return Date.now() - ts * 1000 < 7 * 24 * 60 * 60 * 1000;
 }
 
-/* ══════════════════════════════════════════════════════
-   ESTADO INICIAL — 4 sugestões em tabela
-   ══════════════════════════════════════════════════════ */
-function htmlEstadoInicial() {
-  const linhas = SUGESTOES.map(s => `
-    <a class="busca-sugestao-item"
-       href="ResultadoBusca.html?q=${encodeURIComponent(s.tag)}"
-       data-tag="${s.tag}">
-      <span class="busca-sugestao-nome">
-        <i class="fi ${s.icon}"></i>
-        ${s.label}
-      </span>
-      <span class="busca-sugestao-desc">${s.desc}</span>
-      <span class="busca-sugestao-count">${s.count} produtos</span>
-    </a>
+/* ─── Estado inicial com tags clicáveis ─────────────────────── */
+function htmlInicial() {
+  const linhas = TAGS_INICIAIS.map(t => `
+    <div class="linha busca-tag-linha" data-tag="${t.tag}" style="cursor:pointer;">
+      <a class="texto-painel"><i class="fi ${t.icon}"></i> ${t.label}</a>
+      <span>${t.desc}</span>
+      <span></span>
+    </div>
   `).join("");
-
-  return `
-    <span class="busca-sugestoes-label">Sugestões</span>
-    <div class="busca-sugestoes-lista">${linhas}</div>
-  `;
+  return `<div class="conteudo-busca-inner">${linhas}</div>`;
 }
 
-/* ══════════════════════════════════════════════════════
-   CARD DE RESULTADO (digitação)
-   ══════════════════════════════════════════════════════ */
-function htmlResultado(hit) {
-  const icone      = ICONE_TIPO[hit.tipo] || "fi-rr-box-alt";
-  const isNovo     = hit.novo || ehNovo(hit.criadoEm);
-  const nomeHL     = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
-  const tipoLabel  = hit.tipo
-    ? hit.tipo.charAt(0).toUpperCase() + hit.tipo.slice(1)
-    : "";
-  const badgeGratis = hit.gratis
-    ? `<span class="busca-badge busca-badge-gratis">Grátis</span>` : "";
-  const badgeNovo   = isNovo
-    ? `<span class="busca-badge busca-badge-novo">Novo</span>` : "";
+/* ─── Card de resultado ──────────────────────────────────────── */
+function criarResultado(hit) {
+  const icone   = iconeTipo[hit.tipo] || "fi-rr-box-alt";
+  const isNovo  = hit.novo || ehNovo(hit.criadoEm);
+  const nomeHL  = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
+  const tipoLabel = hit.tipo ? hit.tipo.charAt(0).toUpperCase() + hit.tipo.slice(1) : "";
+  const badgeGratis = hit.gratis ? `<span class="busca-badge busca-badge-gratis">Grátis</span>` : "";
+  const badgeNovo   = isNovo    ? `<span class="busca-badge busca-badge-novo">Novo</span>`    : "";
 
   return `
     <a href="produto.html?id=${hit.objectID}" class="busca-resultado">
@@ -100,28 +67,28 @@ function htmlResultado(hit) {
     </a>`;
 }
 
-/* ══════════════════════════════════════════════════════
-   BUSCA NO ALGOLIA
-   ══════════════════════════════════════════════════════ */
-const ALGOLIA_APP_ID  = "AC7XL6FVL6";
-const ALGOLIA_API_KEY = "d468aee7cc91ad6d128571bd8b782d2a";
-const ALGOLIA_INDEX   = "produtos";
+/* ─── Pesquisa no Algolia ─────────────────────────────────────── */
+async function pesquisar(termo, conteudo, opts = {}) {
+  const { tag } = opts;
 
-async function pesquisarAlgolia(termo, conteudo) {
+  /* Monta filtro de tag se vier de clique */
+  const filters = tag ? `tags:${tag} OR tipo:${tag} OR categorias:${tag}` : "";
+
   conteudo.innerHTML = `<p class="busca-carregando">Buscando…</p>`;
 
   try {
-    const url  = `https://${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/${ALGOLIA_INDEX}/query`;
+    const url = `https://${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/${ALGOLIA_INDEX}/query`;
     const body = {
-      query:                  termo,
-      hitsPerPage:            6,
-      attributesToHighlight:  ["nome"],
-      highlightPreTag:        '<mark class="busca-hl">',
-      highlightPostTag:       "</mark>",
+      query:               termo,
+      hitsPerPage:         8,
+      attributesToHighlight: ["nome"],
+      highlightPreTag:     '<mark class="busca-hl">',
+      highlightPostTag:    "</mark>",
     };
+    if (filters) body.filters = filters;
 
     const res = await fetch(url, {
-      method:  "POST",
+      method: "POST",
       headers: {
         "X-Algolia-Application-Id": ALGOLIA_APP_ID,
         "X-Algolia-API-Key":        ALGOLIA_API_KEY,
@@ -131,166 +98,140 @@ async function pesquisarAlgolia(termo, conteudo) {
     });
 
     if (!res.ok) throw new Error(`Algolia ${res.status}`);
-
     const dados = await res.json();
     const hits  = dados.hits || [];
 
+    /* Título do contexto */
+    const tagInfo = TAGS_INICIAIS.find(t => t.tag === tag);
+    const contexto = tagInfo
+      ? `<span class="busca-tag-ativa"><i class="fi ${tagInfo.icon}"></i> ${tagInfo.label}</span>`
+      : `"<strong>${termo}</strong>"`;
+
     if (!hits.length) {
-      /* Nenhum resultado — redireciona igualmente para aproveitar a
-         página de resultados com a mensagem de "sem resultados"      */
       conteudo.innerHTML = `
-        <p class="busca-vazio">
-          Nenhum resultado para <strong>"${termo}"</strong>
-        </p>
-        ${htmlVerTodos(termo)}`;
+        <p class="busca-secao-titulo">Nenhum resultado para ${contexto}</p>
+        ${htmlInicial()}`;
+      bindTags(conteudo);
       return;
     }
 
     conteudo.innerHTML = `
-      <p class="busca-secao-titulo">
-        ${hits.length} resultado${hits.length !== 1 ? "s" : ""}
-        para <strong style="color:var(--cor-creme-alpha)">"${termo}"</strong>
-      </p>
-      <div class="busca-resultados">
-        ${hits.map(htmlResultado).join("")}
-      </div>
-      ${htmlVerTodos(termo)}`;
+      <p class="busca-secao-titulo">${hits.length} resultado${hits.length !== 1 ? "s" : ""} para ${contexto}</p>
+      <div class="busca-resultados">${hits.map(criarResultado).join("")}</div>`;
 
   } catch (err) {
     console.error("Algolia error:", err);
-    /* Falha na API — mostra link de redirecionamento mesmo assim */
-    conteudo.innerHTML = `
-      <p class="busca-erro">Erro ao buscar. Verifique as credenciais do Algolia.</p>
-      ${htmlVerTodos(termo)}`;
+    conteudo.innerHTML = `<p class="busca-erro">Erro ao buscar. Verifique as credenciais do Algolia.</p>`;
   }
 }
 
-/* ─── Botão "Ver todos os resultados" ──────────────────────────── */
-function htmlVerTodos(termo) {
-  const href = `ResultadoBusca.html?q=${encodeURIComponent(termo)}`;
-  return `
-    <a class="busca-ver-todos" href="${href}">
-      <span class="busca-ver-todos-texto">
-        Ver todos os resultados para "${termo}"
-      </span>
-      <span class="busca-ver-todos-seta">→</span>
-    </a>`;
+/* ─── Bind cliques nas tags ──────────────────────────────────── */
+function bindTags(conteudo) {
+  conteudo.querySelectorAll(".busca-tag-linha").forEach(linha => {
+    linha.addEventListener("click", () => {
+      const tag = linha.dataset.tag;
+      pesquisar("", conteudo, { tag });
+    });
+  });
 }
 
-/* ══════════════════════════════════════════════════════
-   DEBOUNCE
-   ══════════════════════════════════════════════════════ */
+/* ─── Debounce ────────────────────────────────────────────────── */
 function debounce(fn, ms) {
   let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), ms);
-  };
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 }
 
-/* ══════════════════════════════════════════════════════
-   REDIRECIONAMENTO ao pressionar Enter
-   ══════════════════════════════════════════════════════ */
-function irParaResultados(termo) {
-  if (!termo.trim()) return;
-  window.location.href = `ResultadoBusca.html?q=${encodeURIComponent(termo.trim())}`;
-}
-
-/* ══════════════════════════════════════════════════════
-   INICIALIZAÇÃO
-   ══════════════════════════════════════════════════════ */
+/* ─── Inicialização ───────────────────────────────────────────── */
 function iniciarBusca() {
-  const overlay      = document.querySelector(".overlay-busca");
-  const painel       = document.querySelector(".painel-busca");
-  const conteudo     = document.querySelector(".conteudo-busca");
-  const inputNav     = document.querySelector(".barra-pesquisa input");
-  const inputPainel  = document.querySelector(".busca-expandida input");
+  const overlay     = document.querySelector(".overlay-busca");
+  const painel      = document.querySelector(".painel-busca");
+  const conteudo    = document.querySelector(".conteudo-busca");
+  const inputNav    = document.querySelector(".barra-pesquisa input");
+  const inputPainel = document.querySelector(".busca-expandida input");
 
   if (!overlay || !painel || !conteudo || !inputNav || !inputPainel) return;
 
-  /* ── Renderiza estado inicial ── */
-  function mostrarInicial() {
-    conteudo.innerHTML = htmlEstadoInicial();
-  }
+  const pesquisarDebounced = debounce((termo) => pesquisar(termo, conteudo), 280);
 
-  /* ── Abre painel ── */
-  function abrirPainel() {
-    overlay.classList.add("ativo");
-    if (!conteudo.querySelector(".busca-sugestoes-lista") &&
-        !conteudo.querySelector(".busca-resultados") &&
-        !conteudo.querySelector(".busca-carregando")) {
-      mostrarInicial();
-    }
-    setTimeout(() => inputPainel.focus(), 50);
-    const valorAtual = inputNav.value.trim();
-    if (valorAtual) {
-      inputPainel.value = valorAtual;
-      pesquisarAlgolia(valorAtual, conteudo);
-    }
-  }
-
-  /* ── Fecha painel ── */
-  function fecharPainel() {
-    overlay.classList.remove("ativo");
+  function resetar() {
+    conteudo.innerHTML = htmlInicial();
+    bindTags(conteudo);
     inputNav.value    = "";
     inputPainel.value = "";
-    mostrarInicial();
   }
 
-  /* ── Lógica de digitação com debounce ── */
-  const pesquisarDebounced = debounce((termo) => {
-    if (termo.trim()) {
-      pesquisarAlgolia(termo, conteudo);
-    } else {
-      mostrarInicial();
+  function abrirPainel() {
+    overlay.classList.add("ativo");
+    /* Renderiza estado inicial se ainda não tiver */
+    if (!conteudo.querySelector(".conteudo-busca-inner") &&
+        !conteudo.querySelector(".busca-resultados") &&
+        !conteudo.querySelector(".busca-carregando")) {
+      conteudo.innerHTML = htmlInicial();
+      bindTags(conteudo);
     }
-  }, 280);
+    setTimeout(() => inputPainel.focus(), 50);
+    if (inputNav.value.trim()) {
+      inputPainel.value = inputNav.value;
+      pesquisar(inputNav.value, conteudo);
+    }
+  }
 
-  /* ── Sincroniza input do header → painel ── */
   inputNav.addEventListener("focus", abrirPainel);
   inputNav.addEventListener("click", abrirPainel);
 
+  /* Enter → vai para página de resultados */
+  inputNav.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && inputNav.value.trim()) {
+      window.location.href = `ResultadoBusca.html?q=${encodeURIComponent(inputNav.value.trim())}`;
+    }
+  });
+
   inputNav.addEventListener("input", () => {
     inputPainel.value = inputNav.value;
-    pesquisarDebounced(inputNav.value);
-  });
-
-  inputNav.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      irParaResultados(inputNav.value);
+    if (inputNav.value.trim()) {
+      pesquisarDebounced(inputNav.value);
+    } else {
+      conteudo.innerHTML = htmlInicial();
+      bindTags(conteudo);
     }
   });
 
-  /* ── Sincroniza input do painel → header ── */
+  /* Enter no painel → vai para página de resultados */
+  inputPainel.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && inputPainel.value.trim()) {
+      window.location.href = `ResultadoBusca.html?q=${encodeURIComponent(inputPainel.value.trim())}`;
+    }
+  });
+
   inputPainel.addEventListener("input", () => {
     inputNav.value = inputPainel.value;
-    pesquisarDebounced(inputPainel.value);
-  });
-
-  inputPainel.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      irParaResultados(inputPainel.value);
+    if (inputPainel.value.trim()) {
+      pesquisarDebounced(inputPainel.value);
+    } else {
+      conteudo.innerHTML = htmlInicial();
+      bindTags(conteudo);
     }
   });
 
-  /* ── Fecha ao clicar fora do painel ── */
+  /* Fecha ao clicar fora */
   overlay.addEventListener("click", (e) => {
     if (!painel.contains(e.target)) {
-      fecharPainel();
+      overlay.classList.remove("ativo");
+      resetar();
     }
   });
 
-  /* ── Fecha com ESC ── */
+  /* Fecha com ESC */
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && overlay.classList.contains("ativo")) {
-      fecharPainel();
+      overlay.classList.remove("ativo");
+      resetar();
     }
   });
 
-  /* ── Estado inicial já carregado ── */
-  mostrarInicial();
+  /* Estado inicial já renderizado */
+  conteudo.innerHTML = htmlInicial();
+  bindTags(conteudo);
 }
 
 document.addEventListener("DOMContentLoaded", iniciarBusca);
