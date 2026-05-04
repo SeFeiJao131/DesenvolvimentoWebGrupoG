@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   resultados-busca.js
+   resultadosbusca.js
    Lógica da página de resultados de pesquisa — JoinRender
    ═══════════════════════════════════════════════════════════════ */
 
