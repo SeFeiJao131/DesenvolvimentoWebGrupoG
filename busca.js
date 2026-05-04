@@ -53,7 +53,7 @@ function ehNovo(ts) {
 function htmlEstadoInicial() {
   const linhas = SUGESTOES.map(s => `
     <a class="busca-sugestao-item"
-       href="resultados-busca.html?q=${encodeURIComponent(s.tag)}"
+       href="ResultadoBusca.html?q=${encodeURIComponent(s.tag)}"
        data-tag="${s.tag}">
       <span class="busca-sugestao-nome">
         <i class="fi ${s.icon}"></i>
@@ -167,7 +167,7 @@ async function pesquisarAlgolia(termo, conteudo) {
 
 /* ─── Botão "Ver todos os resultados" ──────────────────────────── */
 function htmlVerTodos(termo) {
-  const href = `resultados-busca.html?q=${encodeURIComponent(termo)}`;
+  const href = `ResultadoBusca.html?q=${encodeURIComponent(termo)}`;
   return `
     <a class="busca-ver-todos" href="${href}">
       <span class="busca-ver-todos-texto">
@@ -193,7 +193,7 @@ function debounce(fn, ms) {
    ══════════════════════════════════════════════════════ */
 function irParaResultados(termo) {
   if (!termo.trim()) return;
-  window.location.href = `resultados-busca.html?q=${encodeURIComponent(termo.trim())}`;
+  window.location.href = `ResultadoBusca.html?q=${encodeURIComponent(termo.trim())}`;
 }
 
 /* ══════════════════════════════════════════════════════
