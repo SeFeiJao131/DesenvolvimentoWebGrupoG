@@ -9,7 +9,7 @@
   align-items: center;
   gap: 10px;
   padding: 8px 18px;
-  border-radius: 25px;
+  border-radius: 15px;
   background: transparent;
   cursor: text;
 }
@@ -27,7 +27,7 @@
 }
 
 .barra-pesquisa input::placeholder {
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   font-family: var(--font-mono);
 }
 
@@ -58,7 +58,7 @@
   max-width: 1100px;
   background: var(--cor-fundo);
   border: 1px solid var(--cor-borda);
-  border-radius: var(--radius-lg);
+  border-radius: 10px;
   padding: 25px 30px 30px;
   transform: translateY(-25px);
   transition: transform 0.3s ease;
@@ -84,7 +84,7 @@
   background: var(--cor-fundo-input);
   border: 1px solid var(--cor-borda);
   padding: 11px 18px;
-  border-radius: var(--radius-pill);
+  border-radius: 15px;
   transition: border-color 0.2s;
 }
 
@@ -104,12 +104,12 @@
 }
 
 .busca-expandida input::placeholder {
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   font-family: var(--font-mono);
 }
 
 .busca-expandida .fi {
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   font-size: 16px;
   flex-shrink: 0;
 }
@@ -128,7 +128,7 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-dourado-vivo);
   margin-bottom: 12px;
   display: block;
 }
@@ -165,7 +165,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-canon);
+  font-family: var(--font-roboto);
   font-size: 16px;
   color: var(--cor-creme-alpha);
   transition: color 0.18s;
@@ -173,7 +173,7 @@
 
 .busca-sugestao-nome .fi {
   font-size: 15px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   transition: color 0.18s;
 }
 
@@ -183,9 +183,9 @@
 
 /* Coluna 2: descrição */
 .busca-sugestao-desc {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono); /* Recursive */
   font-size: 12px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -214,7 +214,7 @@
   font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   margin-bottom: 14px;
   display: flex;
   align-items: center;
@@ -252,7 +252,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   font-size: 20px;
 }
 
@@ -288,7 +288,7 @@
   display: block;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   margin-top: 2px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -358,7 +358,7 @@
 .busca-ver-todos-seta {
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
 }
 
 /* ── Estados genéricos ─────────────────────────────────────────── */
@@ -367,7 +367,7 @@
 .busca-erro {
   font-family: var(--font-mono);
   font-size: 13px;
-  color: var(--cor-texto-suave);
+  color: var(--cor-creme-alpha);
   padding: 16px 0;
 }
 

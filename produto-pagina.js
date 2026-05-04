@@ -90,9 +90,9 @@ function setText(id, valor) {
 //   - HDRI_INTERIOR → luz de ambiente interno difusa. Ideal para: madeira,
 //                     couro, tecido, materiais orgânicos.
 
-const HDRI_STUDIO   = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_03_1k.hdr";
-const HDRI_EXTERIOR = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/kloppenheim_02_1k.hdr";
-const HDRI_INTERIOR = "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/lebombo_1k.hdr";
+const HDRI_STUDIO   = "https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr";
+const HDRI_EXTERIOR = "https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr";
+const HDRI_INTERIOR = "https://modelviewer.dev/shared-assets/environments/whipple_creek_regional_park_04_1k.hdr";
 
 const HDRI_NOMES = {
   [HDRI_STUDIO]:   "Estúdio",
