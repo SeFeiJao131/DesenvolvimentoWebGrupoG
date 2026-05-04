@@ -89,7 +89,7 @@
 }
 
 .busca-expandida:focus-within {
-  border-color: var(--cor-dourado-alt);
+  border-color: var(--cor-creme-alpha);
 }
 
 .busca-expandida input {
@@ -183,8 +183,8 @@
 
 /* Coluna 2: descrição */
 .busca-sugestao-desc {
-  font-family: var(--font-mono); /* Recursive */
-  font-size: 12px;
+  font-family: var(--font-roboto);
+  font-size: 14px;
   color: var(--cor-creme-alpha);
   white-space: nowrap;
   overflow: hidden;
@@ -194,8 +194,8 @@
 /* Coluna 3: contagem */
 .busca-sugestao-count {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--cor-texto-fraco);
+  font-size: 13px;
+  color: var(--cor-dourado-alt);
   white-space: nowrap;
   text-align: right;
 }
@@ -396,4 +396,11 @@
 .conteudo-busca-inner {
   display: flex;
   flex-direction: column;
+}
+/* ── Highlight Algolia ── */
+mark.busca-hl {
+  background: transparent;
+  color: var(--cor-dourado-alt);
+  font-style: normal;
+  font-weight: 600;
 }
