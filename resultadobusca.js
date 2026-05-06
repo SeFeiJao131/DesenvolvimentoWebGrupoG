@@ -2,9 +2,9 @@
    resultadobusca.js — Página de resultados com Algolia
    ═══════════════════════════════════════════════════════════════ */
 
-const ALGOLIA_APP_ID  = "AC7XL6FVL6";
-const ALGOLIA_API_KEY = "d468aee7cc91ad6d128571bd8b782d2a";
-const ALGOLIA_INDEX   = "produtos";
+const RB_APP_ID  = "AC7XL6FVL6";
+const RB_API_KEY = "d468aee7cc91ad6d128571bd8b782d2a";
+const RB_INDEX   = "produtos";
 
 /* ─── Badge Novo (menos de 7 dias) ──────────────────────────── */
 function ehNovo(ts) {
@@ -12,7 +12,7 @@ function ehNovo(ts) {
   return Date.now() - ts * 1000 < 7 * 24 * 60 * 60 * 1000;
 }
 
-/* ─── Card ───────────────────────────────────────────────────── */
+/* ─── Card (mesmo layout da página de categoria) ─────────────── */
 function htmlCard(hit) {
   const tipoLabel = hit.tipo === "modelo" ? "Modelo 3D"
                   : hit.tipo === "hdri"   ? "HDRI"
@@ -21,22 +21,19 @@ function htmlCard(hit) {
   const isNovo = hit.novo || ehNovo(hit.criadoEm);
   const nomeHL = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
 
-  const badgeGratis = hit.gratis ? `<span class="badge-resultado-gratis">Grátis</span>` : "";
-  const badgeNovo   = isNovo     ? `<span class="badge-resultado-novo">Novo</span>`     : "";
-  const badges = (hit.gratis || isNovo)
-    ? `<div class="badge-wrap">${badgeGratis}${badgeNovo}</div>` : "";
+  const badgeGratis = hit.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+  const badgeNovo   = isNovo     ? `<span class="badge-novo-cat">Novo</span>`     : "";
 
   return `
-    <a href="produto.html?id=${hit.objectID}" class="card-resultado-busca">
-      <div class="imagem-wrap">
-        ${hit.urlImagem
-          ? `<img src="${hit.urlImagem}" alt="${hit.nome}" loading="lazy">`
-          : `<div class="imagem-placeholder"></div>`}
-      </div>
-      <div class="info-card">
-        <span class="tipo">${tipoLabel}</span>
-        <span class="nome">${nomeHL}</span>
-        ${badges}
+    <a href="produto.html?id=${hit.objectID}" class="card-categoria">
+      ${hit.urlImagem
+        ? `<img src="${hit.urlImagem}" alt="${hit.nome}" loading="lazy">`
+        : `<div class="imagem-placeholder"></div>`}
+      ${badgeGratis}
+      ${badgeNovo}
+      <div class="card-categoria-info">
+        <span class="card-categoria-nome">${nomeHL}</span>
+        <span class="card-categoria-tipo">${tipoLabel}</span>
       </div>
     </a>`;
 }
@@ -58,7 +55,7 @@ function renderizarSecao(gradeEl, contadorEl, btnEl, hits) {
 
 /* ─── Pesquisa no Algolia ─────────────────────────────────────── */
 async function pesquisarAlgolia(termo, filtro) {
-  const url = `https://${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/${ALGOLIA_INDEX}/query`;
+  const url = `https://${RB_APP_ID}-dsn.algolia.net/1/indexes/${RB_INDEX}/query`;
 
   /* Monta filtro de tipo */
   let filters = "";
@@ -78,8 +75,8 @@ async function pesquisarAlgolia(termo, filtro) {
   const res = await fetch(url, {
     method: "POST",
     headers: {
-      "X-Algolia-Application-Id": ALGOLIA_APP_ID,
-      "X-Algolia-API-Key":        ALGOLIA_API_KEY,
+      "X-Algolia-Application-Id": RB_APP_ID,
+      "X-Algolia-API-Key":        RB_API_KEY,
       "Content-Type":             "application/json",
     },
     body: JSON.stringify(body),
@@ -146,8 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const termo  = params.get("q") || "";
 
   /* Preenche cabeçalho */
-  const display = termo ? `"${termo}"` : "todos os produtos";
-  document.getElementById("titulo-termo").textContent     = display;
+  const termoCapit = termo ? termo.charAt(0).toUpperCase() + termo.slice(1) : "";
+  document.getElementById("titulo-termo").textContent     = termo ? `"${termoCapit}"` : "";
   document.getElementById("breadcrumb-termo").textContent = termo || "todos";
   if (termo) document.title = `Busca: ${termo} — JoinRender`;
 
