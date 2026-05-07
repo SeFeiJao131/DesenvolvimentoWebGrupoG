@@ -21,8 +21,11 @@ function htmlCard(hit) {
   const isNovo = hit.novo || ehNovo(hit.criadoEm);
   const nomeHL = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
 
-  const badgeGratis = hit.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
-  const badgeNovo   = isNovo     ? `<span class="badge-novo-cat">Novo</span>`     : "";
+  // BUG 1 CORRIGIDO: o Firebase salva "gratuito", mas o badge checava só "gratis".
+  // Agora aceita ambos os campos para garantir compatibilidade.
+  const isGratis = hit.gratis || hit.gratuito || false;
+  const badgeGratis = isGratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+  const badgeNovo   = isNovo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
 
   return `
     <a href="produto.html?id=${hit.objectID}" class="card-categoria">
@@ -53,24 +56,19 @@ function renderizarSecao(gradeEl, contadorEl, btnEl, hits) {
   btnEl.querySelector(".btn-expandir-texto").textContent = "Ver todos";
 }
 
-/* ─── Pesquisa no Algolia ─────────────────────────────────────── */
-async function pesquisarAlgolia(termo, filtro) {
+/* ─── Pesquisa no Algolia (sem filtros server-side — tudo no cliente) ── */
+async function pesquisarAlgolia(termo) {
   const url = `https://${RB_APP_ID}-dsn.algolia.net/1/indexes/${RB_INDEX}/query`;
 
-  /* Monta filtro de tipo */
-  let filters = "";
-  if (filtro === "modelo")  filters = "tipo:modelo";
-  if (filtro === "textura") filters = "tipo:textura";
-  if (filtro === "gratis")  filters = "gratis:true";
-
+  // Busca TUDO que corresponde ao termo — filtros são aplicados no cliente.
+  // Isso evita a necessidade de configurar facets no painel do Algolia.
   const body = {
     query:                 termo,
-    hitsPerPage:           50,
+    hitsPerPage:           1000, // pega todos os registros do índice
     attributesToHighlight: ["nome"],
     highlightPreTag:       '<mark class="busca-hl">',
     highlightPostTag:      "</mark>",
   };
-  if (filters) body.filters = filters;
 
   const res = await fetch(url, {
     method: "POST",
@@ -84,6 +82,17 @@ async function pesquisarAlgolia(termo, filtro) {
 
   if (!res.ok) throw new Error(`Algolia ${res.status}`);
   return (await res.json()).hits || [];
+}
+
+/* ─── Aplica filtro no cliente ────────────────────────────────── */
+function aplicarFiltro(hits, filtro) {
+  switch (filtro) {
+    case "modelo":  return hits.filter(h => h.tipo === "modelo");
+    case "textura": return hits.filter(h => h.tipo === "textura" || h.tipo === "hdri");
+    case "gratis":  return hits.filter(h => h.gratuito === true || h.gratis === true || h.preco === 0);
+    case "novo":    return hits.filter(h => h.novo || ehNovo(h.criadoEm));
+    default:        return hits; // "todos"
+  }
 }
 
 /* ─── Renderiza a página completa ─────────────────────────────── */
@@ -101,27 +110,35 @@ async function renderizarPagina(termo, filtro) {
   gradeModelos.innerHTML  = `<p class="busca-pg-loading">Buscando…</p>`;
   gradeTexturas.innerHTML = `<p class="busca-pg-loading">Buscando…</p>`;
 
-  try {
-    const hits = await pesquisarAlgolia(termo, filtro);
+  // Garante que as seções fiquem visíveis durante o carregamento
+  document.getElementById("secao-modelos").style.display  = "";
+  document.getElementById("secao-texturas").style.display = "";
 
-    /* Filtro "novo" é feito no cliente (não tem índice Algolia) */
-    const filtrados = filtro === "novo"
-      ? hits.filter(h => h.novo || ehNovo(h.criadoEm))
-      : hits;
+  try {
+    const hits     = await pesquisarAlgolia(termo);
+    const filtrados = aplicarFiltro(hits, filtro);
 
     const modelos  = filtrados.filter(h => h.tipo === "modelo");
-    const texturas = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri" || !h.tipo);
+    const texturas = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri");
 
     totalEl.textContent = filtrados.length;
 
     renderizarSecao(gradeModelos,  countModelos,  btnModelos,  modelos);
     renderizarSecao(gradeTexturas, countTexturas, btnTexturas, texturas);
 
+    // Mensagem quando nenhum resultado em nenhuma seção
+    if (!modelos.length && !texturas.length) {
+      gradeModelos.innerHTML = `<p class="busca-pg-vazio">Nenhum resultado para este filtro.</p>`;
+      document.getElementById("secao-modelos").style.display = "";
+    }
+
   } catch (err) {
     console.error("Algolia erro:", err);
     totalEl.textContent = "0";
     gradeModelos.innerHTML  = `<p class="busca-pg-erro">Erro ao buscar resultados.</p>`;
     gradeTexturas.innerHTML = "";
+    document.getElementById("secao-modelos").style.display  = "";
+    document.getElementById("secao-texturas").style.display = "none";
   }
 }
 

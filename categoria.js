@@ -181,15 +181,50 @@ async function carregarProdutos() {
     }
 
     /* Ordena por data no JavaScript (mais recente primeiro) */
-    const docs = snapshot.docs.sort((a, b) => {
+    const todosDocs = snapshot.docs.sort((a, b) => {
       const dataA = a.data().criadoEm?.toDate?.() ?? new Date(0);
       const dataB = b.data().criadoEm?.toDate?.() ?? new Date(0);
       return dataB - dataA;
     });
 
-    const total = docs.length;
-    contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
-    grade.innerHTML = docs.map(criarCard).join("");
+    /* ── Renderiza com filtro aplicado ── */
+    function renderizarComFiltro(filtro) {
+      let docs;
+      if (filtro === "gratis") {
+        docs = todosDocs.filter(d => {
+          const p = d.data();
+          return p.gratuito === true || p.gratis === true || p.preco === 0;
+        });
+      } else if (filtro === "novo") {
+        docs = todosDocs.filter(d => {
+          const p = d.data();
+          return p.novo || ehNovo(p.criadoEm);
+        });
+      } else {
+        docs = todosDocs; // "todos"
+      }
+
+      const total = docs.length;
+      contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
+
+      if (!total) {
+        grade.innerHTML = "<p style='color:#aaa;padding:2rem;'>Nenhum produto encontrado para este filtro.</p>";
+      } else {
+        grade.innerHTML = docs.map(criarCard).join("");
+      }
+    }
+
+    /* Renderiza inicial (todos) */
+    renderizarComFiltro("todos");
+
+    /* Filtros rápidos */
+    document.querySelectorAll(".filtro-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
+        btn.classList.add("ativo");
+        renderizarComFiltro(btn.dataset.filtro);
+      });
+    });
 
   } catch (erro) {
     console.error("Erro ao carregar produtos:", erro);

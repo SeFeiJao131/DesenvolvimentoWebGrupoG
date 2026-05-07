@@ -1,190 +1,182 @@
 /* ═══════════════════════════════════════════════════════════════
-   resultadobusca.js — Página de resultados com Algolia
+   produto-pagina.js — Página de detalhe do produto
    ═══════════════════════════════════════════════════════════════ */
 
-const RB_APP_ID  = "AC7XL6FVL6";
-const RB_API_KEY = "d468aee7cc91ad6d128571bd8b782d2a";
-const RB_INDEX   = "produtos";
+import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-/* ─── Badge Novo (menos de 7 dias) ──────────────────────────── */
-function ehNovo(ts) {
-  if (!ts) return false;
-  return Date.now() - ts * 1000 < 7 * 24 * 60 * 60 * 1000;
+const firebaseConfig = {
+  apiKey:            "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
+  authDomain:        "joinrender-2ac79.firebaseapp.com",
+  projectId:         "joinrender-2ac79",
+  storageBucket:     "joinrender-2ac79.firebasestorage.app",
+  messagingSenderId: "786464902095",
+  appId:             "1:786464902095:web:c896cfb7fe22aed92ea0ba",
+};
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db  = getFirestore(app);
+
+/* ─── Loader ─────────────────────────────────────────────────── */
+function esconderLoader() {
+  document.getElementById("viewer-loader")?.classList.add("oculto");
 }
 
-/* ─── Card (mesmo layout da página de categoria) ─────────────── */
-function htmlCard(hit) {
-  const tipoLabel = hit.tipo === "modelo" ? "Modelo 3D"
-                  : hit.tipo === "hdri"   ? "HDRI"
-                  : "Textura";
-
-  const isNovo = hit.novo || ehNovo(hit.criadoEm);
-  const nomeHL = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
-
-  const badgeGratis = hit.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
-  const badgeNovo   = isNovo     ? `<span class="badge-novo-cat">Novo</span>`     : "";
-
-  return `
-    <a href="produto.html?id=${hit.objectID}" class="card-categoria">
-      ${hit.urlImagem
-        ? `<img src="${hit.urlImagem}" alt="${hit.nome}" loading="lazy">`
-        : `<div class="imagem-placeholder"></div>`}
-      ${badgeGratis}
-      ${badgeNovo}
-      <div class="card-categoria-info">
-        <span class="card-categoria-nome">${nomeHL}</span>
-        <span class="card-categoria-tipo">${tipoLabel}</span>
-      </div>
-    </a>`;
+function erroViewer(msg) {
+  const loader = document.getElementById("viewer-loader");
+  if (!loader) return;
+  loader.classList.remove("oculto");
+  loader.innerHTML = `<span style="color:#c0392b;font-family:monospace;font-size:13px;text-align:center;padding:20px;">${msg}</span>`;
 }
 
-/* ─── Renderiza uma seção (modelos ou texturas) ──────────────── */
-function renderizarSecao(gradeEl, contadorEl, btnEl, hits, nomeSecao) {
-  const secao = gradeEl.closest(".secao-resultados");
+/* ─── Visualizador ───────────────────────────────────────────── */
+function iniciarViewer(p) {
+  const mv  = document.getElementById("model-viewer-el");
+  const img = document.getElementById("viewer-imagem");
 
-  contadorEl.textContent = `${hits.length} resultado${hits.length !== 1 ? "s" : ""}`;
-  secao.style.display = "";
+  const urlModelo = p.urlModelo || p.urlArquivo || "";
+  const urlImagem = p.urlImagem || "";
 
-  if (!hits.length) {
-    gradeEl.innerHTML = `
-      <div class="busca-secao-vazia">
-        <span>Nenhum ${nomeSecao} encontrado para esta busca.</span>
-      </div>`;
-    gradeEl.classList.remove("expandida");
-    btnEl.style.display = "none";
+  /* Caso 1: modelo 3D GLB/GLTF */
+  if (p.tipo === "modelo" && urlModelo) {
+    if (img) img.style.display = "none";
+
+    mv.addEventListener("load", () => {
+      esconderLoader();
+      document.getElementById("viewer-controls")?.removeAttribute("style");
+      document.getElementById("viewer-badges")?.removeAttribute("style");
+    }, { once: true });
+
+    mv.addEventListener("error", () => {
+      erroViewer("Não foi possível carregar o modelo 3D.");
+    }, { once: true });
+
+    /* Setar src dispara o carregamento */
+    mv.src = urlModelo;
+
+    /* Timeout de segurança: 30s */
+    setTimeout(() => {
+      const loader = document.getElementById("viewer-loader");
+      if (loader && !loader.classList.contains("oculto")) {
+        erroViewer("Tempo esgotado ao carregar o modelo.");
+      }
+    }, 30000);
+
     return;
   }
 
-  gradeEl.innerHTML = hits.map(htmlCard).join("");
-  gradeEl.classList.remove("expandida");
-  btnEl.style.display = "";
-  btnEl.classList.remove("aberto");
-  btnEl.querySelector(".btn-expandir-texto").textContent = "Ver todos";
+  /* Caso 2: textura / HDRI — imagem estática */
+  if (img && urlImagem) {
+    mv.style.display = "none";
+    img.style.display = "block";
+    img.src = urlImagem;
+    img.onload  = () => esconderLoader();
+    img.onerror = () => erroViewer("Sem pré-visualização disponível.");
+    return;
+  }
+
+  /* Caso 3: nada disponível */
+  erroViewer("Nenhum arquivo de visualização disponível.");
 }
 
-/* ─── Pesquisa no Algolia ─────────────────────────────────────── */
-async function pesquisarAlgolia(termo, filtro) {
-  const url = `https://${RB_APP_ID}-dsn.algolia.net/1/indexes/${RB_INDEX}/query`;
-
-  let filters = "";
-  if (filtro === "modelo")  filters = "tipo:modelo";
-  if (filtro === "textura") filters = "tipo:textura";
-  if (filtro === "gratis")  filters = "gratis:true";
-
-  const body = {
-    query:                 termo,
-    hitsPerPage:           100,
-    attributesToHighlight: ["nome"],
-    highlightPreTag:       '<mark class="busca-hl">',
-    highlightPostTag:      "</mark>",
+/* ─── Preenche a página ──────────────────────────────────────── */
+function preencherPagina(p) {
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val ?? "—";
   };
-  if (filters) body.filters = filters;
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "X-Algolia-Application-Id": RB_APP_ID,
-      "X-Algolia-API-Key":        RB_API_KEY,
-      "Content-Type":             "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  document.title = `${p.nome || "Produto"} — JoinRender`;
 
-  if (!res.ok) throw new Error(`Algolia ${res.status}`);
-  return (await res.json()).hits || [];
+  set("nome-produto",    p.nome);
+  set("descricao-produto", p.descricao);
+
+  const isGratis = p.gratuito === true || p.gratis === true || Number(p.preco) === 0;
+  set("preco-produto", isGratis ? "Grátis" : `R$ ${Number(p.preco || 0).toFixed(2)}`);
+
+  set("spec-resolucao", p.resolucao);
+  set("spec-formato",   Array.isArray(p.formato)  ? p.formato.join(", ")  : p.formato);
+  set("spec-tamanho",   p.tamanhoMB ? `${p.tamanhoMB} MB` : null);
+  set("spec-suporte",   Array.isArray(p.suporte)  ? p.suporte.join(", ")  : p.suporte);
+  set("spec-render",    Array.isArray(p.render)   ? p.render.join(", ")   : p.render);
+
+  set("badge-tipo",      p.tipo === "modelo" ? "Modelo 3D" : p.tipo === "hdri" ? "HDRI" : "Textura");
+  set("badge-resolucao", p.resolucao);
+
+  /* Breadcrumb */
+  const bc = document.getElementById("breadcrumb");
+  if (bc) {
+    const labels = { modelo: "Modelos 3D", hdri: "HDRIs", textura: "Texturas" };
+    const hrefs  = { modelo: "LayoutModelos.html", hdri: "LayoutHdri.html", textura: "LayoutTexturas.html" };
+    bc.innerHTML = `
+      <a href="index.html">Home</a><span>/</span>
+      <a href="${hrefs[p.tipo] || "#"}">${labels[p.tipo] || "Produtos"}</a><span>/</span>
+      <span>${p.nome || "Produto"}</span>`;
+  }
+
+  /* Botão de ação */
+  const areaAcao = document.getElementById("area-acao");
+  if (areaAcao) {
+    const url = p.urlArquivo || p.urlModelo || "";
+    if (isGratis && url) {
+      areaAcao.innerHTML = `<a href="${url}" download target="_blank" rel="noopener" class="btn-download-produto">Baixar grátis</a>`;
+    } else if (url) {
+      areaAcao.innerHTML = `<button class="btn-download-produto" disabled>Comprar — R$ ${Number(p.preco).toFixed(2)}</button>`;
+    }
+  }
+
+  /* Inicia o viewer por último */
+  iniciarViewer(p);
 }
 
-/* ─── Renderiza a página completa ─────────────────────────────── */
-async function renderizarPagina(termo, filtro) {
-  const totalEl       = document.getElementById("total-resultados");
-  const gradeModelos  = document.getElementById("grade-modelos");
-  const gradeTexturas = document.getElementById("grade-texturas");
-  const countModelos  = document.getElementById("count-modelos");
-  const countTexturas = document.getElementById("count-texturas");
-  const btnModelos    = document.getElementById("btn-modelos");
-  const btnTexturas   = document.getElementById("btn-texturas");
-  const secaoModelos  = gradeModelos?.closest(".secao-resultados");
-  const secaoTexturas = gradeTexturas?.closest(".secao-resultados");
+/* ─── Carrega o produto do Firestore ─────────────────────────── */
+async function carregarProduto() {
+  const id = new URLSearchParams(window.location.search).get("id");
 
-  totalEl.textContent = "…";
-  gradeModelos.innerHTML  = `<p class="busca-pg-loading">Buscando…</p>`;
-  gradeTexturas.innerHTML = `<p class="busca-pg-loading">Buscando…</p>`;
+  if (!id) { erroViewer("ID do produto não informado."); return; }
 
   try {
-    const hits = await pesquisarAlgolia(termo, filtro);
-
-    /* Filtro "novo" feito no cliente */
-    const filtrados = filtro === "novo"
-      ? hits.filter(h => h.novo || ehNovo(h.criadoEm))
-      : hits;
-
-    totalEl.textContent = filtrados.length;
-
-    /* Quando filtro é "modelo" ou "textura", esconde a seção irrelevante */
-    if (filtro === "modelo") {
-      secaoTexturas.style.display = "none";
-      renderizarSecao(gradeModelos, countModelos, btnModelos, filtrados, "modelo 3D");
-    } else if (filtro === "textura") {
-      secaoModelos.style.display = "none";
-      renderizarSecao(gradeTexturas, countTexturas, btnTexturas, filtrados, "textura");
-    } else {
-      /* Todos, Grátis, Novidades — mostra as duas seções */
-      const modelos  = filtrados.filter(h => h.tipo === "modelo");
-      const texturas = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri" || !h.tipo);
-      renderizarSecao(gradeModelos,  countModelos,  btnModelos,  modelos,  "modelo 3D");
-      renderizarSecao(gradeTexturas, countTexturas, btnTexturas, texturas, "textura");
-    }
-
+    const snap = await getDoc(doc(db, "produtos", id));
+    if (!snap.exists()) { erroViewer("Produto não encontrado."); return; }
+    preencherPagina(snap.data());
   } catch (err) {
-    console.error("Algolia erro:", err);
-    totalEl.textContent = "0";
-    gradeModelos.innerHTML  = `<p class="busca-pg-erro">Erro ao buscar resultados.</p>`;
-    gradeTexturas.innerHTML = `<p class="busca-pg-erro">Erro ao buscar resultados.</p>`;
+    console.error("Erro ao carregar produto:", err);
+    erroViewer("Erro ao carregar produto.");
   }
 }
 
-/* ─── Expandir / recolher seção ──────────────────────────────── */
-function configurarExpandir(btnId, gradeId) {
-  const btn   = document.getElementById(btnId);
-  const grade = document.getElementById(gradeId);
-  if (!btn || !grade) return;
-  btn.addEventListener("click", () => {
-    const aberto = btn.classList.toggle("aberto");
-    grade.classList.toggle("expandida", aberto);
-    btn.querySelector(".btn-expandir-texto").textContent = aberto ? "Recolher" : "Ver todos";
+/* ─── Controles do viewer ────────────────────────────────────── */
+function configurarControles() {
+  const mv = document.getElementById("model-viewer-el");
+  if (!mv) return;
+
+  document.getElementById("btn-reset-cam")?.addEventListener("click", () => {
+    mv.cameraOrbit  = "0deg 75deg 105%";
+    mv.cameraTarget = "0m 0m 0m";
+  });
+
+  document.getElementById("btn-autorotate")?.addEventListener("click", () => {
+    mv.hasAttribute("auto-rotate")
+      ? mv.removeAttribute("auto-rotate")
+      : mv.setAttribute("auto-rotate", "");
+  });
+
+  const hdris = [
+    null,
+    "https://modelviewer.dev/shared-assets/environments/moon_1k.hdr",
+    "https://modelviewer.dev/shared-assets/environments/neutral.hdr",
+  ];
+  let hi = 0;
+  document.getElementById("btn-hdri")?.addEventListener("click", () => {
+    hi = (hi + 1) % hdris.length;
+    hdris[hi]
+      ? mv.setAttribute("environment-image", hdris[hi])
+      : mv.removeAttribute("environment-image");
   });
 }
 
-/* ─── Inicialização ───────────────────────────────────────────── */
+/* ─── Init ───────────────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const termo  = params.get("q") || "";
-
-  /* Preenche cabeçalho */
-  const termoCapit = termo ? termo.charAt(0).toUpperCase() + termo.slice(1) : "";
-  document.getElementById("titulo-termo").textContent     = termo ? `"${termoCapit}"` : "";
-  document.getElementById("breadcrumb-termo").textContent = termo || "todos";
-  if (termo) document.title = `Busca: ${termo} — JoinRender`;
-
-  /* Sincroniza input do header */
-  const inputHeader = document.getElementById("input-busca-header");
-  if (inputHeader && termo) inputHeader.value = termo;
-
-  /* Filtro ativo */
-  let filtroAtivo = "todos";
-  renderizarPagina(termo, filtroAtivo);
-
-  /* Filtros rápidos */
-  document.querySelectorAll(".filtro-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
-      btn.classList.add("ativo");
-      filtroAtivo = btn.dataset.filtro;
-      renderizarPagina(termo, filtroAtivo);
-    });
-  });
-
-  /* Expandir / recolher */
-  configurarExpandir("btn-modelos",  "grade-modelos");
-  configurarExpandir("btn-texturas", "grade-texturas");
+  configurarControles();
+  carregarProduto();
 });
