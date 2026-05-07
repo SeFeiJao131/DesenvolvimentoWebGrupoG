@@ -34,11 +34,12 @@ function iniciarViewer(p) {
   const mv  = document.getElementById("model-viewer-el");
   const img = document.getElementById("viewer-imagem");
 
-  const urlModelo = p.urlModelo || p.urlArquivo || "";
+  // Qualquer produto que tenha urlModelo usa o model-viewer (modelos 3D E esferas de textura)
+  const urlModelo = p.urlModelo || "";
   const urlImagem = p.urlImagem || "";
 
-  /* Caso 1: modelo 3D GLB/GLTF */
-  if (p.tipo === "modelo" && urlModelo) {
+  if (urlModelo) {
+    /* Tem GLB — usa model-viewer independente do tipo */
     if (img) img.style.display = "none";
 
     mv.addEventListener("load", () => {
@@ -48,13 +49,23 @@ function iniciarViewer(p) {
     }, { once: true });
 
     mv.addEventListener("error", () => {
-      erroViewer("Não foi possível carregar o modelo 3D.");
+      // GLB falhou — tenta mostrar imagem como fallback
+      if (urlImagem) {
+        mv.style.display = "none";
+        if (img) {
+          img.style.display = "block";
+          img.src = urlImagem;
+          img.onload  = () => esconderLoader();
+          img.onerror = () => erroViewer("Sem pré-visualização disponível.");
+        }
+      } else {
+        erroViewer("Não foi possível carregar o visualizador 3D.");
+      }
     }, { once: true });
 
-    /* Setar src dispara o carregamento */
     mv.src = urlModelo;
 
-    /* Timeout de segurança: 30s */
+    // Timeout de segurança: 30s
     setTimeout(() => {
       const loader = document.getElementById("viewer-loader");
       if (loader && !loader.classList.contains("oculto")) {
@@ -65,30 +76,31 @@ function iniciarViewer(p) {
     return;
   }
 
-  /* Caso 2: textura / HDRI — imagem estática */
-  if (img && urlImagem) {
-    mv.style.display = "none";
-    img.style.display = "block";
-    img.src = urlImagem;
-    img.onload  = () => esconderLoader();
-    img.onerror = () => erroViewer("Sem pré-visualização disponível.");
+  /* Sem GLB — mostra imagem estática */
+  if (urlImagem) {
+    if (mv) mv.style.display = "none";
+    if (img) {
+      img.style.display = "block";
+      img.src = urlImagem;
+      img.onload  = () => esconderLoader();
+      img.onerror = () => erroViewer("Sem pré-visualização disponível.");
+    }
     return;
   }
 
-  /* Caso 3: nada disponível */
   erroViewer("Nenhum arquivo de visualização disponível.");
 }
 
 /* ─── Preenche a página ──────────────────────────────────────── */
 function preencherPagina(p) {
-  const set = (id, val) => {
-    const el = document.getElementById(id);
+  const set = (elId, val) => {
+    const el = document.getElementById(elId);
     if (el) el.textContent = val ?? "—";
   };
 
   document.title = `${p.nome || "Produto"} — JoinRender`;
 
-  set("nome-produto",    p.nome);
+  set("nome-produto",      p.nome);
   set("descricao-produto", p.descricao);
 
   const isGratis = p.gratuito === true || p.gratis === true || Number(p.preco) === 0;
@@ -120,7 +132,7 @@ function preencherPagina(p) {
     const url = p.urlArquivo || p.urlModelo || "";
     if (isGratis && url) {
       areaAcao.innerHTML = `<a href="${url}" download target="_blank" rel="noopener" class="btn-download-produto">Baixar grátis</a>`;
-    } else if (url) {
+    } else if (!isGratis) {
       areaAcao.innerHTML = `<button class="btn-download-produto" disabled>Comprar — R$ ${Number(p.preco).toFixed(2)}</button>`;
     }
   }
