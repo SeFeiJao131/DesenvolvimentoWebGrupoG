@@ -30,18 +30,29 @@ function erroViewer(msg) {
 }
 
 /* ─── Visualizador ───────────────────────────────────────────── */
-function iniciarViewer(p) {
+function iniciarViewer(urlModelo, urlImagem) {
   const mv  = document.getElementById("model-viewer-el");
   const img = document.getElementById("viewer-imagem");
 
-  // Qualquer produto que tenha urlModelo usa o model-viewer (modelos 3D E esferas de textura)
-  const urlModelo = p.urlModelo || "";
-  const urlImagem = p.urlImagem || "";
+  if (!urlModelo) {
+    /* Sem GLB — imagem estática */
+    if (urlImagem && img) {
+      if (mv) mv.style.display = "none";
+      img.style.display = "block";
+      img.src = urlImagem;
+      img.onload  = () => esconderLoader();
+      img.onerror = () => erroViewer("Sem pré-visualização disponível.");
+    } else {
+      erroViewer("Nenhum arquivo de visualização disponível.");
+    }
+    return;
+  }
 
-  if (urlModelo) {
-    /* Tem GLB — usa model-viewer independente do tipo */
-    if (img) img.style.display = "none";
+  /* Tem GLB — usa model-viewer */
+  if (img) img.style.display = "none";
 
+  /* Função que seta o src e registra os eventos */
+  function ativarViewer() {
     mv.addEventListener("load", () => {
       esconderLoader();
       document.getElementById("viewer-controls")?.removeAttribute("style");
@@ -49,46 +60,34 @@ function iniciarViewer(p) {
     }, { once: true });
 
     mv.addEventListener("error", () => {
-      // GLB falhou — tenta mostrar imagem como fallback
-      if (urlImagem) {
+      if (urlImagem && img) {
         mv.style.display = "none";
-        if (img) {
-          img.style.display = "block";
-          img.src = urlImagem;
-          img.onload  = () => esconderLoader();
-          img.onerror = () => erroViewer("Sem pré-visualização disponível.");
-        }
+        img.style.display = "block";
+        img.src = urlImagem;
+        img.onload  = () => esconderLoader();
+        img.onerror = () => erroViewer("Sem pré-visualização disponível.");
       } else {
         erroViewer("Não foi possível carregar o visualizador 3D.");
       }
     }, { once: true });
 
-    mv.src = urlModelo;
+    mv.setAttribute("src", urlModelo);
 
-    // Timeout de segurança: 30s
+    /* Timeout de segurança: 30s */
     setTimeout(() => {
       const loader = document.getElementById("viewer-loader");
       if (loader && !loader.classList.contains("oculto")) {
         erroViewer("Tempo esgotado ao carregar o modelo.");
       }
     }, 30000);
-
-    return;
   }
 
-  /* Sem GLB — mostra imagem estática */
-  if (urlImagem) {
-    if (mv) mv.style.display = "none";
-    if (img) {
-      img.style.display = "block";
-      img.src = urlImagem;
-      img.onload  = () => esconderLoader();
-      img.onerror = () => erroViewer("Sem pré-visualização disponível.");
-    }
-    return;
+  /* Aguarda o custom element estar registrado */
+  if (customElements.get("model-viewer")) {
+    ativarViewer();
+  } else {
+    customElements.whenDefined("model-viewer").then(ativarViewer);
   }
-
-  erroViewer("Nenhum arquivo de visualização disponível.");
 }
 
 /* ─── Preenche a página ──────────────────────────────────────── */
@@ -137,14 +136,13 @@ function preencherPagina(p) {
     }
   }
 
-  /* Inicia o viewer por último */
-  iniciarViewer(p);
+  /* Inicia o viewer */
+  iniciarViewer(p.urlModelo || "", p.urlImagem || "");
 }
 
 /* ─── Carrega o produto do Firestore ─────────────────────────── */
 async function carregarProduto() {
   const id = new URLSearchParams(window.location.search).get("id");
-
   if (!id) { erroViewer("ID do produto não informado."); return; }
 
   try {
