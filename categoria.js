@@ -1,5 +1,5 @@
-import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 /* Firebase */
 const firebaseConfig = {
@@ -109,7 +109,7 @@ function criarCard(doc) {
 
   /* Badge GRÁTIS no canto superior direito.
      Badge NOVO: quando há grátis, empilha abaixo via CSS; senão fica no mesmo lugar. */
-  const badgeGratis = p.gratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+  const badgeGratis = (p.gratuito || p.gratis || p.preco === 0) ? `<span class="badge-gratis-cat">Grátis</span>` : "";
   const isNovo = p.novo || ehNovo(p.criadoEm);
   const badgeNovo = isNovo ? `<span class="badge-novo-cat">Novo</span>` : "";
 

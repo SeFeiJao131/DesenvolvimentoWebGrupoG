@@ -1139,7 +1139,7 @@
 
     document.getElementById("btn-sync-algolia").addEventListener("click", sincronizarAlgolia);
 
-    // ── Auth — só deixa usar o admin se estiver logado ───────────
+    // ── Auth — só deixa usar o admin se estiver logado E autorizado ───────────
     import {
       getAuth,
       onAuthStateChanged,
@@ -1149,6 +1149,17 @@
 
     const auth = getAuth(app);
 
+    // ── Lista de e-mails autorizados a acessar o admin ──────────────────────
+    // Para adicionar mais admins, basta adicionar o e-mail nesta lista.
+    // Futuramente pode ser migrado para Firebase Custom Claims.
+    const ADMINS_AUTORIZADOS = [
+      "rafaelmizob@gmail.com",
+    ];
+
+    function ehAdmin(usuario) {
+      return usuario && ADMINS_AUTORIZADOS.includes(usuario.email?.toLowerCase());
+    }
+
     // Tela de login sobreposta
     const telaLogin = document.getElementById("tela-login");
     const loginErro  = document.getElementById("login-erro");
@@ -1157,9 +1168,14 @@
       const email = document.getElementById("login-email").value.trim();
       const senha = document.getElementById("login-senha").value;
       loginErro.textContent = "";
-      if (!email || !senha) {loginErro.textContent = "Preencha e-mail e senha."; return; }
+      if (!email || !senha) { loginErro.textContent = "Preencha e-mail e senha."; return; }
       try {
-        await signInWithEmailAndPassword(auth, email, senha);
+        const resultado = await signInWithEmailAndPassword(auth, email, senha);
+        // Verifica imediatamente após login se é admin
+        if (!ehAdmin(resultado.user)) {
+          await signOut(auth);
+          loginErro.textContent = "Acesso não autorizado.";
+        }
       } catch (e) {
         loginErro.textContent = "E-mail ou senha incorretos.";
       }
@@ -1170,13 +1186,17 @@
     });
 
     onAuthStateChanged(auth, (usuario) => {
-      if (usuario) {
-        // Logado — esconde tela de login, mostra painel
+      if (usuario && ehAdmin(usuario)) {
+        // Logado E autorizado — esconde tela de login, mostra painel
         telaLogin.style.display = "none";
         document.getElementById("info-usuario").textContent = usuario.email;
         carregarProdutos();
       } else {
-        // Deslogado — mostra tela de login, esconde painel
+        // Deslogado ou não autorizado — mostra tela de login
+        if (usuario && !ehAdmin(usuario)) {
+          // Usuário logado mas não é admin — faz logout silencioso
+          signOut(auth);
+        }
         telaLogin.style.display = "flex";
       }
     });
