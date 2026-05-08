@@ -1,17 +1,8 @@
+import { app } from "./config.js";
 import { buscarProdutoPorId, registrarDownload, usuarioJaBaixou } from "./db.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
-  authDomain: "joinrender-2ac79.firebaseapp.com",
-  projectId: "joinrender-2ac79",
-  storageBucket: "joinrender-2ac79.firebasestorage.app",
-  messagingSenderId: "786464902095",
-  appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
-};
-
-const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 
 const params    = new URLSearchParams(window.location.search);
@@ -79,7 +70,6 @@ function setText(id, valor) {
 
 // ── Iluminação inteligente por material ────────────────────────────────────────
 
-// Mesmos HDRIs da página de referência — apenas as configurações foram refinadas
 const HDRI_STUDIO   = "https://modelviewer.dev/shared-assets/environments/spruit_sunrise_1k_HDR.hdr";
 const HDRI_EXTERIOR = "https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr";
 const HDRI_INTERIOR = "https://modelviewer.dev/shared-assets/environments/whipple_creek_regional_park_04_1k.hdr";
@@ -98,69 +88,21 @@ function detectarConfigIluminacao(produto) {
   ].join(" ").toLowerCase();
 
   if (/vidro|glass|cristal|crystal|transparente|transparent|glazed/.test(texto)) {
-    // Copiado da referência: exposure alto + sombra quase zerada = vidro limpo e vivo
-    return {
-      hdri: HDRI_STUDIO,
-      exposure: "1.6",
-      shadowIntensity: "0.2",
-      shadowSoftness: "1.0",
-      toneMapping: "aces",
-      rotationPerSec: "15deg",
-    };
+    return { hdri: HDRI_STUDIO, exposure: "1.5", shadowIntensity: "0.25", shadowSoftness: "1.0", toneMapping: "aces", rotationPerSec: "15deg" };
   }
   if (/metal|aco|aço|steel|chrome|cromo|alumin|copper|cobre|gold|ouro|silver|prata|iron|ferro|brass|latao|latão/.test(texto)) {
-    // exposure elevado + sombra dura = reflexos nítidos e brilho vivo no metal
-    return {
-      hdri: HDRI_STUDIO,
-      exposure: "1.35",
-      shadowIntensity: "0.9",
-      shadowSoftness: "0.35",
-      toneMapping: "aces",
-      rotationPerSec: "20deg",
-    };
+    return { hdri: HDRI_STUDIO, exposure: "1.15", shadowIntensity: "0.75", shadowSoftness: "0.5", toneMapping: "aces", rotationPerSec: "20deg" };
   }
   if (/pedra|stone|marmore|marble|concreto|concrete|granito|granite|tijolo|brick|ceramic|ceramica|tile|azulejo/.test(texto)) {
-    // Luz lateral do galpão realça veios e relevos; exposure acima do neutro para cores saturadas
-    return {
-      hdri: HDRI_EXTERIOR,
-      exposure: "1.2",
-      shadowIntensity: "1.0",
-      shadowSoftness: "0.7",
-      toneMapping: "commerce",
-      rotationPerSec: "18deg",
-    };
+    return { hdri: HDRI_EXTERIOR, exposure: "1.05", shadowIntensity: "1.0", shadowSoftness: "0.85", toneMapping: "commerce", rotationPerSec: "18deg" };
   }
   if (/madeira|wood|tecido|fabric|couro|leather|pano|cloth|carpet|tapete|veludo|velvet|linen|linho/.test(texto)) {
-    // Luz difusa da floresta realça fibras orgânicas; exposure +0.15 para mais riqueza de cor
-    return {
-      hdri: HDRI_INTERIOR,
-      exposure: "1.25",
-      shadowIntensity: "0.85",
-      shadowSoftness: "0.9",
-      toneMapping: "commerce",
-      rotationPerSec: "18deg",
-    };
+    return { hdri: HDRI_INTERIOR, exposure: "1.1", shadowIntensity: "0.9", shadowSoftness: "0.9", toneMapping: "commerce", rotationPerSec: "18deg" };
   }
   if (/plastico|plastic|borracha|rubber|resina|resin|silicone/.test(texto)) {
-    // Estúdio com sombra média: cor sólida saturada sem estourar highlights
-    return {
-      hdri: HDRI_STUDIO,
-      exposure: "1.25",
-      shadowIntensity: "0.8",
-      shadowSoftness: "0.6",
-      toneMapping: "aces",
-      rotationPerSec: "20deg",
-    };
+    return { hdri: HDRI_STUDIO, exposure: "1.1", shadowIntensity: "0.85", shadowSoftness: "0.7", toneMapping: "aces", rotationPerSec: "20deg" };
   }
-  // Padrão: +0.1 de exposure sobre o original para cores ligeiramente mais vivas
-  return {
-    hdri: HDRI_STUDIO,
-    exposure: "1.2",
-    shadowIntensity: "0.8",
-    shadowSoftness: "0.75",
-    toneMapping: "aces",
-    rotationPerSec: "20deg",
-  };
+  return { hdri: HDRI_STUDIO, exposure: "1.1", shadowIntensity: "0.8", shadowSoftness: "0.8", toneMapping: "aces", rotationPerSec: "20deg" };
 }
 
 // ── Viewer ─────────────────────────────────────────────────────────────────────

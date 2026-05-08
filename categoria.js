@@ -1,17 +1,7 @@
-import { getApps, initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import { app } from "./config.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 /* Firebase */
-const firebaseConfig = {
-  apiKey: "AIzaSyCG5CTMCU5Tm__Jx7AdIPFzqoyyjHgleU0",
-  authDomain: "joinrender-2ac79.firebaseapp.com",
-  projectId: "joinrender-2ac79",
-  storageBucket: "joinrender-2ac79.firebasestorage.app",
-  messagingSenderId: "786464902095",
-  appId: "1:786464902095:web:c896cfb7fe22aed92ea0ba"
-};
-
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
 /* ── Descrições por categoria ── */
