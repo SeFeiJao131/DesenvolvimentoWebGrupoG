@@ -404,13 +404,17 @@ mark.busca-hl {
   font-style: normal;
   font-weight: 600;
 }
+
 /* ─── Responsividade ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .busca-overlay,
   .painel-busca {
     left: 0 !important;
     right: 0 !important;
-    width: 100% !important;
-    border-radius: 0 0 12px 12px;
+    width: 100vw !important;
+    border-radius: 0 0 16px 16px;
+    max-height: 80vh;
+    overflow-y: auto;
   }
+  /* Esconde sugestões de categoria no painel mobile — mostra só resultados */
+  .busca-secao-sugestoes { display: none; }
 }

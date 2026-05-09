@@ -262,12 +262,39 @@
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
 }
+
 /* ─── Responsividade ─────────────────────────────────────── */
-@media (max-width: 900px) {
-  .hero-novidades { padding: 40px 24px 32px; min-height: 160px; }
-  .hero-titulo { font-size: clamp(40px, 10vw, 80px); }
+@media (max-width: 1024px) {
+  .secao-modelos { padding: 48px 40px 60px; }
+  .Imagem-Textura { width: 100%; }
+  .curadoria { padding: 80px 60px; }
+  .Texto-texturas-procedurais { padding-left: 60px; font-size: 52px; }
+  .textoDouradoText { padding-left: 60px; }
 }
 
 @media (max-width: 768px) {
-  .hero-novidades { padding: 32px 16px 24px; }
+  .hero-novidades { padding: 40px 20px 32px; min-height: 160px; }
+  .hero-titulo { font-size: clamp(36px, 12vw, 80px); }
+  /* Esconde a data no hero em mobile — mantém só o título */
+  .hero-data-linha { display: none; }
+  .secao-modelos { padding: 36px 20px 48px; gap: 28px; }
+  .modelos-titulo { font-size: clamp(36px, 10vw, 72px); }
+  /* Esconde a descrição de modelos em mobile */
+  .modelos-descricao { display: none; }
+  .Imagem-Textura { width: 100%; border-radius: 8px; }
+  .curadoria { padding: 60px 20px; }
+  .curadoria2 { font-size: 48px; }
+  .Texto-texturas-procedurais { padding-left: 20px; font-size: 36px; }
+  .textoDouradoText { padding-left: 20px; }
+}
+
+@media (max-width: 480px) {
+  .hero-novidades { padding: 28px 16px 24px; }
+  .secao-modelos { padding: 28px 12px 40px; }
+  .curadoria { padding: 40px 16px; }
+  .curadoria2 { font-size: 36px; }
+  .Texto-texturas-procedurais { font-size: 28px; padding-left: 16px; }
+  .textoDouradoText { padding-left: 16px; }
+  /* Esconde seção curadoria em telas muito pequenas */
+  .borda-esquerda { display: none; }
 }

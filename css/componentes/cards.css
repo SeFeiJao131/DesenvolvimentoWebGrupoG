@@ -235,65 +235,42 @@
   font-size: 20px;
   color: var(--cor-creme);
 }
+
 /* ─── Responsividade dos cards ───────────────────────────── */
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
   .container-card-index {
-    grid-template-columns: repeat(3, minmax(0, 280px));
+    grid-template-columns: repeat(3, minmax(0, 260px));
     gap: 1.5rem;
   }
 }
 
-@media (max-width: 900px) {
-  .container-card-index {
-    grid-template-columns: repeat(2, minmax(0, 320px));
-    gap: 1.2rem;
-  }
-
-  .cards-linha {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card-item {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .card-item img {
-    border-radius: 6px !important;
-  }
-}
-
 @media (max-width: 768px) {
+  /* Cards da home — 2 colunas */
   .container-card-index {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 12px;
     padding: 0 16px;
   }
+  .card-imagem-index { height: 200px; }
 
-  .card-imagem-index {
-    height: 220px;
-  }
+  /* Cards de novidades — empilha verticalmente */
+  .cards-linha { flex-direction: column; }
+  .card-item { max-width: 100%; width: 100%; }
+  .card-item img { border-radius: 8px !important; aspect-ratio: 16/8; }
+  .card-visitar { font-size: 24px; }
 
-  .card-layout,
-  .card-modelo,
-  .card-hdri {
-    max-width: 100%;
-    margin: 6px 0;
-  }
+  /* Cards de produto (layout/categoria) */
+  .card-layout, .card-modelo, .card-hdri { max-width: 100%; margin: 4px 0; }
 }
 
 @media (max-width: 480px) {
+  /* Cards da home — 1 coluna em telas muito pequenas */
   .container-card-index {
     grid-template-columns: 1fr;
     padding: 0 12px;
   }
-
-  .card-imagem-index {
-    height: 200px;
-  }
-
-  .cards-novidades {
-    padding: 0 12px 40px;
-  }
+  .card-imagem-index { height: 220px; }
+  .cards-novidades { padding: 0 12px 32px; }
+  /* Esconde o botão "Visitar" em mobile — vai direto pelo card */
+  .card-visitar { font-size: 20px; }
 }

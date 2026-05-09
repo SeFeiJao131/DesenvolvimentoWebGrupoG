@@ -101,32 +101,38 @@
   color: var(--cor-dourado-alt);
   padding: 10px 0;
 }
-/* ─── Responsividade ─────────────────────────────────────── */
-@media (max-width: 1200px) {
-  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 20px 60px; }
-  .layout-textos, .modelos-textos, .hdri-textos { margin-left: 60px; }
-  .TexturasPro, .ModelosPro, .HdriPro,
-  .TexturasProDourado, .HdriProDourado { font-size: 56px; }
-}
 
-@media (max-width: 900px) {
-  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 20px 24px; }
-  .layout-textos, .modelos-textos, .hdri-textos { margin-left: 24px; }
+/* ─── Responsividade ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 24px 60px; }
+  .layout-textos, .modelos-textos, .hdri-textos {
+    margin-left: 60px; margin-right: 60px;
+  }
   .TexturasPro, .ModelosPro, .HdriPro,
-  .TexturasProDourado, .HdriProDourado { font-size: 42px; }
-  .alinhar-cards, .alinhar-modelos, .alinhar-hdri { justify-content: center; }
+  .TexturasProDourado, .HdriProDourado { font-size: 60px; }
 }
 
 @media (max-width: 768px) {
-  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 14px 16px; }
-  .layout-textos, .modelos-textos, .hdri-textos { margin-left: 16px; margin-right: 16px; }
+  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 16px 20px; }
+  .layout-textos, .modelos-textos, .hdri-textos {
+    margin-left: 20px; margin-right: 20px;
+  }
   .TexturasPro, .ModelosPro, .HdriPro,
-  .TexturasProDourado, .HdriProDourado { font-size: 32px; }
+  .TexturasProDourado, .HdriProDourado { font-size: 42px; }
+  /* Esconde descrição longa em mobile */
   .DescricaoTexturas, .DescricaoModelos, .DescricaoHdri,
-  .TexturasDescDourado, .HdriDescDourado, .ModelosDescDourado { font-size: 13px; }
+  .TexturasDescDourado, .HdriDescDourado, .ModelosDescDourado { display: none; }
+  .alinhar-cards, .alinhar-modelos, .alinhar-hdri {
+    padding: 0 8px;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
+  .caminho-pgLayout, .caminho-modelos, .caminho-hdri { padding: 12px 16px; }
+  .layout-textos, .modelos-textos, .hdri-textos {
+    margin-left: 16px; margin-right: 16px;
+  }
   .TexturasPro, .ModelosPro, .HdriPro,
-  .TexturasProDourado, .HdriProDourado { font-size: 26px; }
+  .TexturasProDourado, .HdriProDourado { font-size: 32px; }
 }

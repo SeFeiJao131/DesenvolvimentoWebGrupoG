@@ -382,10 +382,13 @@ mark.busca-hl {
   font-size: 13px;
   color: var(--cor-texto-suave);
 }
+
 @media (max-width: 480px) {
   .grade-busca-pg {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 6px;
   }
-  .busca-pg-titulo { font-size: 28px; }
+  .busca-pg-titulo { font-size: 24px; }
+  /* Esconde filtros menos usados em mobile */
+  .filtro-label { display: none; }
 }

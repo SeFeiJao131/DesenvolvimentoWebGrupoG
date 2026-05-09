@@ -1,5 +1,5 @@
 .caminho-categoria {
-  padding: 30px 132px 0;
+  padding: 30px clamp(16px, 9vw, 132px) 0;
   font-size: 12px;
   color: var(--cor-dourado-alt);
   font-family: 'Recursive', monospace;
@@ -15,7 +15,7 @@
 }
 
 .cabecalho-categoria {
-  padding: 18px 132px 10px;
+  padding: 18px clamp(16px, 9vw, 132px) 10px;
 }
 
 .categoria-titulo {
@@ -48,7 +48,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
-  padding: 0 132px 80px;
+  padding: 0 clamp(16px, 9vw, 132px) 80px;
 }
 
 .card-categoria {
@@ -204,13 +204,14 @@
     font-size: 48px;
   }
 }
+
 @media (max-width: 480px) {
   .grade-categoria {
     grid-template-columns: repeat(2, 1fr);
     padding: 0 10px 40px;
-    gap: 8px;
+    gap: 6px;
   }
-  .categoria-titulo { font-size: 36px; }
+  .categoria-titulo { font-size: 36px; padding: 10px 0 10px; }
   .busca-pg-filtros,
   .cabecalho-categoria,
   .caminho-categoria { padding-left: 10px; padding-right: 10px; }

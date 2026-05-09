@@ -342,3 +342,21 @@
 .cc-link-login a:hover {
   text-decoration: underline;
 }
+
+/* ─── Responsividade ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cc-container {
+    grid-template-columns: 1fr;
+    padding: 24px 20px;
+    gap: 24px;
+  }
+  /* Esconde o lado ilustrativo em mobile */
+  .cc-lado-direito, .cc-imagem { display: none; }
+  .cc-topo { padding: 20px; }
+  .cc-logo { font-size: 28px; }
+}
+
+@media (max-width: 480px) {
+  .cc-topo { padding: 16px; }
+  .cc-container { padding: 20px 16px; }
+}
