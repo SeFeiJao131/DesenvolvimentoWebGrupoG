@@ -120,6 +120,8 @@ function criarCard(doc) {
   `;
 }
 
+const POR_PAGINA = 12; // produtos por página
+
 async function carregarProdutos() {
   const grade    = document.getElementById("grade-produtos");
   const contagem = document.getElementById("contagem-produtos");
@@ -129,11 +131,9 @@ async function carregarProdutos() {
   const tipo = params.get("tipo");
   const cat  = params.get("cat");
 
-  /* Preenche breadcrumb e descrição */
   preencherBreadcrumb(tipo, cat);
   preencherDescricao(cat);
 
-  /* Atualiza título */
   const titulo = document.querySelector(".categoria-titulo");
   if (titulo && cat) {
     titulo.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -141,23 +141,12 @@ async function carregarProdutos() {
 
   try {
     let q;
-
     if (tipo && cat) {
-      q = query(
-        collection(db, "produtos"),
-        where("tipo", "==", tipo),
-        where("categorias", "array-contains", cat)
-      );
+      q = query(collection(db, "produtos"), where("tipo", "==", tipo), where("categorias", "array-contains", cat));
     } else if (cat) {
-      q = query(
-        collection(db, "produtos"),
-        where("categorias", "array-contains", cat)
-      );
+      q = query(collection(db, "produtos"), where("categorias", "array-contains", cat));
     } else if (tipo) {
-      q = query(
-        collection(db, "produtos"),
-        where("tipo", "==", tipo)
-      );
+      q = query(collection(db, "produtos"), where("tipo", "==", tipo));
     } else {
       q = query(collection(db, "produtos"));
     }
@@ -170,46 +159,90 @@ async function carregarProdutos() {
       return;
     }
 
-    /* Ordena por data no JavaScript (mais recente primeiro) */
+    /* Ordena por data (mais recente primeiro) */
     const todosDocs = snapshot.docs.sort((a, b) => {
       const dataA = a.data().criadoEm?.toDate?.() ?? new Date(0);
       const dataB = b.data().criadoEm?.toDate?.() ?? new Date(0);
       return dataB - dataA;
     });
 
-    /* ── Renderiza com filtro aplicado ── */
-    function renderizarComFiltro(filtro) {
-      let docs;
+    /* Estado da paginação */
+    let filtroAtual = "todos";
+    let paginaAtual = 1;
+    let docsVisiveis = [];
+
+    /* ── Aplica filtro ── */
+    function aplicarFiltro(filtro) {
       if (filtro === "gratis") {
-        docs = todosDocs.filter(d => {
+        return todosDocs.filter(d => {
           const p = d.data();
           return p.gratuito === true || p.gratis === true || p.preco === 0;
         });
       } else if (filtro === "novo") {
-        docs = todosDocs.filter(d => {
+        return todosDocs.filter(d => {
           const p = d.data();
           return p.novo || ehNovo(p.criadoEm);
         });
-      } else {
-        docs = todosDocs; // "todos"
       }
-
-      const total = docs.length;
-      contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
-
-      if (!total) {
-        grade.innerHTML = "<p style='color:#aaa;padding:2rem;'>Nenhum produto encontrado para este filtro.</p>";
-      } else {
-        grade.innerHTML = docs.map(criarCard).join("");
-      }
+      return todosDocs;
     }
 
-    /* Renderiza inicial (todos) */
+    /* ── Cria ou atualiza botão "Carregar mais" ── */
+    function atualizarBotaoCarregarMais(total) {
+      let btn = document.getElementById("btn-carregar-mais");
+      const visiveis = paginaAtual * POR_PAGINA;
+
+      if (visiveis >= total) {
+        if (btn) btn.remove();
+        return;
+      }
+
+      if (!btn) {
+        btn = document.createElement("button");
+        btn.id = "btn-carregar-mais";
+        btn.className = "filtro-btn";
+        btn.style.cssText = "display:block;margin:32px auto 0;padding:10px 32px;";
+        grade.parentElement.insertBefore(btn, grade.nextSibling);
+        btn.addEventListener("click", () => {
+          paginaAtual++;
+          renderizarPagina();
+        });
+      }
+
+      const restantes = total - visiveis;
+      btn.textContent = `Carregar mais (${restantes} restantes)`;
+    }
+
+    /* ── Renderiza página atual ── */
+    function renderizarPagina() {
+      const limite = paginaAtual * POR_PAGINA;
+      const slice  = docsVisiveis.slice(0, limite);
+
+      grade.innerHTML = slice.length
+        ? slice.map(criarCard).join("")
+        : "<p style='color:#aaa;padding:2rem;'>Nenhum produto encontrado para este filtro.</p>";
+
+      atualizarBotaoCarregarMais(docsVisiveis.length);
+    }
+
+    /* ── Renderiza com filtro ── */
+    function renderizarComFiltro(filtro) {
+      filtroAtual  = filtro;
+      paginaAtual  = 1;
+      docsVisiveis = aplicarFiltro(filtro);
+
+      const total = docsVisiveis.length;
+      contagem.textContent = `${total} produto${total !== 1 ? "s" : ""}`;
+      renderizarPagina();
+    }
+
+    /* Renderiza inicial */
     renderizarComFiltro("todos");
 
     /* Filtros rápidos */
     document.querySelectorAll(".filtro-btn").forEach(btn => {
       btn.addEventListener("click", () => {
+        if (btn.id === "btn-carregar-mais") return;
         document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
         btn.classList.add("ativo");
         renderizarComFiltro(btn.dataset.filtro);

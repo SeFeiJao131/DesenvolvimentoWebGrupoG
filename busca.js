@@ -97,7 +97,17 @@ function htmlAutoComplete(hits, termo) {
   const iconeTipo = { textura: "fi-rr-picture", modelo: "fi-rr-cube", hdri: "fi-rr-sun" };
 
   const itens = hits.map(hit => {
-    const nome  = hit._highlightResult?.nome?.value || hit.nome || "";
+    // Sanitiza o highlight do Algolia para evitar XSS
+    const nomeRaw = hit.nome || "";
+    const hlValue = hit._highlightResult?.nome?.value || "";
+    let nome = nomeRaw.replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
+    if (hlValue.includes("<em>")) {
+      const termos = [...hlValue.matchAll(/<em>([^<]+)<\/em>/g)].map(m => m[1]);
+      termos.forEach(t => {
+        const r = new RegExp(`(${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+        nome = nome.replace(r, `<mark class="busca-hl">$1</mark>`);
+      });
+    }
     const icone = iconeTipo[hit.tipo] || "fi-rr-search";
     const tipo  = hit.tipo ? hit.tipo.charAt(0).toUpperCase() + hit.tipo.slice(1) : "";
 

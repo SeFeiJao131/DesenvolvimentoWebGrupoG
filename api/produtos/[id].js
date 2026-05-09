@@ -19,6 +19,9 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Cache de 5 minutos — produto individual muda pouco
+  res.setHeader("Cache-Control", "public, s-maxage=300, stale-while-revalidate=60");
+
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET")
     return res.status(405).json({ erro: "Método não permitido. Use GET." });

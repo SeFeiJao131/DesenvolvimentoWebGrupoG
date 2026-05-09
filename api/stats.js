@@ -17,6 +17,8 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // Cache de 30 minutos — stats não precisam ser em tempo real
+  res.setHeader("Cache-Control", "public, s-maxage=1800, stale-while-revalidate=600");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET") return res.status(405).json({ erro: "Metodo nao permitido." });

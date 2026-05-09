@@ -37,6 +37,13 @@ async function carregarLista() {
   }
 }
 
+/* ─── Badge "Novo" — produtos criados nos últimos 7 dias ─────── */
+function ehNovo(criadoEm) {
+  if (!criadoEm) return false;
+  const ts = typeof criadoEm === "number" ? criadoEm : criadoEm._seconds || 0;
+  return Date.now() - ts * 1000 < 7 * 24 * 60 * 60 * 1000;
+}
+
 function gerarCard(produto, tipo) {
   const href       = `produto.html?id=${produto.id}`;
   const imagemSrc  = produto.urlImagem || "Imagens/ImagemTexturas.png";
@@ -49,10 +56,18 @@ function gerarCard(produto, tipo) {
   const classeTitulo = tipo === "textura" ? "titulo-card-layout"  : tipo === "modelo" ? "titulo-card-modelo"  : "titulo-card-hdri";
   const classeDesc   = tipo === "textura" ? "descricao-card-layout" : tipo === "modelo" ? "descricao-card-modelo" : "descricao-card-hdri";
 
+  /* Badges */
+  const isGratis = produto.gratuito === true || produto.gratis === true || Number(produto.preco) === 0;
+  const isNovo   = produto.novo || ehNovo(produto.criadoEm);
+  const badgeGratis = isGratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
+  const badgeNovo   = isNovo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
+
   return `
-    <a href="${href}" class="${classeCard}">
+    <a href="${href}" class="${classeCard}" style="position:relative;">
       <div class="${classeImagem}">
         <img src="${imagemSrc}" alt="${nome}" loading="lazy" />
+        ${badgeGratis}
+        ${badgeNovo}
       </div>
       <div class="${classeInfo}">
         <h2 class="${classeTitulo}">${tipoLabel(tipo)}</h2>

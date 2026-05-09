@@ -12,25 +12,55 @@ function ehNovo(ts) {
   return Date.now() - ts * 1000 < 7 * 24 * 60 * 60 * 1000;
 }
 
+/* ─── Sanitiza texto removendo HTML perigoso ─────────────────── */
+function sanitizar(texto) {
+  const div = document.createElement("div");
+  div.textContent = texto;
+  return div.innerHTML;
+}
+
+/* ─── Reconstrói highlight de forma segura ───────────────────── */
+function highlightSeguro(hit) {
+  const nomeRaw  = hit.nome || "Sem nome";
+  const hlValue  = hit._highlightResult?.nome?.value || "";
+
+  // O Algolia retorna tags <em> para highlight — extraímos os termos marcados
+  // e reconstruímos o highlight sem risco de XSS
+  if (!hlValue || !hlValue.includes("<em>")) return sanitizar(nomeRaw);
+
+  const nomeSanitizado = sanitizar(nomeRaw);
+  // Extrai os termos destacados pelo Algolia
+  const termos = [...hlValue.matchAll(/<em>([^<]+)<\/em>/g)].map(m => m[1]);
+  if (!termos.length) return nomeSanitizado;
+
+  // Aplica highlight seguro substituindo os termos por <mark>
+  let resultado = nomeSanitizado;
+  termos.forEach(termo => {
+    const regex = new RegExp("(" + termo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+    resultado = resultado.replace(regex, `<mark class="busca-hl">$1</mark>`);
+  });
+  return resultado;
+}
+
 /* ─── Card (mesmo layout da página de categoria) ─────────────── */
 function htmlCard(hit) {
   const tipoLabel = hit.tipo === "modelo" ? "Modelo 3D"
                   : hit.tipo === "hdri"   ? "HDRI"
                   : "Textura";
 
-  const isNovo = hit.novo || ehNovo(hit.criadoEm);
-  const nomeHL = hit._highlightResult?.nome?.value || hit.nome || "Sem nome";
-
-  // BUG 1 CORRIGIDO: o Firebase salva "gratuito", mas o badge checava só "gratis".
-  // Agora aceita ambos os campos para garantir compatibilidade.
-  const isGratis = hit.gratis || hit.gratuito || false;
+  const isNovo    = hit.novo || ehNovo(hit.criadoEm);
+  const isGratis  = hit.gratis || hit.gratuito || false;
   const badgeGratis = isGratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
   const badgeNovo   = isNovo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
+  const nomeHL    = highlightSeguro(hit);
+  const urlImagem = sanitizar(hit.urlImagem || "");
+  const nomeAlt   = sanitizar(hit.nome || "");
+  const produtoId = sanitizar(hit.objectID || "");
 
   return `
-    <a href="produto.html?id=${hit.objectID}" class="card-categoria">
-      ${hit.urlImagem
-        ? `<img src="${hit.urlImagem}" alt="${hit.nome}" loading="lazy">`
+    <a href="produto.html?id=${produtoId}" class="card-categoria">
+      ${urlImagem
+        ? `<img src="${urlImagem}" alt="${nomeAlt}" loading="lazy">`
         : `<div class="imagem-placeholder"></div>`}
       ${badgeGratis}
       ${badgeNovo}

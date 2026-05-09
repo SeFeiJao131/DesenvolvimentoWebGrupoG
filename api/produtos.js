@@ -18,6 +18,9 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin",  "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // Cache de 5 minutos no browser + 10 minutos na CDN do Vercel
+  // stale-while-revalidate: serve o cache enquanto busca dados novos em background
+  res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=300");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET")
