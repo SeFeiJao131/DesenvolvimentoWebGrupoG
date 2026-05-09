@@ -28,3 +28,7 @@ footer a {
     transform: translateY(0);
   }
 }
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  img { max-width: 100%; }
+}

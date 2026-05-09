@@ -262,3 +262,12 @@
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
 }
+/* ─── Responsividade ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-novidades { padding: 40px 24px 32px; min-height: 160px; }
+  .hero-titulo { font-size: clamp(40px, 10vw, 80px); }
+}
+
+@media (max-width: 768px) {
+  .hero-novidades { padding: 32px 16px 24px; }
+}

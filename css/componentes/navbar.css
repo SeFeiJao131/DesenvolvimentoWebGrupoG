@@ -66,3 +66,23 @@ header {
 .fi {
   color: var(--cor-creme-alpha);
 }
+/* ─── Responsividade ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  header { padding: 16px 24px; }
+  .Logo { font-size: 28px; }
+  .headerlinks { gap: 14px; }
+  .textobranco { font-size: 15px; }
+  .loginbotao, .signupbotao { font-size: 14px; padding: 5px 14px; }
+  .lado-esquerdo { gap: 20px; }
+}
+
+@media (max-width: 768px) {
+  header { padding: 14px 20px; }
+  .headerlinks { display: none; }
+  .acoes-header { gap: 10px; }
+  .Logo { font-size: 26px; }
+}
+
+@media (max-width: 480px) {
+  .loginbotao, .signupbotao { font-size: 13px; padding: 5px 10px; }
+}

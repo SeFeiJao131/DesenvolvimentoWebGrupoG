@@ -13,8 +13,32 @@ if (!container) {
   carregarLista();
 }
 
+/* ─── Skeleton loading ───────────────────────────────────────── */
+function gerarSkeletons(quantidade = 12) {
+  const classeCard   = tipo === "textura" ? "card-layout"         : tipo === "modelo" ? "card-modelo"         : "card-hdri";
+  const classeImagem = tipo === "textura" ? "imagem-card-layout"  : tipo === "modelo" ? "imagem-card-modelo"  : "imagem-card-hdri";
+  const classeInfo   = tipo === "textura" ? "info-card-layout"    : tipo === "modelo" ? "info-card-modelo"    : "info-card-hdri";
+
+  return Array.from({ length: quantidade }, () => `
+    <div class="${classeCard}" style="pointer-events:none;">
+      <div class="${classeImagem}" style="background:linear-gradient(90deg,#2a1f1f 25%,#3a2a2a 50%,#2a1f1f 75%);background-size:200% 100%;animation:skeleton-shimmer 1.4s infinite;"></div>
+      <div class="${classeInfo}" style="gap:8px;">
+        <div style="height:12px;width:60%;background:#2a1f1f;border-radius:4px;animation:skeleton-shimmer 1.4s infinite;background-size:200% 100%;"></div>
+        <div style="height:10px;width:40%;background:#2a1f1f;border-radius:4px;animation:skeleton-shimmer 1.4s infinite;background-size:200% 100%;"></div>
+      </div>
+    </div>`).join("");
+}
+
+/* Injeta animação CSS do shimmer uma única vez */
+if (!document.getElementById("skeleton-style")) {
+  const style = document.createElement("style");
+  style.id = "skeleton-style";
+  style.textContent = `@keyframes skeleton-shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`;
+  document.head.appendChild(style);
+}
+
 async function carregarLista() {
-  container.innerHTML = `<p style="color:#6b5a5a; padding: 40px;">Carregando assets...</p>`;
+  container.innerHTML = gerarSkeletons(12);
 
   try {
     const url      = `${API_BASE}/produtos?tipo=${tipo}&limite=60`;

@@ -204,3 +204,14 @@
     font-size: 48px;
   }
 }
+@media (max-width: 480px) {
+  .grade-categoria {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 10px 40px;
+    gap: 8px;
+  }
+  .categoria-titulo { font-size: 36px; }
+  .busca-pg-filtros,
+  .cabecalho-categoria,
+  .caminho-categoria { padding-left: 10px; padding-right: 10px; }
+}

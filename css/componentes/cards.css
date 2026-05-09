@@ -1,6 +1,6 @@
 .container-card-index {
   display: grid;
-  grid-template-columns: repeat(3, 320px);
+  grid-template-columns: repeat(3, minmax(0, 320px));
   gap: 2.5rem;
   justify-content: center;
   align-items: center;
@@ -69,7 +69,7 @@
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 0 60px 60px;
+  padding: 0 clamp(16px, 5vw, 60px) 60px;
 }
 
 .cards-linha {
@@ -130,13 +130,13 @@
 .card-layout {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   background: var(--cor-fundo-card);
-  margin: 10px;
+  margin: 10px auto;
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-decoration: none;
-  margin-left: 132px;
 }
 
 .imagem-card-layout img {
@@ -167,13 +167,13 @@
 .card-modelo {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   background: var(--cor-fundo-card);
-  margin: 10px;
+  margin: 10px auto;
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-decoration: none;
-  margin-left: 132px;
 }
 
 .imagem-card-modelo img {
@@ -203,13 +203,13 @@
 .card-hdri {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   background: var(--cor-fundo-card);
-  margin: 10px;
+  margin: 10px auto;
   border-radius: var(--radius-xl);
   overflow: hidden;
   text-decoration: none;
-  margin-left: 132px;
 }
 
 .imagem-card-hdri img {
@@ -234,4 +234,66 @@
   font-family: var(--font-jsmath);
   font-size: 20px;
   color: var(--cor-creme);
+}
+/* ─── Responsividade dos cards ───────────────────────────── */
+@media (max-width: 1200px) {
+  .container-card-index {
+    grid-template-columns: repeat(3, minmax(0, 280px));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .container-card-index {
+    grid-template-columns: repeat(2, minmax(0, 320px));
+    gap: 1.2rem;
+  }
+
+  .cards-linha {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-item {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .card-item img {
+    border-radius: 6px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-card-index {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0 16px;
+  }
+
+  .card-imagem-index {
+    height: 220px;
+  }
+
+  .card-layout,
+  .card-modelo,
+  .card-hdri {
+    max-width: 100%;
+    margin: 6px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-card-index {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+  }
+
+  .card-imagem-index {
+    height: 200px;
+  }
+
+  .cards-novidades {
+    padding: 0 12px 40px;
+  }
 }

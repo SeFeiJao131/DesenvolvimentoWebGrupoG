@@ -382,3 +382,10 @@ mark.busca-hl {
   font-size: 13px;
   color: var(--cor-texto-suave);
 }
+@media (max-width: 480px) {
+  .grade-busca-pg {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .busca-pg-titulo { font-size: 28px; }
+}
