@@ -1,7 +1,3 @@
-/* ═══════════════════════════════════════════════
-   FOOTER — footer.css
-   ═══════════════════════════════════════════════ */
-
 footer {
   display: flex;
   flex-direction: column;
@@ -22,16 +18,14 @@ footer {
   width: 100%;
 }
 
-/* ── Lado esquerdo footer ─────────────────────── */
 .lado-esquerdo-footer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: clamp(24px, 4vw, 37px) clamp(16px, 4vw, 60px) 0 var(--container-pad-lg);
+  padding: 37px clamp(16px, 5vw, 60px) 0 clamp(20px, 8vw, 135px);
   flex: 1;
   min-width: 260px;
-  max-width: 420px;
 }
 
 .lado-esquerdo-footer h3 {
@@ -39,72 +33,75 @@ footer {
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
   color: #BFB4A1;
-  font-size: clamp(26px, 4vw, 45px);
+  font-size: clamp(28px, 4vw, 45px);
   padding-bottom: 14px;
 }
 
 .descricao {
   color: var(--cor-texto-fraco);
   font-family: var(--font-mono);
-  padding: 0 0 25px;
-  font-size: 13px;
-  line-height: 1.7;
+  padding: 0px 0px 25px 0px;
+  max-width: 340px;
 }
 
 .newsletter {
   color: var(--cor-dourado-vivo);
   font-family: var(--font-mono);
-  font-size: 13px;
   padding-bottom: 15px;
 }
 
 .campo-email {
   position: relative;
   width: 100%;
-  max-width: 320px;
+  max-width: 340px;
 }
 
 input[type="email"] {
   width: 100%;
   background: var(--cor-fundo);
-  padding: 16px 50px 16px 18px;
-  font-size: 0.9rem;
+  padding: 18px 24px 18px 18px;
+  font-size: 0.95rem;
   border: 1px solid #2A1C17;
   outline: none;
   color: white;
-  border-radius: 4px;
 }
 
-input[type="email"]::placeholder { color: #8a6f66; }
-input[type="email"]:focus { border-color: #5a3a2f; }
+input[type="email"]::placeholder {
+  color: #8a6f66;
+}
+
+input[type="email"]:focus {
+  border-color: #5a3a2f;
+}
 
 .campo-email button {
   position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   background: transparent;
   border: none;
   color: var(--cor-dourado-vivo);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   min-width: 44px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s;
 }
 
-.campo-email button:hover { opacity: 0.8; }
+.campo-email button:hover {
+  opacity: 0.8;
+}
 
-/* ── Lado direito footer ──────────────────────── */
 .lado-direito-footer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: clamp(24px, 4vw, 60px) var(--container-pad-lg) clamp(24px, 4vw, 60px) clamp(16px, 4vw, 40px);
+  padding: clamp(24px, 5vw, 75px) clamp(20px, 8vw, 135px) clamp(24px, 5vw, 75px) 0px;
   justify-content: flex-end;
-  gap: clamp(28px, 5vw, 80px);
+  gap: clamp(32px, 6vw, 100px);
   flex: 1;
   min-width: 260px;
 }
@@ -112,29 +109,19 @@ input[type="email"]:focus { border-color: #5a3a2f; }
 .campo h4 {
   color: #BFB4A1;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 13px;
   font-family: var(--font-sans);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-style: normal;
 }
 
 .campo li {
   color: var(--cor-texto-muted);
   font-size: 13px;
   font-family: var(--font-sans);
-  padding: 16px 0 4px;
-  transition: color 0.2s;
+  font-style: normal;
+  padding: 20px 0px 6px 0px;
 }
 
-.campo a {
-  color: var(--cor-texto-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.campo a:hover { color: var(--cor-dourado-alt); }
-
-/* ── Rodapé inferior ──────────────────────────── */
 .baixo-baixo {
   display: flex;
   justify-content: space-between;
@@ -148,26 +135,31 @@ input[type="email"]:focus { border-color: #5a3a2f; }
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
-  padding: 8px var(--container-pad-lg);
-  gap: 0;
+  padding: 5px 15px 5px clamp(16px, 4vw, 36px);
+  gap: 4px;
 }
 
 .divisaoNegocio p {
-  padding: 4px 10px 0 5px;
+  padding: 5px 10px 0px 5px;
+  align-items: center;
 }
 
-.baixo-esquerda { padding: 0 15px 0 var(--container-pad-lg); }
-.baixo-meio-esquerda { padding: 0 0 5px 15px; }
+.baixo-esquerda {
+  padding: 0px 15px 0px clamp(16px, 6vw, 96px);
+}
+
+.baixo-meio-esquerda {
+  padding: 0px 0px 5px 15px;
+}
 
 .baixo-direita {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 var(--container-pad);
+  padding: 0 clamp(16px, 2vw, 24px);
   color: #7e7569;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-style: normal;
   text-align: right;
 }
 
@@ -175,29 +167,85 @@ input[type="email"]:focus { border-color: #5a3a2f; }
   display: flex;
   height: 33px;
   border-left: 2px solid var(--cor-fundo);
-  margin: 8px 0 0;
+  margin-top: 8px;
 }
 
-.systemFilosofia { color: var(--cor-texto-muted); font-family: var(--font-sans); font-size: 12px; }
-.minimalista     { color: var(--cor-dourado-vivo); font-family: var(--font-mono); font-size: 11px; }
-.Visao           { color: #BFB4A1; font-family: var(--font-sans); font-size: 11px; padding-bottom: 8px; }
-
-/* ── Responsividade ───────────────────────────── */
-@media (max-width: 900px) {
-  .divisao { flex-direction: column; gap: 0; padding-bottom: 0; }
-  .lado-esquerdo-footer { padding: 32px var(--container-pad) 24px; max-width: 100%; width: 100%; }
-  .lado-direito-footer { padding: 24px var(--container-pad) 32px; justify-content: flex-start; gap: 36px; }
+.systemFilosofia {
+  color: var(--cor-texto-muted);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 14px;
 }
 
-@media (max-width: 600px) {
-  .baixo-baixo { flex-direction: column; align-items: flex-start; padding-bottom: 8px; }
-  .divisaoNegocio { padding: 8px var(--container-pad); }
-  .baixo-esquerda, .baixo-meio-esquerda { padding-left: var(--container-pad); }
-  .baixo-direita { padding: 0 var(--container-pad) 16px; justify-content: flex-start; text-align: left; }
-  .linha-vertical { display: none; }
+.minimalista {
+  color: var(--cor-dourado-vivo);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.Visao {
+  color: #BFB4A1;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+
+/* ─── Responsividade do Footer ───────────────────────────── */
+@media (max-width: 768px) {
+  .divisao {
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  .lado-esquerdo-footer {
+    padding: 32px 20px 24px;
+    width: 100%;
+  }
+
+  .lado-direito-footer {
+    padding: 24px 20px 32px;
+    justify-content: flex-start;
+    gap: 40px;
+  }
+
+  .baixo-baixo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .baixo-esquerda {
+    padding: 0 20px;
+  }
+
+  .baixo-meio-esquerda {
+    padding: 0 20px 5px;
+  }
+
+  .baixo-direita {
+    padding: 0 20px 16px;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .divisaoNegocio {
+    padding: 5px 20px;
+  }
+
+  .linha-vertical {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
-  .lado-direito-footer { gap: 24px; }
-  .campo-email { max-width: 100%; }
+  .lado-direito-footer {
+    gap: 28px;
+  }
+
+  .lado-esquerdo-footer h3 {
+    font-size: 28px;
+  }
 }
