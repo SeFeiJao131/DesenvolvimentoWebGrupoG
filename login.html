@@ -5,17 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Entrar na sua conta JoinRender">
   <title>Entrar — JoinRender</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="fonts.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Playfair+Display+SC:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300..600;1,9..40,300..600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cor-fundo:        #1C1515;
+      --cor-fundo-input:  #221a1a;
+      --cor-borda:        #3a2c2c;
+      --cor-borda-escura: #2e2020;
+      --cor-creme:        #E8DCC4;
+      --cor-dourado:      #c8a96e;
+      --cor-texto-suave:  #7a6a6a;
+      --cor-erro:         #c0524a;
+      --font-serif:       'Playfair Display', serif;
+      --font-serif-sc:    'Playfair Display SC', serif;
+      --font-sans:        'DM Sans', sans-serif;
+      --radius-md:  10px;
+      --radius-lg:  16px;
+      --radius-pill: 50px;
+    }
+
+    html { overflow-x: hidden; }
+
+    body {
+      background: var(--cor-fundo);
+      font-family: var(--font-sans), sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 40px);
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    button, input { font-family: inherit; }
+    a { text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--cor-dourado); outline-offset: 3px; border-radius: 4px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+
+    /* ── Layout principal: dois lados lado a lado, sem painel ── */
+    .login-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 100px);
+      align-items: center;
+    }
+
+    /* ── Lado esquerdo ────────────────────────────── */
+    .lado-esquerdo-login {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(16px, 2.5vw, 28px);
+    }
+
+    .lado-esquerdo-login h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      color: var(--cor-creme);
+    }
+
+    .area-imagem {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 360px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #261d1d;
+    }
+
+    .area-imagem img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+    }
+
+    /* ── Lado direito ─────────────────────────────── */
+    .lado-direito-login {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(12px, 2vw, 18px);
+    }
+
+    .lado-direito-login h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      color: var(--cor-creme);
+      margin-bottom: 4px;
+    }
+
+    /* ── Campos ───────────────────────────────────── */
+    .campos-login { display: flex; flex-direction: column; gap: 14px; }
+
+    .login-input {
+      width: 100%;
+      background: var(--cor-fundo-input);
+      border: 1.5px solid var(--cor-borda);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      color: var(--cor-creme);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      min-height: 52px;
+    }
+    .login-input::placeholder { color: var(--cor-texto-suave); }
+    .login-input:focus { border-color: var(--cor-dourado); }
+
+    .campo-senha-wrapper { position: relative; }
+    .campo-senha-wrapper .login-input { padding-right: 52px; }
+
+    .botao-olho {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none;
+      color: var(--cor-texto-suave);
+      cursor: pointer;
+      min-width: 36px; min-height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      transition: color 0.2s; padding: 0;
+    }
+    .botao-olho:hover { color: var(--cor-creme); }
+    .botao-olho svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .lembrar-login {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem; color: var(--cor-texto-suave);
+      cursor: pointer; min-height: 36px; user-select: none;
+    }
+    .lembrar-login input[type="checkbox"] {
+      width: 15px; height: 15px;
+      accent-color: var(--cor-dourado); cursor: pointer; flex-shrink: 0;
+    }
+
+    .msg-erro { font-size: 0.82rem; color: var(--cor-erro); min-height: 18px; display: none; }
+    .msg-erro.visivel { display: block; }
+
+    .botao-entrar {
+      width: 100%; padding: 17px;
+      background: var(--cor-creme); color: #1C1515;
+      border: none; border-radius: var(--radius-pill);
+      font-family: var(--font-serif-sc);
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      cursor: pointer; min-height: 56px;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.04em;
+    }
+    .botao-entrar:hover { background: #d4c8ae; transform: translateY(-1px); }
+    .botao-entrar:active { transform: translateY(0); }
+
+    .link-esqueceu {
+      text-align: right; font-size: 0.88rem;
+      color: var(--cor-creme); align-self: flex-end;
+      transition: color 0.2s; padding: 2px 0;
+    }
+    .link-esqueceu:hover { color: var(--cor-dourado); }
+
+    .divisor-login { display: flex; align-items: center; gap: 12px; }
+    .linha-divisor-login { flex: 1; height: 1px; background: var(--cor-borda); }
+    .texto-divisor-login {
+      font-size: 0.82rem; color: var(--cor-dourado); white-space: nowrap;
+    }
+
+    .botoes-sociais { display: flex; gap: 10px; }
+    .botao-social-login {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--cor-fundo-input);
+      border: 1.5px solid var(--cor-borda);
+      color: var(--cor-creme);
+      font-size: 0.875rem; cursor: pointer;
+      padding: 11px 8px; border-radius: var(--radius-pill);
+      min-height: 46px;
+      transition: border-color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .botao-social-login:hover { border-color: var(--cor-dourado); background: #2e2020; }
+
+    /* ── Rodapé (fora do grid, abaixo de tudo) ────── */
+    .rodape-login {
+      width: 100%;
+      max-width: 1000px;
+      margin-top: clamp(28px, 4vw, 48px);
+      padding-top: clamp(14px, 2vw, 22px);
+      border-top: 1px solid var(--cor-borda-escura);
+      display: flex;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--cor-texto-suave);
+    }
+    .rodape-login a { color: var(--cor-dourado); font-weight: 500; transition: opacity 0.2s; }
+    .rodape-login a:hover { opacity: 0.8; text-decoration: underline; }
+
+    /* ── Responsividade ───────────────────────────── */
+    @media (max-width: 768px) {
+      .login-wrapper {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .lado-esquerdo-login {
+        align-items: center;
+        text-align: center;
+      }
+      .area-imagem { max-width: 260px; }
+      .rodape-login { max-width: 100%; }
+    }
+
+    @media (max-width: 520px) {
+      .lado-esquerdo-login { display: none; }
+      .botoes-sociais { flex-direction: column; gap: 8px; }
+      .botao-social-login { width: 100%; min-height: 48px; }
+    }
+
+    @media (max-width: 360px) {
+      body { padding: 20px 12px; }
+    }
+  </style>
 </head>
 
-<body class="login-body">
+<body>
 
-  <div class="container-principal" role="main">
+  <div class="login-wrapper" role="main">
 
     <!-- Lado esquerdo — imagem decorativa -->
     <div class="lado-esquerdo-login" aria-hidden="true">
-      <h1>Bem-vindo de volta</h1>
+      <h1>Bem-vindo</h1>
       <div class="area-imagem">
         <img src="Imagens/ImagemLogin.png" alt="Imagem decorativa de login" loading="lazy">
       </div>
@@ -31,17 +259,29 @@
           placeholder="E-mail ou usuário" autocomplete="username">
 
         <label for="input-senha" class="sr-only">Senha</label>
-        <input class="login-input" type="password" id="input-senha"
-          placeholder="Senha" autocomplete="current-password">
-
-        <button type="button" class="botao-olho" id="botao-olho"
-          aria-label="Mostrar ou esconder senha">👁</button>
+        <div class="campo-senha-wrapper">
+          <input class="login-input" type="password" id="input-senha"
+            placeholder="Senha" autocomplete="current-password">
+          <button type="button" class="botao-olho" id="botao-olho" aria-label="Mostrar senha">
+            <svg id="icone-olho" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg id="icone-olho-fechado" viewBox="0 0 24 24" aria-hidden="true" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
 
         <label class="lembrar-login">
-          <input type="checkbox" aria-label="Manter conectado">
+          <input type="checkbox" id="check-lembrar" aria-label="Manter conectado">
           Manter conectado
         </label>
       </div>
+
+      <span class="msg-erro" id="msg-erro" role="alert" aria-live="polite"></span>
 
       <button class="botao-entrar" type="button" id="botao-entrar">Entrar</button>
 
@@ -60,15 +300,26 @@
       </div>
     </div>
 
-    <!-- Rodapé do card -->
-    <div class="rodape-login">
-      <p>Não possui conta? <a href="Criarconta.html">Criar conta</a></p>
-    </div>
-
   </div>
 
-  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}</style>
+  <!-- Rodapé fora do grid -->
+  <div class="rodape-login">
+    <p>Não possui conta? <a href="Criarconta.html">Criar conta</a></p>
+  </div>
 
   <script type="module" src="login.js"></script>
+  <script>
+    const botaoOlho = document.getElementById('botao-olho');
+    const inputSenha = document.getElementById('input-senha');
+    const iconeAberto = document.getElementById('icone-olho');
+    const iconeFechado = document.getElementById('icone-olho-fechado');
+    botaoOlho.addEventListener('click', () => {
+      const visivel = inputSenha.type === 'text';
+      inputSenha.type = visivel ? 'password' : 'text';
+      iconeAberto.style.display = visivel ? '' : 'none';
+      iconeFechado.style.display = visivel ? 'none' : '';
+      botaoOlho.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
+    });
+  </script>
 </body>
 </html>

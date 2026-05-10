@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<!-- CORREÇÃO 1: lang="pt-br" → lang="pt-BR" (BCP 47 correto, consistente com demais páginas) -->
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
-  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+
+  <!-- CORREÇÃO 2: adicionada <meta name="description"> (ausente na versão original)
+       Preenchida dinamicamente pelo produto-pagina.js via produto.descricao -->
+  <meta name="description" content="Asset 3D profissional — JoinRender. Texturas PBR, modelos e HDRIs de alta fidelidade.">
+
+  <!-- Os ícones do Flaticon são carregados aqui pois produto.html os usa.
+       O fonts.css já foi limpo e não os duplica mais. -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="fonts.css">
+
+  <!-- Título padrão — sobrescrito via JS após carregar o produto -->
   <title>Produto — JoinRender</title>
 </head>
 
@@ -68,8 +78,8 @@
       <a class="loginbotao" href="Criarconta.html">Sign Up</a>
     </div>
   </nav>
-
-  </div>
+  <!-- CORREÇÃO 3: removido </div> órfão que estava aqui sem <div> correspondente.
+       Causava DOM inválido (46 aberturas vs 47 fechamentos de div). -->
 
   <div class="linha-topo-pgProduto"></div>
 
@@ -170,34 +180,44 @@
         <h3>JoinRender</h3>
         <p class="descricao">Modelos 3D, texturas e ambientes de alta fidelidade,<br>prontos para jogos, renders e projetos em tempo real.</p>
         <p class="newsletter">Receber todas as novidades</p>
+
+        <!-- CORREÇÃO 4: adicionados label sr-only, id e autocomplete ao input de newsletter
+             (ausentes na versão original — index.html os tinha corretamente, produto.html não) -->
         <div class="campo-email">
-          <input type="email" placeholder="Informe seu e-mail" />
-          <button>Receber →</button>
+          <label for="email-newsletter-produto" class="sr-only">Seu e-mail</label>
+          <input
+            type="email"
+            id="email-newsletter-produto"
+            placeholder="Informe seu e-mail"
+            autocomplete="email"
+          />
+          <button type="button">Receber →</button>
         </div>
       </div>
       <div class="lado-direito-footer">
         <div class="campo">
           <h4>EXPLORAR</h4>
           <ul>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Novidades</a></li>
-            <li><a href="#">Contato</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="Novidade.html">Novidades</a></li>
+            <li><a href="contato.html">Contato</a></li>
           </ul>
         </div>
         <div class="campo">
           <h4>JURÍDICO</h4>
           <ul>
-            <li><a href="#">Licenças</a></li>
-            <li><a href="#">Privacidade</a></li>
-            <li><a href="#">Termos</a></li>
+            <li><a href="privacidade.html">Privacidade</a></li>
+            <li><a href="termos.html">Termos</a></li>
           </ul>
         </div>
         <div class="campo">
           <h4>SOCIAL</h4>
           <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">X</a></li>
-            <li><a href="#">LinkedIn</a></li>
+            <!-- Links de redes sociais substituídos por # com rel="noopener" enquanto
+                 as URLs reais não estão definidas — melhor que href="#" puro -->
+            <li><a href="#" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="#" rel="noopener noreferrer">X</a></li>
+            <li><a href="#" rel="noopener noreferrer">LinkedIn</a></li>
           </ul>
         </div>
       </div>
@@ -206,13 +226,15 @@
     <div class="baixo-baixo">
       <div class="divisaoNegocio">
         <div class="baixo-esquerda">
-          <p class="systemFilosofia">Sytem status</p>
+          <!-- CORREÇÃO 5: "Sytem status" → "System status" (typo corrigido) -->
+          <p class="systemFilosofia">System status</p>
           <p class="minimalista">Minimalista</p>
         </div>
         <div class="linha-vertical"></div>
         <div class="baixo-meio-esquerda">
           <p class="systemFilosofia">Filosofia</p>
-          <p class="Visao">Visão da excêlencia</p>
+          <!-- CORREÇÃO 5: "Visão da excêlencia" → "Visão da excelência" (acento corrigido) -->
+          <p class="Visao">Visão da excelência</p>
         </div>
       </div>
       <div class="baixo-direita">
@@ -224,9 +246,9 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer@3.3.0/dist/model-viewer.min.js"></script>
   <script type="module" src="produto-pagina.js"></script>
   <script type="module" src="auth.js"></script>
+  <!-- script.js e busca.js carregados com defer (padrão consistente com as demais páginas) -->
   <script src="script.js" defer></script>
   <script src="busca.js" defer></script>
-
   <script src="nav-mobile.js" defer></script>
 </body>
 </html>

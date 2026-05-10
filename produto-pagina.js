@@ -1,7 +1,14 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   produto-pagina.js — Lógica da página de produto individual
+   CORREÇÕES:
+   1. Removidos imports não utilizados: initializeApp, getApps
+      (o app já vem inicializado de config.js — re-importar firebase-app era inútil)
+   2. Adicionada atualização dinâmica da <meta name="description"> para SEO
+   ───────────────────────────────────────────────────────────────────────────── */
+
 import { app } from "./config.js";
 import { buscarProdutoPorId, registrarDownload, usuarioJaBaixou } from "./db.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
 
 const auth = getAuth(app);
 
@@ -29,10 +36,22 @@ async function carregarProduto() {
   }
 }
 
-// ── Preenche textos ────────────────────────────────────────────────────────────
+// ── Preenche textos e meta tags ────────────────────────────────────────────────
 
 function preencherPagina(produto) {
+  // Título da aba
   document.title = `${produto.nome} — JoinRender`;
+
+  // CORREÇÃO: atualiza <meta name="description"> dinamicamente para SEO
+  // Permite que crawlers que executam JS (Googlebot) leiam a descrição correta
+  let metaDesc = document.querySelector('meta[name="description"]');
+  if (!metaDesc) {
+    metaDesc = document.createElement("meta");
+    metaDesc.name = "description";
+    document.head.appendChild(metaDesc);
+  }
+  const descricaoCurta = (produto.descricao || "Asset 3D profissional no JoinRender.").slice(0, 155);
+  metaDesc.setAttribute("content", `${produto.nome} — ${descricaoCurta}`);
 
   setText("nome-produto",      produto.nome);
   setText("descricao-produto", produto.descricao || "Sem descrição disponível.");
@@ -88,21 +107,21 @@ function detectarConfigIluminacao(produto) {
   ].join(" ").toLowerCase();
 
   if (/vidro|glass|cristal|crystal|transparente|transparent|glazed/.test(texto)) {
-    return { hdri: HDRI_STUDIO, exposure: "1.5", shadowIntensity: "0.25", shadowSoftness: "1.0", toneMapping: "aces", rotationPerSec: "15deg" };
+    return { hdri: HDRI_STUDIO,   exposure: "1.5",  shadowIntensity: "0.25", shadowSoftness: "1.0", toneMapping: "aces",     rotationPerSec: "15deg" };
   }
   if (/metal|aco|aço|steel|chrome|cromo|alumin|copper|cobre|gold|ouro|silver|prata|iron|ferro|brass|latao|latão/.test(texto)) {
-    return { hdri: HDRI_STUDIO, exposure: "1.15", shadowIntensity: "0.75", shadowSoftness: "0.5", toneMapping: "aces", rotationPerSec: "20deg" };
+    return { hdri: HDRI_STUDIO,   exposure: "1.15", shadowIntensity: "0.75", shadowSoftness: "0.5", toneMapping: "aces",     rotationPerSec: "20deg" };
   }
   if (/pedra|stone|marmore|marble|concreto|concrete|granito|granite|tijolo|brick|ceramic|ceramica|tile|azulejo/.test(texto)) {
-    return { hdri: HDRI_EXTERIOR, exposure: "1.05", shadowIntensity: "1.0", shadowSoftness: "0.85", toneMapping: "commerce", rotationPerSec: "18deg" };
+    return { hdri: HDRI_EXTERIOR, exposure: "1.05", shadowIntensity: "1.0",  shadowSoftness: "0.85", toneMapping: "commerce", rotationPerSec: "18deg" };
   }
   if (/madeira|wood|tecido|fabric|couro|leather|pano|cloth|carpet|tapete|veludo|velvet|linen|linho/.test(texto)) {
-    return { hdri: HDRI_INTERIOR, exposure: "1.1", shadowIntensity: "0.9", shadowSoftness: "0.9", toneMapping: "commerce", rotationPerSec: "18deg" };
+    return { hdri: HDRI_INTERIOR, exposure: "1.1",  shadowIntensity: "0.9",  shadowSoftness: "0.9", toneMapping: "commerce", rotationPerSec: "18deg" };
   }
   if (/plastico|plastic|borracha|rubber|resina|resin|silicone/.test(texto)) {
-    return { hdri: HDRI_STUDIO, exposure: "1.1", shadowIntensity: "0.85", shadowSoftness: "0.7", toneMapping: "aces", rotationPerSec: "20deg" };
+    return { hdri: HDRI_STUDIO,   exposure: "1.1",  shadowIntensity: "0.85", shadowSoftness: "0.7", toneMapping: "aces",     rotationPerSec: "20deg" };
   }
-  return { hdri: HDRI_STUDIO, exposure: "1.1", shadowIntensity: "0.8", shadowSoftness: "0.8", toneMapping: "aces", rotationPerSec: "20deg" };
+  return   { hdri: HDRI_STUDIO,   exposure: "1.1",  shadowIntensity: "0.8",  shadowSoftness: "0.8", toneMapping: "aces",     rotationPerSec: "20deg" };
 }
 
 // ── Viewer ─────────────────────────────────────────────────────────────────────

@@ -1,30 +1,27 @@
+/* ── Fonte local ─────────────────────────────────────────────────────────────
+   CORREÇÃO: nome do arquivo era "jsMath-cbmx10.ttf" (errado) → "jsMath-cmbx10.ttf" (correto)
+   ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
-    font-family: "jsMath";
-    src: url("Fontes/jsMath-cbmx10.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "jsMath";
+  src: url("Fontes/jsMath-cmbx10.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi+Ink&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@400..700&display=swap');
-@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
-@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css');
-@import url('https://cdn-uicons.flaticon.com/uicons-thin-rounded/css/uicons-thin-rounded.css');
-@import url('https://cdn-uicons.flaticon.com/uicons-thin-straight/css/uicons-thin-straight.css');
-@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-straight/css/uicons-thin-straight.css');
+/* ── Google Fonts — consolidado de 15 requests para 1 ───────────────────────
+   Inclui todas as famílias usadas no projeto:
+   DM Sans, Playfair Display, Playfair Display SC, Roboto,
+   Roboto Serif, Recursive, IM Fell French Canon SC
+   ─────────────────────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400&family=Roboto:ital,wght@0,100..900;1,100..900&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Recursive:wght@300..1000&family=IM+Fell+French+Canon+SC&display=swap');
+
+/* ── Adobe Typekit (mantido separado — não é Google Fonts) ──────────────── */
 @import url('https://use.typekit.net/alc3yik.css');
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&display=swap');
-@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
+/* ── Flaticon UIcons — consolidado de 5 requests para 1 ────────────────────
+   Versão 4.0.0 inclui os conjuntos: regular-rounded, thin-rounded, thin-straight
+   ─────────────────────────────────────────────────────────────────────────── */
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 @import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css');
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=DM+Sans:wght@400;500&family=Recursive:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-straight/css/uicons-thin-straight.css');

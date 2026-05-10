@@ -1,4 +1,16 @@
-/* Painel de busca */
+/* ─────────────────────────────────────────────────────────────────────────────
+   script.js — Utilitários globais da página
+   CORREÇÃO: bloco "Drawer de navegação mobile" REMOVIDO daqui.
+   O drawer é gerenciado exclusivamente por nav-mobile.js, que é carregado
+   em todas as páginas. Manter aqui causava double event listeners em
+   index.html (onde ambos os scripts eram carregados), fazendo o drawer
+   fechar imediatamente após abrir.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Painel de busca ─────────────────────────────────────────────────────────
+   Abre o overlay de busca ao focar no input da navbar.
+   (A lógica completa de autocomplete fica em busca.js)
+   ─────────────────────────────────────────────────────────────────────────── */
 const barraPesquisa = document.querySelector(".barra-pesquisa input");
 const overlay = document.querySelector(".overlay-busca");
 const painel = document.querySelector(".painel-busca");
@@ -15,7 +27,9 @@ if (barraPesquisa && overlay && painel) {
   });
 }
 
-/* Data no index */
+/* ── Data dinâmica na home ───────────────────────────────────────────────────
+   Preenche o badge "#dataHoje" na seção hero da index.html
+   ─────────────────────────────────────────────────────────────────────────── */
 (function () {
   const el = document.getElementById("dataHoje");
   if (!el) return;
@@ -28,7 +42,9 @@ if (barraPesquisa && overlay && painel) {
   el.textContent = formatada;
 })();
 
-/* Carrossel */
+/* ── Carrossel de novidades ──────────────────────────────────────────────────
+   Usado na página Novidade.html
+   ─────────────────────────────────────────────────────────────────────────── */
 const trilha = document.getElementById('nov-carrossel-trilha');
 const botaoAnterior = document.getElementById('nov-anterior');
 const botaoProximo = document.getElementById('nov-proximo');
@@ -58,7 +74,9 @@ if (trilha && botaoAnterior && botaoProximo) {
   });
 }
 
-/* Filtros */
+/* ── Filtros de categoria na grade de novidades ──────────────────────────────
+   Usado na página Novidade.html — filtra cards por tipo (textura/modelo/hdri)
+   ─────────────────────────────────────────────────────────────────────────── */
 const secaoFiltros = document.getElementById('nov-filtros');
 
 if (secaoFiltros) {
@@ -76,45 +94,3 @@ if (secaoFiltros) {
     });
   });
 }
-
-/* ── Drawer de navegação mobile ───────────────────────────── */
-(function () {
-  const btnAbrir  = document.getElementById('btn-hamburger');
-  const btnFechar = document.getElementById('btn-fechar-drawer');
-  const drawer    = document.getElementById('nav-drawer');
-  const overlay   = document.getElementById('nav-overlay');
-
-  if (!btnAbrir || !drawer) return;
-
-  function abrirDrawer() {
-    drawer.classList.add('aberto');
-    overlay.classList.add('ativo');
-    btnAbrir.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    btnFechar && btnFechar.focus();
-  }
-
-  function fecharDrawer() {
-    drawer.classList.remove('aberto');
-    overlay.classList.remove('ativo');
-    btnAbrir.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-    btnAbrir.focus();
-  }
-
-  btnAbrir.addEventListener('click', abrirDrawer);
-  btnFechar && btnFechar.addEventListener('click', fecharDrawer);
-  overlay.addEventListener('click', fecharDrawer);
-
-  // Fechar com Escape
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && drawer.classList.contains('aberto')) {
-      fecharDrawer();
-    }
-  });
-
-  // Fechar ao redimensionar para desktop
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 768) fecharDrawer();
-  });
-})();

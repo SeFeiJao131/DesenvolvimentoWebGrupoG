@@ -47,6 +47,22 @@ button, input, select, textarea {
   border-radius: 4px;
 }
 
+/* ── Utilitário de acessibilidade sr-only ────────────
+   CORREÇÃO: movido dos <style> inline de cada HTML para cá,
+   evitando duplicação em index.html, login.html etc.
+   ─────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* ── Animações ────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }

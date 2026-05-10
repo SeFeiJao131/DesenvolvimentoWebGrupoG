@@ -6,6 +6,7 @@ import {
   addDoc,
   getDoc,
   getDocs,
+  setDoc,
   updateDoc,
   deleteDoc,
   query,
@@ -20,13 +21,14 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-aut
 
 // ── Inicialização ──────────────────────────────────────────────────────────────
 
-const db  = getFirestore(app);
+const db   = getFirestore(app);
 const auth = getAuth(app);
 
 function docParaObjeto(snap) {
   if (!snap.exists()) return null;
   return { id: snap.id, ...snap.data() };
 }
+
 export function gerarSlug(nome) {
   return nome
     .toLowerCase()
@@ -49,9 +51,9 @@ export async function buscarProdutos({ tipo, gratuito, destaque, limite = 50 } =
   const ref = collection(db, "produtos");
   const filtros = [where("ativo", "==", true)];
 
-  if (tipo)       filtros.push(where("tipo", "==", tipo));
-  if (gratuito !== undefined) filtros.push(where("gratuito", "==", gratuito));
-  if (destaque)   filtros.push(where("destaque", "==", true));
+  if (tipo)                      filtros.push(where("tipo",     "==", tipo));
+  if (gratuito !== undefined)    filtros.push(where("gratuito", "==", gratuito));
+  if (destaque)                  filtros.push(where("destaque", "==", true));
 
   const q = query(ref, ...filtros, orderBy("criadoEm", "desc"), limit(limite));
   const snap = await getDocs(q);
@@ -104,25 +106,25 @@ export async function buscarProdutosPorTag(tag) {
  */
 export async function criarProduto(dados) {
   const novoProduto = {
-    nome:        dados.nome,
-    slug:        dados.slug || gerarSlug(dados.nome),
-    tipo:        dados.tipo,
-    descricao:   dados.descricao || "",
-    preco:       dados.preco ?? 0,
-    gratuito:    dados.preco === 0 || dados.preco == null,
-    destaque:    dados.destaque ?? false,
-    urlImagem:   dados.urlImagem || "",
-    imagens:     dados.imagens || [],
-    resolucao:   dados.resolucao || "",
-    formato:     dados.formato || [],
-    tamanhoMB:   dados.tamanhoMB || 0,
-    suporte:     dados.suporte || [],
-    render:      dados.render || [],
-    categorias:  dados.categorias || [],
-    tags:        (dados.tags || []).map(t => t.toLowerCase()),
-    downloads:   0,
-    ativo:       dados.ativo ?? true,
-    criadoEm:    serverTimestamp(),
+    nome:         dados.nome,
+    slug:         dados.slug || gerarSlug(dados.nome),
+    tipo:         dados.tipo,
+    descricao:    dados.descricao || "",
+    preco:        dados.preco ?? 0,
+    gratuito:     dados.preco === 0 || dados.preco == null,
+    destaque:     dados.destaque ?? false,
+    urlImagem:    dados.urlImagem || "",
+    imagens:      dados.imagens || [],
+    resolucao:    dados.resolucao || "",
+    formato:      dados.formato || [],
+    tamanhoMB:    dados.tamanhoMB || 0,
+    suporte:      dados.suporte || [],
+    render:       dados.render || [],
+    categorias:   dados.categorias || [],
+    tags:         (dados.tags || []).map(t => t.toLowerCase()),
+    downloads:    0,
+    ativo:        dados.ativo ?? true,
+    criadoEm:     serverTimestamp(),
     atualizadoEm: serverTimestamp(),
   };
 
@@ -173,9 +175,9 @@ export async function registrarDownload(produtoId) {
   if (!usuario) return false;
 
   await addDoc(collection(db, "downloads"), {
-    usuarioId:  usuario.uid,
+    usuarioId: usuario.uid,
     produtoId,
-    criadoEm:   serverTimestamp(),
+    criadoEm:  serverTimestamp(),
   });
 
   await updateDoc(doc(db, "produtos", produtoId), {
@@ -202,24 +204,31 @@ export async function usuarioJaBaixou(produtoId) {
   const snap = await getDocs(q);
   return !snap.empty;
 }
+
 /**
+ * Cria ou atualiza o perfil do usuário no Firestore usando seu UID como ID do documento.
+ *
+ * CORREÇÃO: A versão anterior usava updateDoc + addDoc como fallback.
+ * O problema: addDoc gera um ID aleatório em vez de usar o UID do usuário,
+ * tornando impossível buscar o usuário depois por doc(db, "usuarios", uid).
+ * Solução: setDoc com merge:true cria o documento se não existir (usando o UID
+ * como ID) ou mescla os dados se já existir — sem risco de sobrescrever campos.
+ *
  * @param {string} uid
  * @param {Object} dados
  */
 export async function salvarUsuario(uid, dados) {
-  await updateDoc(doc(db, "usuarios", uid), {
-    nome:        dados.nome || "",
-    plano:       dados.plano || "free",
-    criadoEm:    serverTimestamp(),
-  }).catch(async () => {
-    await addDoc(collection(db, "usuarios"), {
+  await setDoc(
+    doc(db, "usuarios", uid),
+    {
       uid,
-      nome:      dados.nome || "",
-      plano:     "free",
+      nome:      dados.nome  || "",
+      plano:     dados.plano || "free",
       downloads: [],
       criadoEm:  serverTimestamp(),
-    });
-  });
+    },
+    { merge: true }
+  );
 }
 
 /**
