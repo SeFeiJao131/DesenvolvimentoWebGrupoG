@@ -164,15 +164,14 @@
   position: relative;
   border-radius: var(--radius-xl);
   overflow: hidden;
-  width: 1600px;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
 .Imagem-Textura img {
   display: block;
   width: 100%;
-  max-width: 1600px;
-  border-radius: 0px;
   height: auto;
   transition: 0.4s;
 }
@@ -206,30 +205,30 @@
 
 .texto-overlay {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
+  bottom: clamp(12px, 3vw, 30px);
+  left: clamp(12px, 3vw, 30px);
   color: white;
-  font-size: 35px;
+  font-size: clamp(16px, 3vw, 35px);
   font-weight: 600;
 }
 
 .seta {
   position: absolute;
-  bottom: 30px;
-  right: 30px;
+  bottom: clamp(12px, 3vw, 30px);
+  right: clamp(12px, 3vw, 30px);
   color: white;
-  font-size: 100px;
+  font-size: clamp(36px, 6vw, 100px);
   font-weight: bold;
 }
 
 .Texto-texturas-procedurais {
   color: var(--cor-creme);
-  font-size: 65px;
+  font-size: clamp(28px, 5vw, 65px);
   font-weight: 600;
   margin: 0 0 32px;
   text-shadow: 2px 2px 5px black;
   opacity: 85%;
-  padding-left: 125px;
+  padding-left: clamp(16px, 9vw, 125px);
 }
 
 .textoDouradoText {
@@ -240,13 +239,13 @@
   text-decoration: none;
   position: relative;
   padding-bottom: 3px;
-  padding-left: 125px;
+  padding-left: clamp(16px, 9vw, 125px);
 }
 
 .curadoria {
   display: flex;
   justify-content: flex-start;
-  padding: 140px 0px 140px 135px;
+  padding: clamp(48px, 10vw, 140px) clamp(16px, 5vw, 60px) clamp(48px, 10vw, 140px) clamp(20px, 9vw, 135px);
 }
 
 .curadoria1 {
@@ -257,7 +256,7 @@
 
 .curadoria2 {
   color: var(--cor-creme);
-  font-size: 75px;
+  font-size: clamp(32px, 6vw, 75px);
   font-family: var(--font-serif-sc);
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
@@ -266,35 +265,20 @@
 /* ─── Responsividade ─────────────────────────────────────── */
 @media (max-width: 1024px) {
   .secao-modelos { padding: 48px 40px 60px; }
-  .Imagem-Textura { width: 100%; }
-  .curadoria { padding: 80px 60px; }
-  .Texto-texturas-procedurais { padding-left: 60px; font-size: 52px; }
-  .textoDouradoText { padding-left: 60px; }
 }
 
 @media (max-width: 768px) {
   .hero-novidades { padding: 40px 20px 32px; min-height: 160px; }
   .hero-titulo { font-size: clamp(36px, 12vw, 80px); }
-  /* Esconde a data no hero em mobile — mantém só o título */
   .hero-data-linha { display: none; }
   .secao-modelos { padding: 36px 20px 48px; gap: 28px; }
   .modelos-titulo { font-size: clamp(36px, 10vw, 72px); }
-  /* Esconde a descrição de modelos em mobile */
   .modelos-descricao { display: none; }
-  .Imagem-Textura { width: 100%; border-radius: 8px; }
-  .curadoria { padding: 60px 20px; }
-  .curadoria2 { font-size: 48px; }
-  .Texto-texturas-procedurais { padding-left: 20px; font-size: 36px; }
-  .textoDouradoText { padding-left: 20px; }
+  .Imagem-Textura { border-radius: 8px; }
 }
 
 @media (max-width: 480px) {
   .hero-novidades { padding: 28px 16px 24px; }
   .secao-modelos { padding: 28px 12px 40px; }
-  .curadoria { padding: 40px 16px; }
-  .curadoria2 { font-size: 36px; }
-  .Texto-texturas-procedurais { font-size: 28px; padding-left: 16px; }
-  .textoDouradoText { padding-left: 16px; }
-  /* Esconde seção curadoria em telas muito pequenas */
   .borda-esquerda { display: none; }
 }

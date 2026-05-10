@@ -7,6 +7,8 @@ footer {
 .divisao {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
   padding-bottom: 34px;
 }
 
@@ -21,7 +23,9 @@ footer {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 37px 0px 0px 135px;
+  padding: 37px clamp(16px, 5vw, 60px) 0 clamp(20px, 8vw, 135px);
+  flex: 1;
+  min-width: 260px;
 }
 
 .lado-esquerdo-footer h3 {
@@ -29,7 +33,7 @@ footer {
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
   color: #BFB4A1;
-  font-size: 45px;
+  font-size: clamp(28px, 4vw, 45px);
   padding-bottom: 14px;
 }
 
@@ -37,6 +41,7 @@ footer {
   color: var(--cor-texto-fraco);
   font-family: var(--font-mono);
   padding: 0px 0px 25px 0px;
+  max-width: 340px;
 }
 
 .newsletter {
@@ -48,6 +53,7 @@ footer {
 .campo-email {
   position: relative;
   width: 100%;
+  max-width: 340px;
 }
 
 input[type="email"] {
@@ -78,6 +84,11 @@ input[type="email"]:focus {
   color: var(--cor-dourado-vivo);
   cursor: pointer;
   font-size: 0.95rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .campo-email button:hover {
@@ -87,9 +98,12 @@ input[type="email"]:focus {
 .lado-direito-footer {
   display: flex;
   flex-direction: row;
-  padding: 75px 253px 75px 0px;
+  flex-wrap: wrap;
+  padding: clamp(24px, 5vw, 75px) clamp(20px, 8vw, 135px) clamp(24px, 5vw, 75px) 0px;
   justify-content: flex-end;
-  gap: 100px;
+  gap: clamp(32px, 6vw, 100px);
+  flex: 1;
+  min-width: 260px;
 }
 
 .campo h4 {
@@ -112,13 +126,17 @@ input[type="email"]:focus {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
 }
 
 .divisaoNegocio {
   display: flex;
   flex-direction: row;
-  padding: 5px 15px 5px 36px;
+  flex-wrap: wrap;
+  padding: 5px 15px 5px clamp(16px, 4vw, 36px);
+  gap: 4px;
 }
 
 .divisaoNegocio p {
@@ -127,7 +145,7 @@ input[type="email"]:focus {
 }
 
 .baixo-esquerda {
-  padding: 0px 15px 0px 96px;
+  padding: 0px 15px 0px clamp(16px, 6vw, 96px);
 }
 
 .baixo-meio-esquerda {
@@ -138,10 +156,11 @@ input[type="email"]:focus {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 24px;
+  padding: 0 clamp(16px, 2vw, 24px);
   color: #7e7569;
   font-family: var(--font-sans);
   font-style: normal;
+  text-align: right;
 }
 
 .linha-vertical {
@@ -170,4 +189,63 @@ input[type="email"]:focus {
   font-style: normal;
   font-size: 12px;
   padding-bottom: 10px;
+}
+
+/* ─── Responsividade do Footer ───────────────────────────── */
+@media (max-width: 768px) {
+  .divisao {
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+  }
+
+  .lado-esquerdo-footer {
+    padding: 32px 20px 24px;
+    width: 100%;
+  }
+
+  .lado-direito-footer {
+    padding: 24px 20px 32px;
+    justify-content: flex-start;
+    gap: 40px;
+  }
+
+  .baixo-baixo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .baixo-esquerda {
+    padding: 0 20px;
+  }
+
+  .baixo-meio-esquerda {
+    padding: 0 20px 5px;
+  }
+
+  .baixo-direita {
+    padding: 0 20px 16px;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .divisaoNegocio {
+    padding: 5px 20px;
+  }
+
+  .linha-vertical {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .lado-direito-footer {
+    gap: 28px;
+  }
+
+  .lado-esquerdo-footer h3 {
+    font-size: 28px;
+  }
 }

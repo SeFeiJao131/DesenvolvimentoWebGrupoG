@@ -76,3 +76,45 @@ if (secaoFiltros) {
     });
   });
 }
+
+/* ── Drawer de navegação mobile ───────────────────────────── */
+(function () {
+  const btnAbrir  = document.getElementById('btn-hamburger');
+  const btnFechar = document.getElementById('btn-fechar-drawer');
+  const drawer    = document.getElementById('nav-drawer');
+  const overlay   = document.getElementById('nav-overlay');
+
+  if (!btnAbrir || !drawer) return;
+
+  function abrirDrawer() {
+    drawer.classList.add('aberto');
+    overlay.classList.add('ativo');
+    btnAbrir.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    btnFechar && btnFechar.focus();
+  }
+
+  function fecharDrawer() {
+    drawer.classList.remove('aberto');
+    overlay.classList.remove('ativo');
+    btnAbrir.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    btnAbrir.focus();
+  }
+
+  btnAbrir.addEventListener('click', abrirDrawer);
+  btnFechar && btnFechar.addEventListener('click', fecharDrawer);
+  overlay.addEventListener('click', fecharDrawer);
+
+  // Fechar com Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.classList.contains('aberto')) {
+      fecharDrawer();
+    }
+  });
+
+  // Fechar ao redimensionar para desktop
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) fecharDrawer();
+  });
+})();

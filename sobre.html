@@ -2,28 +2,64 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sobre — JoinRender</title>
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="fonts.css">
 </head>
-<body>
+<body class="inst-layout">
 
-<div class="container">
-  <h1>Sobre a JoinRender</h1>
+  <header>
+    <nav class="navheader">
+      <div class="lado-esquerdo">
+        <a class="Logo" href="index.html">JR.</a>
+        <ul class="headerlinks">
+          <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
+          <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
+          <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
+        </ul>
+      </div>
+      <button class="btn-hamburger" id="btn-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-drawer">
+        <i class="fi fi-rr-menu-burger"></i>
+      </button>
+      <div class="acoes-header">
+        <a class="signupbotao" href="login.html">Login</a>
+        <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+      </div>
+    </nav>
+  </header>
 
-  <p>
-    A JoinRender é uma plataforma dedicada a fornecer assets 3D de alta qualidade
-    para artistas, desenvolvedores e criadores digitais.
-  </p>
+  <main class="inst-main">
+    <p class="inst-breadcrumb"><a href="index.html">Início</a> / Sobre</p>
+    <h1 class="inst-titulo">Sobre a JoinRender</h1>
+    <div class="inst-corpo">
+      <p>A JoinRender é uma plataforma dedicada a fornecer assets 3D de alta qualidade para artistas, desenvolvedores e criadores digitais.</p>
+      <p>Nosso objetivo é democratizar o acesso a conteúdos profissionais como texturas PBR, modelos otimizados e HDRIs realistas.</p>
+      <p>Criado para acelerar workflows e elevar a qualidade de projetos visuais.</p>
+    </div>
+  </main>
 
-  <p>
-    Nosso objetivo é democratizar o acesso a conteúdos profissionais como
-    texturas PBR, modelos otimizados e HDRIs realistas.
-  </p>
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
+    <div class="nav-drawer-topo">
+      <span class="nav-drawer-logo">JR.</span>
+      <button class="btn-fechar-drawer" id="btn-fechar-drawer" aria-label="Fechar menu">
+        <i class="fi fi-rr-cross-small"></i>
+      </button>
+    </div>
+    <a class="nav-drawer-link" href="LayoutTexturas.html">Texturas</a>
+    <a class="nav-drawer-link" href="LayoutModelos.html">Modelos</a>
+    <a class="nav-drawer-link" href="LayoutHdri.html">HDRIs</a>
+    <a class="nav-drawer-link" href="sobre.html">Sobre</a>
+    <div class="nav-drawer-divisor"></div>
+    <div class="nav-drawer-acoes">
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+    </div>
+  </nav>
 
-  <p>
-    Criado para acelerar workflows e elevar a qualidade de projetos visuais.
-  </p>
-</div>
-
+  <script src="script.js"></script>
 </body>
 </html>

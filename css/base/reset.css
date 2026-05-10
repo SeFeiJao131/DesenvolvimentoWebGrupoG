@@ -28,7 +28,24 @@ footer a {
     transform: translateY(0);
   }
 }
+
 @media (max-width: 768px) {
   body { overflow-x: hidden; }
   img { max-width: 100%; }
+}
+
+/* ── Evitar overflow horizontal global ─────────────────────── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* ── Respeitar preferência de animação do sistema ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

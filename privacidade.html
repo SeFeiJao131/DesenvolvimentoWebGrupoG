@@ -2,22 +2,68 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacidade — JoinRender</title>
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="fonts.css">
 </head>
-<body>
+<body class="inst-layout">
 
-<h1>Política de Privacidade</h1>
+  <header>
+    <nav class="navheader">
+      <div class="lado-esquerdo">
+        <a class="Logo" href="index.html">JR.</a>
+        <ul class="headerlinks">
+          <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
+          <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
+          <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
+        </ul>
+      </div>
+      <button class="btn-hamburger" id="btn-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-drawer">
+        <i class="fi fi-rr-menu-burger"></i>
+      </button>
+      <div class="acoes-header">
+        <a class="signupbotao" href="login.html">Login</a>
+        <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+      </div>
+    </nav>
+  </header>
 
-<p>Coletamos dados como nome e e-mail para criação de conta.</p>
+  <main class="inst-main">
+    <p class="inst-breadcrumb"><a href="index.html">Início</a> / Privacidade</p>
+    <h1 class="inst-titulo">Política de Privacidade</h1>
+    <div class="inst-corpo">
+      <p>Coletamos dados como nome e e-mail para criação de conta e autenticação.</p>
+      <h2>Uso dos dados</h2>
+      <p>Utilizamos os dados exclusivamente para autenticação e melhoria da experiência na plataforma.</p>
+      <h2>Compartilhamento</h2>
+      <p>Não vendemos nem compartilhamos seus dados com terceiros para fins comerciais.</p>
+      <h2>Segurança</h2>
+      <p>Seus dados são protegidos por infraestrutura segura (Firebase). Adotamos boas práticas de segurança e criptografia.</p>
+    </div>
+  </main>
 
-<h2>Uso dos dados</h2>
-<p>Utilizamos os dados para autenticação e melhoria da experiência.</p>
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
+    <div class="nav-drawer-topo">
+      <span class="nav-drawer-logo">JR.</span>
+      <button class="btn-fechar-drawer" id="btn-fechar-drawer" aria-label="Fechar menu">
+        <i class="fi fi-rr-cross-small"></i>
+      </button>
+    </div>
+    <a class="nav-drawer-link" href="LayoutTexturas.html">Texturas</a>
+    <a class="nav-drawer-link" href="LayoutModelos.html">Modelos</a>
+    <a class="nav-drawer-link" href="LayoutHdri.html">HDRIs</a>
+    <a class="nav-drawer-link" href="sobre.html">Sobre</a>
+    <div class="nav-drawer-divisor"></div>
+    <div class="nav-drawer-acoes">
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+    </div>
+  </nav>
 
-<h2>Compartilhamento</h2>
-<p>Não vendemos seus dados.</p>
-
-<h2>Segurança</h2>
-<p>Seus dados são protegidos por serviços seguros (Firebase).</p>
-
+  <script src="script.js"></script>
 </body>
 </html>
