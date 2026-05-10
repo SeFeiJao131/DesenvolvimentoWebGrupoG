@@ -11,43 +11,62 @@
   <link rel="stylesheet" href="fonts.css">
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <nav class="navheader">
       <div class="lado-esquerdo">
-        <div class="Logo">JR.</div>
-        <ul class="headerlinks">
-          <li><a class="textobranco" href="#">Explorar <i class="fi fi-rr-angle-small-down"></i></a></li>
+        <a class="Logo" href="index.html" aria-label="JoinRender - Início">JR.</a>
+        <ul class="headerlinks" aria-label="Navegação principal">
           <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
           <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
           <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
         </ul>
       </div>
-      <form class="barra-pesquisa" onsubmit="return false;">
-        <i class="fi fi-rr-menu-burger"></i>
-        <input type="text" placeholder="Pesquisar...">
-        <i class="fi fi-rr-search"></i>
+      <form class="barra-pesquisa" onsubmit="return false;" role="search">
+        <i class="fi fi-rr-search" aria-hidden="true"></i>
+        <input type="search" placeholder="Pesquisar..." aria-label="Pesquisar">
       </form>
+      <button class="btn-hamburger" id="btn-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-drawer">
+        <i class="fi fi-rr-menu-burger" aria-hidden="true"></i>
+      </button>
       <div class="acoes-header">
         <a class="signupbotao" href="login.html">Login</a>
         <a class="loginbotao" href="Criarconta.html">Sign Up</a>
-        <a class="textobranco" href="#">Sobre</a>
+        <a class="textobranco" href="sobre.html">Sobre</a>
       </div>
     </nav>
   </header>
 
-  <div class="overlay-busca">
+  <div class="overlay-busca" id="overlay-busca" role="dialog" aria-modal="true">
     <div class="painel-busca">
       <div class="topo-busca">
-        <div class="Logo">JR.</div>
+        <a class="Logo" href="index.html">JR.</a>
         <div class="busca-expandida">
-          <i class="fi fi-rr-menu-burger"></i>
-          <input type="text" placeholder="Pesquisar...">
-          <i class="fi fi-rr-search"></i>
+          <i class="fi fi-rr-search" aria-hidden="true"></i>
+          <input type="search" placeholder="Pesquisar texturas, modelos, HDRIs..." aria-label="Pesquisar">
         </div>
       </div>
-      <div class="conteudo-busca"></div>
+      <div class="conteudo-busca" aria-live="polite"></div>
     </div>
+  </div>
+
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
+    <div class="nav-drawer-topo">
+      <span class="nav-drawer-logo">JR.</span>
+      <button class="btn-fechar-drawer" id="btn-fechar-drawer" aria-label="Fechar menu">
+        <i class="fi fi-rr-cross-small" aria-hidden="true"></i>
+      </button>
     </div>
+    <a class="nav-drawer-link" href="LayoutTexturas.html">Texturas</a>
+    <a class="nav-drawer-link" href="LayoutModelos.html">Modelos</a>
+    <a class="nav-drawer-link" href="LayoutHdri.html">HDRIs</a>
+    <a class="nav-drawer-link" href="sobre.html">Sobre</a>
+    <div class="nav-drawer-divisor"></div>
+    <div class="nav-drawer-acoes">
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+    </div>
+  </nav>
   </div>
 
   <div class="linha-topo-hdri"></div>
@@ -135,5 +154,6 @@
   <script type="module" src="auth.js"></script>
   <script src="script.js" defer></script>
   <script src="busca.js" defer></script>
+  <script src="nav-mobile.js" defer></script>
 </body>
 </html>

@@ -1,13 +1,16 @@
-/* ── Páginas institucionais (sobre, contato, termos, privacidade) ── */
+/* ═══════════════════════════════════════════════
+   INSTITUCIONAL (sobre, contato, termos, privacidade)
+   ═══════════════════════════════════════════════ */
+
 .inst-layout {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
 
 .inst-main {
   flex: 1;
-  padding: clamp(40px, 8vw, 100px) clamp(20px, 8vw, 120px);
+  padding: clamp(32px, 6vw, 80px) var(--container-pad-lg);
   max-width: 860px;
 }
 
@@ -15,30 +18,22 @@
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--cor-dourado-alt);
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
-.inst-breadcrumb a {
-  color: var(--cor-dourado-alt);
-  text-decoration: none;
-}
-
+.inst-breadcrumb a { color: var(--cor-dourado-alt); text-decoration: none; }
 .inst-breadcrumb a:hover { text-decoration: underline; }
 
 .inst-titulo {
   font-family: var(--font-serif);
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(28px, 5vw, 56px);
   font-weight: 400;
   color: var(--cor-creme);
   line-height: 1.15;
   margin-bottom: 32px;
 }
 
-.inst-corpo {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+.inst-corpo { display: flex; flex-direction: column; gap: 22px; }
 
 .inst-corpo p {
   font-family: var(--font-sans);
@@ -49,23 +44,20 @@
 
 .inst-corpo h2 {
   font-family: var(--font-serif);
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: clamp(16px, 2.5vw, 22px);
   font-weight: 400;
   color: var(--cor-creme);
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
-.inst-corpo a {
-  color: var(--cor-dourado-alt);
-  text-decoration: none;
-}
-
+.inst-corpo a { color: var(--cor-dourado-alt); text-decoration: none; }
 .inst-corpo a:hover { text-decoration: underline; }
 
+/* ── Card de contato ──────────────────────────── */
 .inst-contato-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
   margin-top: 8px;
 }
 
@@ -73,7 +65,7 @@
   background: var(--cor-fundo-escuro);
   border: 1px solid var(--cor-borda);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -89,6 +81,11 @@
 
 .inst-contato-valor {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--cor-creme);
+}
+
+/* ── Responsividade ───────────────────────────── */
+@media (max-width: 768px) {
+  .inst-main { padding: clamp(24px, 5vw, 48px) clamp(16px, 5vw, 32px); }
 }

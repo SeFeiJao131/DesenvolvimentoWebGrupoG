@@ -1,46 +1,63 @@
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-ul {
-  list-style: none;
+html {
+  /* Evita overflow horizontal global */
+  overflow-x: hidden;
+  /* Scroll suave exceto se usuário preferir redução de movimento */
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--cor-fundo);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, sans-serif;
+  overflow-x: hidden;
+  /* dvh para suporte correto em Safari mobile */
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+ul { list-style: none; }
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a { text-decoration: none; }
 
 footer a {
   text-decoration: none;
   color: inherit;
 }
 
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* ── Focus visível para acessibilidade por teclado ─── */
+:focus-visible {
+  outline: 2px solid var(--cor-dourado-alt);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Animações ────────────────────────────────────── */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 768px) {
-  body { overflow-x: hidden; }
-  img { max-width: 100%; }
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-/* ── Evitar overflow horizontal global ─────────────────────── */
-html, body {
-  overflow-x: hidden;
-  max-width: 100%;
-}
-
-/* ── Respeitar preferência de animação do sistema ──────────── */
+/* ── Respeitar preferência de animação ────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

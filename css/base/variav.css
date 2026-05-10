@@ -1,5 +1,5 @@
 :root {
-  /* Cores principais */
+  /* ── Cores principais ─────────────────────────────── */
   --cor-fundo:        #1C1515;
   --cor-fundo-escuro: #171212;
   --cor-fundo-card:   #171414;
@@ -21,24 +21,35 @@
   --cor-texto-fraco:  #61564B;
   --cor-texto-escuro: #5a4f47;
   --cor-erro:         #c0524a;
-
   --cor-roxo:         #7B4FBE;
 
-  /* Tipografia */
-  --font-serif:       'Playfair Display', serif;
-  --font-serif-sc:    'Playfair Display SC', serif;
-  --font-serif-roboto:'Roboto Serif', serif;
-  --font-sans:        'DM Sans', sans-serif;
-  --font-mono:        'Recursive', monospace;
-  --font-roboto:      'Roboto', sans-serif;
-  --font-canon:       'IM Fell French Canon SC', serif;
-  --font-jsmath:      jsMath;
-  --font-courier:     'Courier New', monospace;
+  /* ── Tipografia ───────────────────────────────────── */
+  --font-serif:        'Playfair Display', serif;
+  --font-serif-sc:     'Playfair Display SC', serif;
+  --font-serif-roboto: 'Roboto Serif', serif;
+  --font-sans:         'DM Sans', sans-serif;
+  --font-mono:         'Recursive', monospace;
+  --font-roboto:       'Roboto', sans-serif;
+  --font-canon:        'IM Fell French Canon SC', serif;
+  --font-jsmath:       jsMath;
+  --font-courier:      'Courier New', monospace;
 
-  /* Bordas */
-  --radius-sm:  8px;
-  --radius-md:  10px;
-  --radius-lg:  16px;
-  --radius-xl:  20px;
-  --radius-pill:50px;
+  /* ── Bordas ───────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-pill: 50px;
+
+  /* ── Espaçamentos fluidos ─────────────────────────── */
+  --space-xs:  clamp(4px,  1vw,  8px);
+  --space-sm:  clamp(8px,  2vw,  16px);
+  --space-md:  clamp(16px, 3vw,  24px);
+  --space-lg:  clamp(24px, 5vw,  48px);
+  --space-xl:  clamp(40px, 8vw,  80px);
+  --space-2xl: clamp(60px, 10vw, 120px);
+
+  /* ── Container ────────────────────────────────────── */
+  --container-pad: clamp(16px, 6vw, 80px);
+  --container-pad-lg: clamp(16px, 9vw, 132px);
 }

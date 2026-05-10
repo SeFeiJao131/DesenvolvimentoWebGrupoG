@@ -1,3 +1,7 @@
+/* ═══════════════════════════════════════════════
+   LAYOUTS (Texturas / Modelos / HDRIs) — layouts.css
+   ═══════════════════════════════════════════════ */
+
 .linha-topo-pgProduto,
 .linha-topo-modelos,
 .linha-topo-hdri {
@@ -6,108 +10,98 @@
   opacity: 0.5;
 }
 
+/* ── Breadcrumb ───────────────────────────────── */
 .caminho-pgLayout,
 .caminho-modelos,
 .caminho-hdri {
-  padding: 30px clamp(16px, 9vw, 132px);
-  font-size: 14px;
+  padding: clamp(16px, 3vw, 30px) var(--container-pad-lg);
+  font-size: 13px;
   color: var(--cor-dourado-alt);
   font-family: var(--font-mono);
   display: block;
 }
 
-.caminho-pgLayout a,
-.caminho-modelos a,
-.caminho-hdri a {
+.caminho-pgLayout a, .caminho-modelos a, .caminho-hdri a {
   color: var(--cor-dourado-alt);
   text-decoration: none;
 }
+.caminho-pgLayout a:hover, .caminho-modelos a:hover, .caminho-hdri a:hover { text-decoration: underline; }
+.caminho-hdri span { margin: 0 3px; }
 
-.caminho-hdri span {
-  margin: 0 3px;
+/* ── Textos ───────────────────────────────────── */
+.layout-textos, .modelos-textos, .hdri-textos {
+  margin-left: var(--container-pad-lg);
+  margin-right: var(--container-pad-lg);
 }
 
-.alinhar-cards,
-.alinhar-modelos,
-.alinhar-hdri {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 clamp(8px, 4vw, 60px);
-}
-
-.layout-textos,
-.modelos-textos,
-.hdri-textos {
-  margin-left: clamp(16px, 9vw, 132px);
-  margin-right: clamp(16px, 9vw, 132px);
-}
-
-.TexturasPro,
-.ModelosPro,
-.HdriPro {
+.TexturasPro, .ModelosPro, .HdriPro {
   font-family: var(--font-serif-roboto);
-  font-optical-sizing: auto;
   font-weight: 300;
-  font-style: normal;
-  font-variation-settings: "wdth" 100, "GRAD" 0;
-  font-size: clamp(32px, 6vw, 75px);
+  font-size: clamp(28px, 6vw, 75px);
   color: var(--cor-creme);
   padding: 4px 0 10px;
+  line-height: 1.1;
 }
 
-.TexturasProDourado,
-.HdriProDourado {
+.TexturasProDourado, .HdriProDourado, .ModelosProDourado {
   font-family: var(--font-serif-roboto);
-  font-optical-sizing: auto;
   font-weight: 300;
-  font-style: normal;
-  font-variation-settings: "wdth" 100, "GRAD" 0;
-  font-size: clamp(32px, 6vw, 75px);
+  font-size: clamp(28px, 6vw, 75px);
   color: var(--cor-dourado-alt);
+  line-height: 1.1;
 }
 
-.ModelosProDourado {
-  color: var(--cor-dourado-alt);
-}
-
-.DescricaoTexturas,
-.DescricaoModelos,
-.DescricaoHdri {
+.DescricaoTexturas, .DescricaoModelos, .DescricaoHdri {
   color: var(--cor-creme);
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.7;
   padding: 10px 0;
+  max-width: 600px;
 }
 
-.TexturasDescDourado,
-.HdriDescDourado,
-.ModelosDescDourado {
+.TexturasDescDourado, .HdriDescDourado, .ModelosDescDourado {
   color: var(--cor-dourado-alt);
   font-family: var(--font-mono);
   font-size: 14px;
   line-height: 1.7;
 }
 
-.categoriasTexturas,
-.categoriasModelos,
-.categoriasHdri {
+.categoriasTexturas, .categoriasModelos, .categoriasHdri {
   font-family: var(--font-serif-roboto);
-  font-optical-sizing: auto;
   font-weight: 300;
-  font-style: normal;
-  font-variation-settings: "wdth" 100, "GRAD" 0;
   font-size: 18px;
   color: var(--cor-dourado-alt);
   padding: 10px 0;
 }
 
-/* ─── Responsividade ─────────────────────────────────────── */
+/* ── Grid de cards ────────────────────────────── */
+.alinhar-cards, .alinhar-modelos, .alinhar-hdri {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: 16px;
+  padding: clamp(8px, 2vw, 20px) var(--container-pad-lg) clamp(40px, 6vw, 80px);
+}
+
+/* ── Responsividade ───────────────────────────── */
 @media (max-width: 768px) {
   .DescricaoTexturas, .DescricaoModelos, .DescricaoHdri,
   .TexturasDescDourado, .HdriDescDourado, .ModelosDescDourado { display: none; }
   .alinhar-cards, .alinhar-modelos, .alinhar-hdri {
-    padding: 0 8px;
-    justify-content: center;
+    padding: 8px clamp(12px, 3vw, 20px) 48px;
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  }
+  .layout-textos, .modelos-textos, .hdri-textos {
+    margin-left: clamp(14px, 4vw, 24px);
+    margin-right: clamp(14px, 4vw, 24px);
+  }
+}
+
+@media (max-width: 480px) {
+  .alinhar-cards, .alinhar-modelos, .alinhar-hdri {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }

@@ -1,10 +1,15 @@
+/* ═══════════════════════════════════════════════
+   HOME — home.css
+   ═══════════════════════════════════════════════ */
+
+/* ── Hero ─────────────────────────────────────── */
 .hero-novidades {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 220px;
-  padding: 60px 60px 50px;
+  min-height: clamp(140px, 20vw, 260px);
+  padding: clamp(32px, 6vw, 70px) var(--container-pad) clamp(28px, 5vw, 60px);
   overflow: hidden;
 }
 
@@ -47,22 +52,23 @@
 
 .hero-titulo {
   font-family: var(--font-roboto);
-  font-size: clamp(64px, 10vw, 120px);
+  font-size: clamp(44px, 10vw, 120px);
   font-weight: 500;
   color: var(--cor-creme);
   letter-spacing: .04em;
   line-height: 1;
   text-align: center;
   text-shadow: 2px 4px 5px black;
-  opacity: 90%;
+  opacity: 0.9;
 }
 
+/* ── Seção modelos ────────────────────────────── */
 .secao-modelos {
-  padding: 60px 60px 80px;
+  padding: clamp(32px, 6vw, 80px) var(--container-pad) clamp(40px, 7vw, 100px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: clamp(24px, 4vw, 48px);
 }
 
 .modelos-topo {
@@ -75,7 +81,7 @@
 
 .modelos-titulo {
   font-family: var(--font-roboto);
-  font-size: clamp(48px, 8vw, 96px);
+  font-size: clamp(36px, 8vw, 96px);
   font-weight: 500;
   color: var(--cor-creme-alpha);
   line-height: 1;
@@ -84,58 +90,49 @@
 
 .modelos-descricao {
   font-family: var(--font-mono);
-  font-variation-settings: "MONO" 1, "wght" 400;
-  font-size: 14px;
+  font-size: clamp(13px, 1.5vw, 15px);
   color: var(--cor-creme-alpha);
   opacity: .7;
   line-height: 1.7;
   text-align: center;
+  max-width: 500px;
 }
 
 .modelos-cards {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 0;
+  width: 100%;
 }
 
 .modelos-rodape {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .modelos-rodape-texto {
   font-family: var(--font-mono);
-  font-variation-settings: "MONO" 1, "wght" 400;
   font-size: 15px;
   color: var(--cor-creme);
   opacity: .8;
 }
 
-.modelos-seta {
-  color: var(--cor-dourado-vivo);
-  font-size: 18px;
-}
+.modelos-seta { color: var(--cor-dourado-vivo); font-size: 18px; }
 
-.texto-dourado-pequeno {
-  font-family: var(--font-mono);
-  font-variation-settings: "MONO" 1, "wght" 600;
-  font-size: 15px;
-  color: var(--cor-dourado-vivo);
-  text-decoration: none;
-  position: relative;
-  padding-bottom: 3px;
-}
-
+.texto-dourado-pequeno,
 .textoDouradoSH {
   font-family: var(--font-mono);
-  font-variation-settings: "MONO" 1, "wght" 600;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--cor-dourado-vivo);
   text-decoration: none;
   position: relative;
   padding-bottom: 3px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .texto-dourado-pequeno::after {
@@ -148,32 +145,31 @@
   background: var(--cor-dourado-vivo);
   transition: width .35s ease;
 }
+.texto-dourado-pequeno:hover::after { width: 100%; }
 
-.texto-dourado-pequeno:hover::after {
-  width: 100%;
-}
-
+/* ── Seção texturas ───────────────────────────── */
 .Texturas {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: clamp(12px, 2vw, 20px);
+  padding: 0 0 clamp(20px, 4vw, 40px);
 }
 
 .Imagem-Textura {
   display: flex;
   position: relative;
-  border-radius: var(--radius-xl);
   overflow: hidden;
   width: 100%;
-  max-width: 1600px;
   margin: 0 auto;
+  max-width: 1590px;
 }
 
 .Imagem-Textura img {
   display: block;
   width: 100%;
   height: auto;
-  transition: 0.4s;
+  transition: filter 0.4s;
+  border-radius: 18px;
 }
 
 .overlay {
@@ -183,102 +179,103 @@
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: 0.4s;
+  transition: opacity 0.4s;
 }
 
 .Imagem-Textura:hover .overlay { opacity: 1; }
-.Imagem-Textura:hover img { filter: brightness(60%); }
+.Imagem-Textura:hover img { filter: brightness(55%); }
 
 .botao-visitar {
   background: var(--cor-creme);
-  padding: 25px 40px;
+  padding: clamp(14px, 2.5vw, 25px) clamp(20px, 4vw, 40px);
   color: var(--cor-fundo);
   border-radius: 22px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
 }
+
+.botao-visitar:hover { background: #d4c8ae; }
 
 .botao-visitar p {
   font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 25px;
+  font-size: clamp(14px, 2vw, 25px);
   letter-spacing: .05em;
 }
 
 .texto-overlay {
   position: absolute;
-  bottom: clamp(12px, 3vw, 30px);
+  bottom: clamp(10px, 3vw, 30px);
   left: clamp(12px, 3vw, 30px);
   color: white;
-  font-size: clamp(16px, 3vw, 35px);
+  font-size: clamp(14px, 2.5vw, 35px);
   font-weight: 600;
+  pointer-events: none;
 }
 
 .seta {
   position: absolute;
-  bottom: clamp(12px, 3vw, 30px);
+  bottom: clamp(10px, 3vw, 30px);
   right: clamp(12px, 3vw, 30px);
   color: white;
-  font-size: clamp(36px, 6vw, 100px);
+  font-size: clamp(32px, 6vw, 100px);
   font-weight: bold;
+  pointer-events: none;
+  line-height: 1;
 }
 
 .Texto-texturas-procedurais {
   color: var(--cor-creme);
-  font-size: clamp(28px, 5vw, 65px);
+  font-size: clamp(24px, 5vw, 65px);
   font-weight: 600;
-  margin: 0 0 32px;
+  margin: 0 0 clamp(16px, 3vw, 32px);
   text-shadow: 2px 2px 5px black;
-  opacity: 85%;
-  padding-left: clamp(16px, 9vw, 125px);
+  opacity: 0.85;
+  padding-left: var(--container-pad-lg);
 }
 
 .textoDouradoText {
   font-family: var(--font-mono);
-  font-variation-settings: "MONO" 1, "wght" 600;
   font-size: 14px;
   color: var(--cor-dourado-vivo);
   text-decoration: none;
   position: relative;
   padding-bottom: 3px;
-  padding-left: clamp(16px, 9vw, 125px);
+  padding-left: var(--container-pad-lg);
+  display: inline-block;
 }
 
+/* ── Curadoria ────────────────────────────────── */
 .curadoria {
   display: flex;
   justify-content: flex-start;
-  padding: clamp(48px, 10vw, 140px) clamp(16px, 5vw, 60px) clamp(48px, 10vw, 140px) clamp(20px, 9vw, 135px);
+  padding: clamp(40px, 10vw, 140px) var(--container-pad) clamp(40px, 10vw, 140px) var(--container-pad-lg);
 }
 
 .curadoria1 {
   color: var(--cor-dourado-vivo);
   padding-bottom: 15px;
   font-family: var(--font-mono);
+  font-size: 13px;
 }
 
 .curadoria2 {
   color: var(--cor-creme);
-  font-size: clamp(32px, 6vw, 75px);
+  font-size: clamp(28px, 6vw, 75px);
   font-family: var(--font-serif-sc);
   font-weight: 400;
   text-shadow: 2px 0px 4px black;
+  line-height: 1.2;
 }
 
-/* ─── Responsividade ─────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .secao-modelos { padding: 48px 40px 60px; }
-}
-
+/* ── Responsividade ───────────────────────────── */
 @media (max-width: 768px) {
-  .hero-novidades { padding: 40px 20px 32px; min-height: 160px; }
-  .hero-titulo { font-size: clamp(36px, 12vw, 80px); }
   .hero-data-linha { display: none; }
-  .secao-modelos { padding: 36px 20px 48px; gap: 28px; }
-  .modelos-titulo { font-size: clamp(36px, 10vw, 72px); }
   .modelos-descricao { display: none; }
-  .Imagem-Textura { border-radius: 8px; }
 }
 
 @media (max-width: 480px) {
-  .hero-novidades { padding: 28px 16px 24px; }
-  .secao-modelos { padding: 28px 12px 40px; }
   .borda-esquerda { display: none; }
 }

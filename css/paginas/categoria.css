@@ -1,40 +1,37 @@
+/* ═══════════════════════════════════════════════
+   CATEGORIA — categoria.css
+   ═══════════════════════════════════════════════ */
+
 .caminho-categoria {
-  padding: 30px clamp(16px, 9vw, 132px) 0;
+  padding: 28px var(--container-pad-lg) 0;
   font-size: 12px;
   color: var(--cor-dourado-alt);
-  font-family: 'Recursive', monospace;
+  font-family: var(--font-mono);
 }
 
-.caminho-categoria a {
-  color: var(--cor-dourado-alt);
-  text-decoration: none;
-}
-
-.caminho-categoria a:hover {
-  text-decoration: underline;
-}
+.caminho-categoria a { color: var(--cor-dourado-alt); text-decoration: none; }
+.caminho-categoria a:hover { text-decoration: underline; }
 
 .cabecalho-categoria {
-  padding: 18px clamp(16px, 9vw, 132px) 10px;
+  padding: 18px var(--container-pad-lg) 10px;
 }
 
 .categoria-titulo {
-  font-family: 'Playfair Display', serif;
-  font-optical-sizing: auto;
+  font-family: var(--font-serif);
   font-weight: 300;
-  font-style: normal;
-  font-size: 80px;
+  font-size: clamp(32px, 6vw, 80px);
   color: var(--cor-creme);
-  padding: 18px 0 18px;
+  padding: 16px 0;
   line-height: 1;
 }
 
 .categoria-descricao {
-  font-family: monospace;
+  font-family: var(--font-mono);
   font-size: 14px;
-  color: #E8DCC4;
+  color: var(--cor-creme);
   line-height: 1.7;
   padding-bottom: 16px;
+  max-width: 600px;
 }
 
 .categoria-contagem {
@@ -44,11 +41,18 @@
   padding-bottom: 14px;
 }
 
+.linha-divisor-cat {
+  height: 1px;
+  background: var(--cor-borda);
+  opacity: 0.4;
+  margin: 0 var(--container-pad-lg) 24px;
+}
+
 .grade-categoria {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
-  padding: 0 clamp(16px, 9vw, 132px) 80px;
+  padding: 0 var(--container-pad-lg) 80px;
 }
 
 .card-categoria {
@@ -70,28 +74,19 @@
   transition: transform 0.4s ease;
 }
 
-.card-categoria:hover img {
-  transform: scale(1.06);
-}
+.card-categoria:hover img { transform: scale(1.06); }
 
 .card-categoria-info {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 40px 14px 12px;
-  background: linear-gradient(
-    to top,
-    rgba(10, 6, 6, 0.92) 0%,
-    rgba(10, 6, 6, 0.3) 65%,
-    transparent 100%
-  );
+  bottom: 0; left: 0; right: 0;
+  padding: clamp(24px, 4vw, 40px) 14px 12px;
+  background: linear-gradient(to top, rgba(10,6,6,0.92) 0%, rgba(10,6,6,0.3) 65%, transparent 100%);
   pointer-events: none;
 }
 
 .card-categoria-nome {
   font-family: var(--font-jsmath);
-  font-size: 16px;
+  font-size: clamp(12px, 1.5vw, 16px);
   color: var(--cor-creme);
   display: block;
   white-space: nowrap;
@@ -101,7 +96,7 @@
 
 .card-categoria-tipo {
   font-family: var(--font-jsmath);
-  font-size: 12px;
+  font-size: 11px;
   color: #9A9A9A;
   display: block;
   margin-top: 2px;
@@ -109,8 +104,7 @@
 
 .badge-novo-cat {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 10px; left: 10px;
   background: var(--cor-dourado-vivo);
   color: #111;
   font-size: 0.58rem;
@@ -125,8 +119,7 @@
 
 .badge-gratis-cat {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 10px; right: 10px;
   background: rgba(110, 231, 183, 0.12);
   border: 1px solid rgba(110, 231, 183, 0.3);
   color: #6ee7b7;
@@ -149,11 +142,7 @@
   transform: translateY(4px);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-
-.card-categoria:hover .card-categoria-meta {
-  opacity: 1;
-  transform: translateY(0);
-}
+.card-categoria:hover .card-categoria-meta { opacity: 1; transform: translateY(0); }
 
 .card-categoria-resolucao {
   font-size: 0.65rem;
@@ -170,49 +159,20 @@
   font-family: var(--font-mono);
 }
 
+/* ── Responsividade ───────────────────────────── */
 @media (max-width: 1200px) {
-  .grade-categoria {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 0 60px 60px;
-  }
-  .cabecalho-categoria,
-  .caminho-categoria {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-  .linha-divisor-cat {
-    margin-left: 60px;
-    margin-right: 60px;
-  }
+  .grade-categoria { grid-template-columns: repeat(3, 1fr); padding: 0 clamp(20px,5vw,60px) 60px; }
+  .cabecalho-categoria, .caminho-categoria { padding-left: clamp(20px,5vw,60px); padding-right: clamp(20px,5vw,60px); }
+  .linha-divisor-cat { margin-left: clamp(20px,5vw,60px); margin-right: clamp(20px,5vw,60px); }
 }
 
 @media (max-width: 768px) {
-  .grade-categoria {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 20px 48px;
-    gap: 3px;
-  }
-  .cabecalho-categoria,
-  .caminho-categoria {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .linha-divisor-cat {
-    margin: 0 20px 28px;
-  }
-  .categoria-titulo {
-    font-size: 48px;
-  }
+  .grade-categoria { grid-template-columns: repeat(2, 1fr); padding: 0 16px 48px; gap: 4px; }
+  .cabecalho-categoria, .caminho-categoria { padding-left: 16px; padding-right: 16px; }
+  .linha-divisor-cat { margin: 0 16px 20px; }
 }
 
 @media (max-width: 480px) {
-  .grade-categoria {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 0 10px 40px;
-    gap: 6px;
-  }
-  .categoria-titulo { font-size: 36px; padding: 10px 0 10px; }
-  .busca-pg-filtros,
-  .cabecalho-categoria,
-  .caminho-categoria { padding-left: 10px; padding-right: 10px; }
+  .grade-categoria { gap: 4px; }
+  .cabecalho-categoria, .caminho-categoria { padding-left: 12px; padding-right: 12px; }
 }
