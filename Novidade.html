@@ -4,16 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Novidades JoinRender — os assets 3D mais recentes: texturas PBR, modelos e HDRIs.">
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=DM+Sans:wght@400;500&family=Recursive:wght@400;600&display=swap"
-    rel="stylesheet">
-<link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=DM+Sans:wght@400;500&family=Recursive:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="fonts.css">
   <title>Novidades — JoinRender</title>
 </head>
@@ -44,6 +42,7 @@
     </nav>
   </header>
 
+  <!-- Overlay busca -->
   <div class="overlay-busca" id="overlay-busca" role="dialog" aria-modal="true">
     <div class="painel-busca">
       <div class="topo-busca">
@@ -57,6 +56,7 @@
     </div>
   </div>
 
+  <!-- Drawer mobile -->
   <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
   <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
     <div class="nav-drawer-topo">
@@ -76,35 +76,20 @@
     </div>
   </nav>
 
-  </div>
-
   <div class="nov-pagina">
 
     <p class="nov-migalha"><a href="index.html">Home</a><span>/</span>novidades</p>
 
     <div class="nov-cabecalho">
-
       <h1 class="nov-titulo">NOVIDADES <span class="nov-titulo-dourado">recentes</span></h1>
     </div>
 
     <div class="nov-divisor"></div>
 
-    <div class="nov-destaque" id="nov-destaque" data-id="" data-url="">
+    <!-- Destaque principal — preenchido via JS -->
+    <div class="nov-destaque" id="nov-destaque" aria-live="polite"></div>
 
-      <div class="nov-destaque-imagem">
-      </div>
-
-      <div class="nov-destaque-info">
-        <p class="nov-destaque-etiqueta">NOVO · TEXTURA</p>
-        <h2 class="nov-destaque-nome">Mármore Carrara<br>8K Procedural</h2>
-        <p class="nov-destaque-descricao">Textura procedural de alta fidelidade com<br>veios naturais e suporte Cycles /
-          EEVEE.</p>
-        <a class="nov-destaque-botao" href="#">Ver asset →</a>
-        <p class="nov-destaque-data">Lançado em 17 abr 2026</p>
-      </div>
-
-    </div>
-
+    <!-- Carrossel — "Mais Recentes" -->
     <div class="nov-cabecalho-secao">
       <div>
         <p class="nov-rotulo">Lançamentos</p>
@@ -125,51 +110,10 @@
     </div>
 
     <div class="nov-carrossel-envolvente">
-      <div class="nov-carrossel-trilha" id="nov-carrossel-trilha">
-
-        <a class="nov-carrossel-cartao" href="#" data-id="">
-          <div class="nov-cartao-imagem"></div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">Textura</span>
-            <span class="nov-cartao-nome">Madeira Teca</span>
-          </div>
-        </a>
-
-        <a class="nov-carrossel-cartao" href="#" data-id="">
-          <div class="nov-cartao-imagem"></div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">Modelo 3D</span>
-            <span class="nov-cartao-nome">Cadeira Eames</span>
-          </div>
-        </a>
-
-        <a class="nov-carrossel-cartao" href="#" data-id="">
-          <div class="nov-cartao-imagem"></div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">HDRI</span>
-            <span class="nov-cartao-nome">Studio Suave</span>
-          </div>
-        </a>
-
-        <a class="nov-carrossel-cartao" href="#" data-id="">
-          <div class="nov-cartao-imagem"></div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">Textura</span>
-            <span class="nov-cartao-nome">Concreto PBR</span>
-          </div>
-        </a>
-
-        <a class="nov-carrossel-cartao" href="#" data-id="">
-          <div class="nov-cartao-imagem"></div>
-          <div class="nov-cartao-corpo">
-            <span class="nov-cartao-rotulo">Textura</span>
-            <span class="nov-cartao-nome">Pedra Basalto</span>
-          </div>
-        </a>
-
-      </div>
+      <div class="nov-carrossel-trilha" id="nov-carrossel-trilha" aria-live="polite"></div>
     </div>
 
+    <!-- Grade — "Todos os Lançamentos" -->
     <div class="nov-cabecalho-secao">
       <div>
         <p class="nov-rotulo">Arquivo</p>
@@ -177,152 +121,80 @@
       </div>
     </div>
 
-    <div class="nov-filtros" id="nov-filtros">
+    <div class="nov-filtros" id="nov-filtros" role="group" aria-label="Filtrar por tipo">
       <button class="nov-filtro ativo" data-filtro="todos">Todos</button>
       <button class="nov-filtro" data-filtro="textura">Texturas</button>
       <button class="nov-filtro" data-filtro="modelo">Modelos 3D</button>
       <button class="nov-filtro" data-filtro="hdri">HDRIs</button>
     </div>
 
-    <div class="nov-grade" id="nov-grade">
+    <div class="nov-grade" id="nov-grade" aria-live="polite"></div>
 
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">Textura</span>
-          <span class="nov-cartao-nome">Tijolo Rústico</span>
-          <span class="nov-grade-data">14 abr 2026</span>
-        </div>
-      </a>
-
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="modelo">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">Modelo 3D</span>
-          <span class="nov-cartao-nome">Mesa Minimalista</span>
-          <span class="nov-grade-data">10 abr 2026</span>
-        </div>
-      </a>
-
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="hdri">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">HDRI</span>
-          <span class="nov-cartao-nome">Céu Nublado</span>
-          <span class="nov-grade-data">07 abr 2026</span>
-        </div>
-      </a>
-
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">Textura</span>
-          <span class="nov-cartao-nome">Metal Oxidado</span>
-          <span class="nov-grade-data">03 abr 2026</span>
-        </div>
-      </a>
-
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="textura">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">Textura</span>
-          <span class="nov-cartao-nome">Pedra Basalto</span>
-          <span class="nov-grade-data">01 abr 2026</span>
-        </div>
-      </a>
-
-      <a class="nov-grade-cartao" href="#" data-id="" data-tipo="modelo">
-        <div class="nov-grade-imagem"></div>
-        <div class="nov-grade-corpo">
-          <span class="nov-cartao-rotulo">Modelo 3D</span>
-          <span class="nov-cartao-nome">Vaso Cerâmica</span>
-          <span class="nov-grade-data">28 mar 2026</span>
-        </div>
-      </a>
-
-    </div>
   </div>
 
   <footer>
-
     <div class="divisao">
-
-      <!-- LADO ESQUERDO -->
       <div class="lado-esquerdo-footer">
-
         <h3>JoinRender</h3>
-
-        <p class="descricao">
-          High-quality 3D models, textures and environments <br> ready for games,
-          renders and real-time projects.
-        </p>
-
+        <p class="descricao">Modelos 3D, texturas e ambientes de alta fidelidade, prontos para jogos, renders e projetos em tempo real.</p>
         <p class="newsletter">Receber todas as novidades</p>
-
         <div class="campo-email">
-          <input type="email" placeholder="Informe seu e-mail" />
-          <button>Receber →</button>
+          <label for="email-newsletter-nov" class="sr-only">Seu e-mail</label>
+          <input type="email" id="email-newsletter-nov" placeholder="Informe seu e-mail" autocomplete="email">
+          <button type="button" aria-label="Assinar newsletter">Receber →</button>
         </div>
-
       </div>
-
-      <!-- LADO DIREITO -->
       <div class="lado-direito-footer">
-
         <div class="campo">
           <h4>EXPLORAR</h4>
           <ul>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Novidades</a></li>
-            <li><a href="#">Contato</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="Novidade.html">Novidades</a></li>
+            <li><a href="contato.html">Contato</a></li>
           </ul>
         </div>
-
         <div class="campo">
           <h4>JURÍDICO</h4>
           <ul>
             <li><a href="#">Licenças</a></li>
-            <li><a href="#">Privacidade</a></li>
-            <li><a href="#">Termos</a></li>
+            <li><a href="privacidade.html">Privacidade</a></li>
+            <li><a href="termos.html">Termos</a></li>
           </ul>
         </div>
-
         <div class="campo">
           <h4>SOCIAL</h4>
           <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">X</a></li>
-            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#" aria-label="Instagram da JoinRender">Instagram</a></li>
+            <li><a href="#" aria-label="X (Twitter) da JoinRender">X</a></li>
+            <li><a href="#" aria-label="LinkedIn da JoinRender">LinkedIn</a></li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="linhaa">
-      <hr>
-    </div>
+    <div class="linhaa"><hr></div>
     <div class="baixo-baixo">
       <div class="divisaoNegocio">
         <div class="baixo-esquerda">
-          <p class="systemFilosofia">Sytem status</p>
+          <p class="systemFilosofia">System status</p>
           <p class="minimalista">Minimalista</p>
         </div>
         <div class="linha-vertical"></div>
         <div class="baixo-meio-esquerda">
           <p class="systemFilosofia">Filosofia</p>
-          <p class="Visao">Visão da excêlencia</p>
+          <p class="Visao">Visão da excelência</p>
         </div>
       </div>
-
       <div class="baixo-direita">
         <p>© 2026 JoinRender. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script type="module" src="auth.js"></script>
-  <script src="script.js" defer></script>
-  <script src="busca.js" defer></script>
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}</style>
 
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="novidade.js"></script>
+  <script src="busca.js" defer></script>
   <script src="nav-mobile.js" defer></script>
 </body>
 

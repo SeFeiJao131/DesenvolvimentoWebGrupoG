@@ -202,8 +202,8 @@
 .nov-carrossel-cartao:hover .nov-cartao-imagem img { transform: scale(1.04); }
 
 .nov-cartao-corpo { padding: 10px 12px 14px; display: flex; flex-direction: column; gap: 3px; }
-.nov-cartao-rotulo { font-size: 10px; color: var(--cor-texto-muted); font-family: var(--font-sans); font-style: italic; }
-.nov-cartao-nome { font-size: 13px; color: var(--cor-creme); font-family: var(--font-serif-sc); font-weight: 400; }
+.nov-cartao-rotulo { font-size: 10px; color: var(--cor-texto-muted); font-family: var(--font-sans); }
+.nov-cartao-nome { font-size: 15px; color: var(--cor-creme); font-family: var(--font-serif-roboto); font-weight: 400; }
 
 /* ── Filtros ──────────────────────────────────── */
 .nov-filtros { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
