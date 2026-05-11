@@ -6,7 +6,7 @@ import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.
 // ──────────────────────────────────────────────────────────────────────────────
 // CONFIGURAÇÃO
 // Substitua pela sua chave pública do Stripe (começa com pk_test_ ou pk_live_)
-const STRIPE_PUBLIC_KEY = "pk_test_SUA_CHAVE_PUBLICA_AQUI";
+const STRIPE_PUBLIC_KEY = "pk_test_51TVx7JJuBe8PlzFoQKq7vzU5CSfF9MxgwgFkIcZ14q5JxrvhRhppocs5HbCrKVhGH9g15pIDCGkVkjQcprBPmGVc00bzHBJOHw";
 const API_BASE = "/api";
 
 // MODO DE PAGAMENTO POR CARTÃO:
