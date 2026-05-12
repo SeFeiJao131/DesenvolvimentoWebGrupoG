@@ -1,5 +1,5 @@
-const Stripe = require("stripe");
-const admin  = require("firebase-admin");
+import Stripe from "stripe";
+import admin  from "firebase-admin";
 
 if (!admin.apps.length) {
   const sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
