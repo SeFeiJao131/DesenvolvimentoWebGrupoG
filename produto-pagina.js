@@ -296,15 +296,36 @@ function configurarAcao(produto) {
     }
 
     if (!produto.gratuito) {
-      areaAcao.innerHTML = `
-        <button class="botao-download-pgProduto bloqueado" id="btn-acao">
-          Comprar — R$ ${Number(produto.preco).toFixed(2)}
-        </button>
-        <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--cor-texto-escuro);text-align:center;margin-top:8px;">
-          Sistema de pagamento em breve
-        </p>
-      `;
-      document.getElementById("btn-acao").onclick = () => alert("Sistema de pagamento em breve. Aguarde!");
+      let jaComprou = false;
+      try {
+        const token = await usuario.getIdToken();
+        const res = await fetch(`/api/minhascompras`, {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const { compras } = await res.json();
+          jaComprou = compras.some(c => c.produtoId === produtoId);
+        }
+      } catch (_) {}
+
+      if (jaComprou) {
+        areaAcao.innerHTML = `
+          <div class="badge-ja-baixado">✓ Já adicionado à sua biblioteca</div>
+          <button class="botao-download-pgProduto sucesso" id="btn-acao" style="margin-top:6px;">
+            Baixar novamente
+          </button>
+        `;
+        document.getElementById("btn-acao").onclick = () => iniciarDownload(produto, true);
+      } else {
+        areaAcao.innerHTML = `
+          <button class="botao-download-pgProduto" id="btn-acao">
+            Comprar — R$ ${Number(produto.preco).toFixed(2)}
+          </button>
+        `;
+        document.getElementById("btn-acao").onclick = () => {
+          window.location.href = `checkout.html?id=${produtoId}`;
+        };
+      }
       return;
     }
 
