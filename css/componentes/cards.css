@@ -165,6 +165,7 @@
   font-family: var(--font-jsmath);
   font-size: 13px;
   color: #9A9A9A;
+  white-space: nowrap;
 }
 
 .descricao-card-layout,

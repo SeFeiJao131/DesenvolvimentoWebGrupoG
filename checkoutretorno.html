@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,234 +8,87 @@
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="css/paginas/checkout.css">
+  <link rel="stylesheet" href="css/paginas/checkoutretorno.css">
   <title>Pagamento — JoinRender</title>
-  <style>
-    .retorno-wrapper {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 24px;
-      background: var(--cor-fundo, #1C1515);
-      color: var(--cor-creme, #E8DCC4);
-      font-family: var(--font-sans, 'DM Sans', sans-serif);
-      text-align: center;
-    }
-    .retorno-card {
-      background: var(--cor-borda-media, #2a2020);
-      border-radius: 16px;
-      padding: clamp(32px, 6vw, 56px);
-      max-width: 440px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
-    .retorno-icone {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      margin-bottom: 8px;
-    }
-    .retorno-icone.sucesso  { background: rgba(74,160,74,0.15); color: #5cb85c; }
-    .retorno-icone.erro     { background: rgba(192,82,74,0.15); color: #c0524a; }
-    .retorno-icone.aguardando { background: rgba(200,168,78,0.15); color: #c8a84e; }
-    .retorno-titulo { font-size: 1.4rem; font-weight: 700; margin: 0; }
-    .retorno-titulo.sucesso   { color: #5cb85c; }
-    .retorno-titulo.erro      { color: #c0524a; }
-    .retorno-titulo.aguardando{ color: #c8a84e; }
-    .retorno-subtexto { font-size: 0.9rem; color: var(--cor-palha, #817361); margin: 0; line-height: 1.5; }
-    .retorno-spinner {
-      width: 48px; height: 48px;
-      border: 4px solid rgba(200,168,78,0.2);
-      border-top-color: #c8a84e;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-      margin-bottom: 8px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .retorno-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 28px;
-      background: #c8a84e;
-      color: #1a1313;
-      border: none; border-radius: 8px;
-      font-size: 0.95rem; font-weight: 700;
-      cursor: pointer; text-decoration: none;
-      transition: opacity .2s;
-      margin-top: 8px;
-    }
-    .retorno-btn:hover { opacity: 0.88; }
-    .retorno-btn.secundario {
-      background: transparent;
-      color: var(--cor-creme, #E8DCC4);
-      border: 1px solid var(--cor-borda-media, #3a2c2c);
-    }
-    .retorno-produto {
-      background: rgba(200,168,78,0.06);
-      border: 1px solid rgba(200,168,78,0.2);
-      border-radius: 10px;
-      padding: 12px 18px;
-      font-size: 0.88rem;
-      color: var(--cor-creme, #E8DCC4);
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .retorno-produto strong { color: #c8a84e; }
-    .retorno-garantias {
-      display: flex; flex-direction: column; gap: 8px;
-      width: 100%; margin-top: 4px;
-    }
-    .retorno-garantia-item {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.82rem; color: var(--cor-palha, #817361);
-    }
-    .retorno-garantia-item i { color: #c8a84e; }
-    .logo-link {
-      font-family: var(--font-serif, serif);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #c8a84e;
-      text-decoration: none;
-      margin-bottom: 24px;
-    }
-  </style>
 </head>
+
 <body>
-  <div class="retorno-wrapper">
-    <a class="logo-link" href="index.html" aria-label="JoinRender — Início">JR.</a>
 
-    <!-- Estado: verificando -->
-    <div class="retorno-card" id="estado-verificando">
-      <div class="retorno-spinner"></div>
-      <p class="retorno-titulo" style="color:var(--cor-creme)">Verificando pagamento…</p>
-      <p class="retorno-subtexto">Aguarde, estamos confirmando sua compra.</p>
-    </div>
+  <a class="rt-logo" href="index.html" aria-label="JoinRender — Início">JR.</a>
 
-    <!-- Estado: sucesso -->
-    <div class="retorno-card" id="estado-sucesso" style="display:none">
-      <div class="retorno-icone sucesso">✓</div>
-      <p class="retorno-titulo sucesso">Pagamento aprovado!</p>
-      <p class="retorno-subtexto" id="sucesso-mensagem">Seu ativo foi adicionado à sua biblioteca.</p>
-      <div class="retorno-produto" id="produto-info" style="display:none">
-        Produto: <strong id="produto-nome">—</strong>
-      </div>
-      <div class="retorno-garantias">
-        <div class="retorno-garantia-item"><i class="fi fi-rr-check-circle"></i><span>Download iniciado automaticamente</span></div>
-        <div class="retorno-garantia-item"><i class="fi fi-rr-shield-check"></i><span>Licença comercial incluída</span></div>
-        <div class="retorno-garantia-item"><i class="fi fi-rr-infinity"></i><span>Acesso permanente na sua biblioteca</span></div>
-      </div>
-      <a class="retorno-btn" href="login.html" id="btn-biblioteca">
-        <i class="fi fi-rr-book-alt"></i> Ir para minha biblioteca
-      </a>
-      <a class="retorno-btn secundario" href="index.html">
-        <i class="fi fi-rr-home"></i> Voltar ao início
-      </a>
-    </div>
-
-    <!-- Estado: aguardando (pago mas ainda processando) -->
-    <div class="retorno-card" id="estado-aguardando" style="display:none">
-      <div class="retorno-icone aguardando"><i class="fi fi-rr-clock"></i></div>
-      <p class="retorno-titulo aguardando">Pagamento em processamento</p>
-      <p class="retorno-subtexto">Seu pagamento foi recebido e está sendo confirmado. Você receberá um e-mail assim que for aprovado.</p>
-      <a class="retorno-btn" href="index.html">
-        <i class="fi fi-rr-home"></i> Voltar ao início
-      </a>
-    </div>
-
-    <!-- Estado: erro -->
-    <div class="retorno-card" id="estado-erro" style="display:none">
-      <div class="retorno-icone erro">✕</div>
-      <p class="retorno-titulo erro">Pagamento não confirmado</p>
-      <p class="retorno-subtexto" id="erro-mensagem">Ocorreu um problema ao verificar seu pagamento.</p>
-      <a class="retorno-btn" id="btn-tentar-novamente" href="#">
-        <i class="fi fi-rr-refresh"></i> Tentar novamente
-      </a>
-      <a class="retorno-btn secundario" href="index.html">
-        <i class="fi fi-rr-home"></i> Voltar ao início
-      </a>
-    </div>
+  <!-- Estado: verificando -->
+  <div class="rt-card visivel" id="estado-verificando">
+    <div class="rt-spinner"></div>
+    <p class="rt-titulo neutro">Verificando pagamento…</p>
+    <p class="rt-subtexto">Aguarde, estamos confirmando sua compra.</p>
   </div>
 
-  <script type="module">
-    import { app } from "./config.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+  <!-- Estado: sucesso -->
+  <div class="rt-card" id="estado-sucesso">
+    <div class="rt-icone sucesso">✓</div>
+    <p class="rt-titulo sucesso">Pagamento aprovado!</p>
+    <p class="rt-subtexto" id="js-sucesso-msg">Seu ativo foi adicionado à sua biblioteca.</p>
 
-    const API_BASE = "/api";
-    const params   = new URLSearchParams(window.location.search);
-    const sessionId = params.get("session_id");
-    const produtoId = params.get("produto");
-    const cancelado = params.get("cancelado");
+    <div class="rt-produto" id="js-produto-box" style="display:none;">
+      Produto adquirido: <strong id="js-produto-nome">—</strong>
+    </div>
 
-    const auth = getAuth(app);
+    <div class="rt-divisor"></div>
 
-    function mostrar(id) {
-      ["estado-verificando","estado-sucesso","estado-aguardando","estado-erro"]
-        .forEach(s => document.getElementById(s).style.display = s === id ? "flex" : "none");
-    }
+    <div class="rt-garantias">
+      <div class="rt-garantia">
+        <i class="fi fi-rr-check-circle"></i>
+        <span>Download iniciado automaticamente</span>
+      </div>
+      <div class="rt-garantia">
+        <i class="fi fi-rr-shield-check"></i>
+        <span>Licença comercial incluída</span>
+      </div>
+      <div class="rt-garantia">
+        <i class="fi fi-rr-infinity"></i>
+        <span>Acesso permanente na sua biblioteca</span>
+      </div>
+    </div>
 
-    // Se voltou de um cancelamento, redireciona direto pro checkout
-    if (cancelado === "1" && produtoId) {
-      window.location.href = `checkout.html?id=${produtoId}&cancelado=1`;
-    } else if (!sessionId) {
-      mostrar("estado-erro");
-      document.getElementById("erro-mensagem").textContent = "Sessão de pagamento inválida ou expirada.";
-      document.getElementById("btn-tentar-novamente").href = produtoId
-        ? `checkout.html?id=${produtoId}` : "index.html";
-    } else {
-      onAuthStateChanged(auth, async (usuario) => {
-        if (!usuario) {
-          window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-          return;
-        }
+    <button class="rt-btn sucesso" id="btn-biblioteca" type="button">
+      <i class="fi fi-rr-book-alt"></i> Ir para minha biblioteca
+    </button>
+    <a class="rt-btn secundario" href="index.html">
+      <i class="fi fi-rr-home"></i> Voltar ao início
+    </a>
+  </div>
 
-        try {
-          const idToken = await usuario.getIdToken();
-          const resp = await fetch(
-            `${API_BASE}/verificar-sessao?session_id=${sessionId}`,
-            { headers: { "Authorization": `Bearer ${idToken}` } }
-          );
-          const data = await resp.json();
+  <!-- Estado: aguardando -->
+  <div class="rt-card" id="estado-aguardando">
+    <div class="rt-icone aguardando">
+      <i class="fi fi-rr-clock"></i>
+    </div>
+    <p class="rt-titulo aguardando">Pagamento em processamento</p>
+    <p class="rt-subtexto">
+      Seu pagamento foi recebido e está sendo confirmado.
+      Você receberá um e-mail assim que for aprovado.
+    </p>
+    <a class="rt-btn" href="index.html">
+      <i class="fi fi-rr-home"></i> Voltar ao início
+    </a>
+  </div>
 
-          if (!resp.ok) throw new Error(data.mensagem || `Erro ${resp.status}`);
+  <!-- Estado: erro -->
+  <div class="rt-card" id="estado-erro">
+    <div class="rt-icone erro">✕</div>
+    <p class="rt-titulo erro">Pagamento não confirmado</p>
+    <p class="rt-subtexto" id="js-erro-msg">
+      Ocorreu um problema ao verificar seu pagamento.
+    </p>
+    <a class="rt-btn" id="btn-tentar-novamente" href="#">
+      <i class="fi fi-rr-refresh"></i> Tentar novamente
+    </a>
+    <a class="rt-btn secundario" href="index.html">
+      <i class="fi fi-rr-home"></i> Voltar ao início
+    </a>
+  </div>
 
-          if (data.pago) {
-            mostrar("estado-sucesso");
-            if (data.nomeProduto) {
-              document.getElementById("produto-info").style.display = "block";
-              document.getElementById("produto-nome").textContent = data.nomeProduto;
-              document.getElementById("sucesso-mensagem").textContent =
-                `"${data.nomeProduto}" foi adicionado à sua biblioteca.`;
-            }
-            // Download automático
-            if (data.urlArquivo) {
-              setTimeout(() => {
-                const a = document.createElement("a");
-                a.href = data.urlArquivo;
-                a.download = `${data.nomeProduto || "asset"}.zip`;
-                a.target = "_blank";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              }, 1000);
-            }
-          } else {
-            // Pago mas não confirmado ainda (ex: PIX em processamento)
-            mostrar("estado-aguardando");
-          }
-        } catch (e) {
-          mostrar("estado-erro");
-          document.getElementById("erro-mensagem").textContent =
-            e.message || "Não foi possível verificar seu pagamento.";
-          document.getElementById("btn-tentar-novamente").href =
-            produtoId ? `checkout.html?id=${produtoId}` : "index.html";
-        }
-      });
-    }
-  </script>
+  <script type="module" src="js/checkoutretorno.js"></script>
+
 </body>
 </html>

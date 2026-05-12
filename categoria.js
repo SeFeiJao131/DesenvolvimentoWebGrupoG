@@ -11,7 +11,7 @@ const descricoesCat = {
   madeiras:   "Madeiras procedurais com grãos realistas, nós e variações de cor para qualquer ambiente.",
   pedras:     "Pedras naturais com superfícies irregulares, fissuras e mapeamento de deslocamento detalhado.",
   concreto:   "Concretos lisos e texturizados com variações de imperfeições, manchas e fissuras reais.",
-  tecidos:    "Tecidos com fibras detalhadas, costuras e padrões variados para interiores e personagens.",
+  outros:     "Texturas variadas que não se encaixam nas categorias principais, incluindo materiais mistos, experimentais e superfícies únicas.",
   vidros:     "Vidros com transparência, reflexos e efeitos de sujeira, arranhões e condensação.",
   marmore:    "Mármores procedurais de alta fidelidade com veios naturais e mapeamento PBR completo.",
   organicos:  "Materiais orgânicos como terra, musgo, folhas e solo com detalhes procedurais realistas.",
@@ -97,8 +97,6 @@ function criarCard(doc) {
     ? `<img src="${p.urlImagem}" alt="${p.nome}">`
     : `<div style="width:100%;height:100%;background:#2a1f1f;"></div>`;
 
-  /* Badge GRÁTIS no canto superior direito.
-     Badge NOVO: quando há grátis, empilha abaixo via CSS; senão fica no mesmo lugar. */
   const badgeGratis = (p.gratuito || p.gratis || p.preco === 0) ? `<span class="badge-gratis-cat">Grátis</span>` : "";
   const isNovo = p.novo || ehNovo(p.criadoEm);
   const badgeNovo = isNovo ? `<span class="badge-novo-cat">Novo</span>` : "";
@@ -120,7 +118,7 @@ function criarCard(doc) {
   `;
 }
 
-const POR_PAGINA = 12; // produtos por página
+const POR_PAGINA = 12;
 
 async function carregarProdutos() {
   const grade    = document.getElementById("grade-produtos");
@@ -159,19 +157,16 @@ async function carregarProdutos() {
       return;
     }
 
-    /* Ordena por data (mais recente primeiro) */
     const todosDocs = snapshot.docs.sort((a, b) => {
       const dataA = a.data().criadoEm?.toDate?.() ?? new Date(0);
       const dataB = b.data().criadoEm?.toDate?.() ?? new Date(0);
       return dataB - dataA;
     });
 
-    /* Estado da paginação */
     let filtroAtual = "todos";
     let paginaAtual = 1;
     let docsVisiveis = [];
 
-    /* ── Aplica filtro ── */
     function aplicarFiltro(filtro) {
       if (filtro === "gratis") {
         return todosDocs.filter(d => {
@@ -187,7 +182,6 @@ async function carregarProdutos() {
       return todosDocs;
     }
 
-    /* ── Cria ou atualiza botão "Carregar mais" ── */
     function atualizarBotaoCarregarMais(total) {
       let btn = document.getElementById("btn-carregar-mais");
       const visiveis = paginaAtual * POR_PAGINA;
@@ -213,7 +207,6 @@ async function carregarProdutos() {
       btn.textContent = `Carregar mais (${restantes} restantes)`;
     }
 
-    /* ── Renderiza página atual ── */
     function renderizarPagina() {
       const limite = paginaAtual * POR_PAGINA;
       const slice  = docsVisiveis.slice(0, limite);
@@ -225,7 +218,6 @@ async function carregarProdutos() {
       atualizarBotaoCarregarMais(docsVisiveis.length);
     }
 
-    /* ── Renderiza com filtro ── */
     function renderizarComFiltro(filtro) {
       filtroAtual  = filtro;
       paginaAtual  = 1;
@@ -236,10 +228,8 @@ async function carregarProdutos() {
       renderizarPagina();
     }
 
-    /* Renderiza inicial */
     renderizarComFiltro("todos");
 
-    /* Filtros rápidos */
     document.querySelectorAll(".filtro-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         if (btn.id === "btn-carregar-mais") return;

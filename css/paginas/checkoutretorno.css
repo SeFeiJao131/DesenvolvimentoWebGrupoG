@@ -1,0 +1,214 @@
+/* ── Base ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-creme);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px var(--container-pad);
+}
+
+/* ── Logo ─────────────────────────────────────────────── */
+.rt-logo {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--cor-dourado-alt);
+  text-decoration: none;
+  margin-bottom: 32px;
+}
+
+/* ── Card central ─────────────────────────────────────── */
+.rt-card {
+  background: var(--cor-borda-media);
+  border: 1px solid var(--cor-borda-escura);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 6vw, 56px);
+  max-width: 440px;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.rt-card.visivel {
+  display: flex;
+}
+
+/* ── Spinner (verificando) ────────────────────────────── */
+.rt-spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(200, 168, 78, 0.2);
+  border-top-color: var(--cor-dourado-alt);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 4px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Ícones de estado ─────────────────────────────────── */
+.rt-icone {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.rt-icone.sucesso {
+  background: rgba(74, 160, 74, 0.15);
+  color: #5cb85c;
+}
+
+.rt-icone.erro {
+  background: rgba(192, 82, 74, 0.15);
+  color: #c0524a;
+}
+
+.rt-icone.aguardando {
+  background: rgba(200, 168, 78, 0.15);
+  color: var(--cor-dourado-alt);
+}
+
+/* ── Textos ───────────────────────────────────────────── */
+.rt-titulo {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rt-titulo.sucesso {
+  color: #5cb85c;
+}
+
+.rt-titulo.erro {
+  color: #c0524a;
+}
+
+.rt-titulo.aguardando {
+  color: var(--cor-dourado-alt);
+}
+
+.rt-titulo.neutro {
+  color: var(--cor-creme);
+}
+
+.rt-subtexto {
+  font-size: 0.88rem;
+  color: var(--cor-texto-muted);
+  line-height: 1.6;
+  max-width: 320px;
+}
+
+/* ── Box do produto ───────────────────────────────────── */
+.rt-produto {
+  background: rgba(200, 168, 78, 0.06);
+  border: 1px solid rgba(200, 168, 78, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  font-size: 0.85rem;
+  color: var(--cor-creme);
+  width: 100%;
+}
+
+.rt-produto strong {
+  color: var(--cor-dourado-alt);
+}
+
+/* ── Garantias ────────────────────────────────────────── */
+.rt-garantias {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.rt-garantia {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--cor-texto-muted);
+  text-align: left;
+}
+
+.rt-garantia i {
+  color: var(--cor-dourado-alt);
+  flex-shrink: 0;
+}
+
+/* ── Divisor ──────────────────────────────────────────── */
+.rt-divisor {
+  height: 1px;
+  background: var(--cor-borda-escura);
+  width: 100%;
+}
+
+/* ── Botões ───────────────────────────────────────────── */
+.rt-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: var(--cor-dourado-alt);
+  color: #1a1313;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.18s, transform 0.12s;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.rt-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.rt-btn:active {
+  transform: translateY(0);
+}
+
+.rt-btn.secundario {
+  background: transparent;
+  color: var(--cor-creme);
+  border: 1px solid var(--cor-borda-escura);
+}
+
+.rt-btn.secundario:hover {
+  border-color: var(--cor-borda);
+}
+
+.rt-btn.sucesso {
+  background: #4aa04a;
+  color: #fff;
+}

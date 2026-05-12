@@ -8,165 +8,189 @@
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/4.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="css/paginas/checkout.css">
   <title>Checkout — JoinRender</title>
 </head>
 
 <body>
-  <header id="site-header">
-    <nav class="navheader">
-      <div class="lado-esquerdo">
-        <a class="Logo" href="index.html" aria-label="JoinRender - Início">JR.</a>
-      </div>
-      <div class="checkout-header-info">
-        <i class="fi fi-rr-lock" aria-hidden="true"></i>
-        <span>Pagamento Seguro</span>
-      </div>
-    </nav>
+
+  <!-- ── Header ── -->
+  <header class="ck-header">
+    <a class="ck-logo" href="index.html" aria-label="JoinRender - Início">JR.</a>
+    <div class="ck-header-badge">
+      <i class="fi fi-rr-lock"></i>
+      <span>Pagamento Seguro</span>
+    </div>
   </header>
 
-  <main class="checkout-main">
-    <div class="checkout-container">
+  <!-- ── Main ── -->
+  <main class="ck-main">
+    <div class="ck-grid">
 
-      <div class="checkout-resumo">
-        <h2 class="checkout-titulo-secao">Resumo do pedido</h2>
-        <div class="checkout-produto-card" id="produto-resumo">
-          <div class="checkout-produto-img" id="produto-img-container">
-            <div class="checkout-img-placeholder">◈</div>
+      <!-- Resumo do pedido -->
+      <aside class="ck-card ck-card--sticky">
+        <h2 class="ck-section-title">Resumo do pedido</h2>
+
+        <div class="ck-produto-row">
+          <div class="ck-produto-img" id="js-produto-img">
+            <span class="ck-produto-placeholder">◈</span>
           </div>
-          <div class="checkout-produto-info">
-            <p class="checkout-produto-nome" id="produto-nome-resumo">Carregando…</p>
-            <p class="checkout-produto-tipo" id="produto-tipo-resumo">—</p>
-            <p class="checkout-produto-spec" id="produto-spec-resumo">—</p>
+          <div>
+            <p class="ck-produto-nome" id="js-produto-nome">Carregando…</p>
+            <p class="ck-produto-tipo" id="js-produto-tipo">—</p>
+            <p class="ck-produto-spec" id="js-produto-spec">—</p>
           </div>
         </div>
 
-        <div class="checkout-linha-divisor"></div>
+        <div class="ck-divisor"></div>
 
-        <div class="checkout-totais">
-          <div class="checkout-linha-total">
+        <div class="ck-totais">
+          <div class="ck-linha">
             <span>Subtotal</span>
-            <span id="subtotal-valor">—</span>
+            <span id="js-subtotal">—</span>
           </div>
-          <div class="checkout-linha-total checkout-linha-total--destaque">
+          <div class="ck-linha ck-linha--total">
             <span>Total</span>
-            <span id="total-valor">—</span>
+            <span id="js-total">—</span>
           </div>
         </div>
 
-        <div class="checkout-garantias">
-          <div class="checkout-garantia-item">
+        <div class="ck-divisor"></div>
+
+        <div class="ck-garantias">
+          <div class="ck-garantia">
             <i class="fi fi-rr-check-circle"></i>
             <span>Download imediato após pagamento</span>
           </div>
-          <div class="checkout-garantia-item">
+          <div class="ck-garantia">
             <i class="fi fi-rr-shield-check"></i>
             <span>Licença comercial incluída</span>
           </div>
-          <div class="checkout-garantia-item">
+          <div class="ck-garantia">
             <i class="fi fi-rr-infinity"></i>
             <span>Acesso permanente na sua biblioteca</span>
           </div>
         </div>
-      </div>
+      </aside>
 
-      <div class="checkout-pagamento">
-        <h2 class="checkout-titulo-secao">Dados de pagamento</h2>
+      <!-- Dados de pagamento -->
+      <section class="ck-card">
+        <h2 class="ck-section-title">Dados de pagamento</h2>
 
-        <div class="checkout-metodos" role="tablist">
-          <button class="checkout-metodo-btn ativo" id="tab-cartao" role="tab" aria-selected="true">
-            <i class="fi fi-rr-credit-card"></i> Cartão
+        <!-- Abas Cartão / PIX -->
+        <div class="ck-abas" id="js-abas" role="tablist">
+          <button class="ck-aba ativo" id="aba-cartao" role="tab" aria-selected="true" type="button">
+            <i class="fi fi-rr-credit-card"></i>
+            Cartão
           </button>
-          <button class="checkout-metodo-btn" id="tab-pix" role="tab" aria-selected="false">
-            <svg class="pix-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L7.172 6.828a4 4 0 000 5.657l.707.707-1.415 1.415-.707-.707a6 6 0 010-8.485L12 0l5.243 5.243a6 6 0 010 8.485l-.707.707-1.415-1.415.707-.707a4 4 0 000-5.657L12 2z" fill="currentColor"/>
-              <path d="M12 22l4.828-4.828a4 4 0 000-5.657l-.707-.707 1.415-1.415.707.707a6 6 0 010 8.485L12 24l-5.243-5.243a6 6 0 010-8.485l.707-.707 1.415 1.415-.707.707a4 4 0 000 5.657L12 22z" fill="currentColor"/>
+          <button class="ck-aba" id="aba-pix" role="tab" aria-selected="false" type="button">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.996 2 7.51 6.487a3.5 3.5 0 0 0 0 4.95l1.06 1.06-1.414 1.415-1.06-1.06a5.5 5.5 0 0 1 0-7.779L11.996 0l5.9 5.073a5.5 5.5 0 0 1 0 7.779l-1.06 1.06-1.415-1.414 1.061-1.061a3.5 3.5 0 0 0 0-4.95L11.996 2z" fill="currentColor"/>
+              <path d="M11.996 22 16.48 17.51a3.5 3.5 0 0 0 0-4.95l-1.06-1.06 1.414-1.415 1.06 1.061a5.5 5.5 0 0 1 0 7.778L11.996 24l-5.9-5.076a5.5 5.5 0 0 1 0-7.778l1.06-1.061 1.415 1.415-1.061 1.06a3.5 3.5 0 0 0 0 4.95L11.996 22z" fill="currentColor"/>
             </svg>
             PIX
           </button>
         </div>
 
+        <!-- Erro inline -->
+        <div class="ck-erro-inline" id="js-erro-inline" role="alert"></div>
+
         <!-- Painel Cartão -->
-        <div class="checkout-painel" id="painel-cartao">
-          <div id="stripe-element-container">
+        <div class="ck-painel" id="painel-cartao">
+          <div id="stripe-element-wrapper">
             <div id="payment-element"></div>
           </div>
-          <div class="checkout-info-titular">
-            <label for="nome-titular" class="checkout-label">Nome no cartão</label>
-            <input type="text" id="nome-titular" class="checkout-input" placeholder="Como aparece no cartão" autocomplete="cc-name"/>
+          <div id="div-nome-titular">
+            <label for="nome-titular" class="ck-label">Nome no cartão</label>
+            <input
+              type="text"
+              id="nome-titular"
+              class="ck-input"
+              placeholder="Como aparece no cartão"
+              autocomplete="cc-name"
+            />
           </div>
-          <button class="checkout-btn-pagar" id="btn-pagar-cartao" type="button">
+          <button class="ck-btn" id="btn-pagar-cartao" type="button" disabled>
             <i class="fi fi-rr-lock"></i>
-            <span id="btn-pagar-texto">Pagar agora</span>
+            <span id="js-btn-texto">Pagar agora</span>
           </button>
-          <p class="checkout-aviso-stripe">
+          <div class="ck-aviso">
             <i class="fi fi-rr-shield-check"></i>
-            Pagamento processado com segurança via Stripe. Seus dados nunca são armazenados em nossos servidores.
-          </p>
+            <span>Pagamento processado com segurança via Stripe. Seus dados nunca são armazenados em nossos servidores.</span>
+          </div>
         </div>
 
         <!-- Painel PIX -->
-        <div class="checkout-painel oculto" id="painel-pix">
-          <div class="pix-instrucoes" id="pix-instrucoes-inicial">
-            <div class="pix-logo-container">
-              <svg class="pix-logo-grande" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M50 5L25 30a25 25 0 000 35.36l4 4-5.66 5.66-4-4a33 33 0 010-46.68L50 3l30.66 21.34a33 33 0 010 46.68l-4 4-5.66-5.66 4-4A25 25 0 0075 30L50 5z" fill="#32BCAD"/>
-                <path d="M50 95L75 70a25 25 0 000-35.36l-4-4 5.66-5.66 4 4a33 33 0 010 46.68L50 97 19.34 75.66a33 33 0 010-46.68l4-4 5.66 5.66-4 4A25 25 0 0025 70L50 95z" fill="#32BCAD"/>
+        <div class="ck-painel oculto" id="painel-pix">
+          <div class="pix-intro" id="pix-intro">
+            <div class="pix-intro-icon">
+              <svg viewBox="0 0 24 24" fill="#32BCAD" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.996 2 7.51 6.487a3.5 3.5 0 0 0 0 4.95l1.06 1.06-1.414 1.415-1.06-1.06a5.5 5.5 0 0 1 0-7.779L11.996 0l5.9 5.073a5.5 5.5 0 0 1 0 7.779l-1.06 1.06-1.415-1.414 1.061-1.061a3.5 3.5 0 0 0 0-4.95L11.996 2z"/>
+                <path d="M11.996 22 16.48 17.51a3.5 3.5 0 0 0 0-4.95l-1.06-1.06 1.414-1.415 1.06 1.061a5.5 5.5 0 0 1 0 7.778L11.996 24l-5.9-5.076a5.5 5.5 0 0 1 0-7.778l1.06-1.061 1.415 1.415-1.061 1.06a3.5 3.5 0 0 0 0 4.95L11.996 22z"/>
               </svg>
-              <p class="pix-titulo">Pagar via PIX</p>
             </div>
-            <p class="pix-descricao">Aprovação instantânea, 24h por dia, 7 dias por semana. Sem taxas adicionais.</p>
-            <button class="checkout-btn-pagar pix" id="btn-gerar-pix" type="button">Gerar QR Code PIX</button>
+            <p class="pix-titulo">Pagar via PIX</p>
+            <p class="pix-desc">Aprovação instantânea, 24h por dia, 7 dias por semana. Sem taxas adicionais.</p>
           </div>
 
-          <div class="pix-qr-container oculto" id="pix-qr-container">
-            <p class="pix-qr-instrucao">Escaneie o QR Code com o app do seu banco</p>
+          <button class="ck-btn pix" id="btn-gerar-pix" type="button">
+            Gerar QR Code PIX
+          </button>
+
+          <div class="pix-qr-area oculto" id="pix-qr-area">
+            <p class="pix-instrucao">Escaneie o QR Code com o app do seu banco</p>
             <div class="pix-qr-box" id="pix-qr-box"></div>
-            <div class="pix-copia-cola">
-              <p class="pix-copia-label">ou copie o código:</p>
-              <div class="pix-copia-wrapper">
-                <input type="text" class="pix-copia-input" id="pix-codigo" readonly>
-                <button class="pix-btn-copiar" id="btn-copiar-pix" type="button">
-                  <i class="fi fi-rr-copy"></i><span>Copiar</span>
-                </button>
-              </div>
+            <p class="pix-instrucao">ou copie o código:</p>
+            <div class="pix-copia-wrapper">
+              <input type="text" class="pix-copia-input" id="pix-codigo" readonly/>
+              <button class="pix-btn-copiar" id="btn-copiar-pix" type="button">
+                <i class="fi fi-rr-copy"></i> Copiar
+              </button>
             </div>
-            <div class="pix-expiracao">
+            <div class="pix-timer-row">
               <i class="fi fi-rr-clock"></i>
-              <span id="pix-timer">30:00</span>
+              <span>Expira em <strong id="pix-timer">30:00</strong></span>
             </div>
             <div class="pix-aguardando">
-              <div class="pix-aguardando-dot"></div>
+              <div class="pix-dot"></div>
               <span>Aguardando pagamento…</span>
             </div>
           </div>
         </div>
 
-        <!-- Estados -->
-        <div class="checkout-estado oculto" id="estado-processando">
-          <div class="estado-spinner"></div>
-          <p class="estado-texto">Processando pagamento…</p>
-          <p class="estado-subtexto">Não feche esta página.</p>
+        <!-- Estado: processando -->
+        <div class="ck-estado" id="estado-processando">
+          <div class="ck-estado-icone processando">
+            <div class="ck-spinner"></div>
+          </div>
+          <p class="ck-estado-titulo neutro">Processando pagamento…</p>
+          <p class="ck-estado-sub">Não feche esta página.</p>
         </div>
 
-        <div class="checkout-estado oculto" id="estado-sucesso">
-          <div class="estado-check">✓</div>
-          <p class="estado-texto sucesso">Pagamento aprovado!</p>
-          <p class="estado-subtexto" id="sucesso-mensagem">Seu download está sendo preparado.</p>
-          <button class="checkout-btn-pagar sucesso" id="btn-ir-biblioteca" type="button">Ir para minha biblioteca</button>
+        <!-- Estado: sucesso -->
+        <div class="ck-estado" id="estado-sucesso">
+          <div class="ck-estado-icone sucesso">✓</div>
+          <p class="ck-estado-titulo sucesso">Pagamento aprovado!</p>
+          <p class="ck-estado-sub" id="js-sucesso-msg">Seu download está sendo preparado.</p>
+          <button class="ck-btn sucesso" id="btn-ir-biblioteca" type="button" style="margin-top:8px;">
+            <i class="fi fi-rr-book-alt"></i> Ir para minha biblioteca
+          </button>
         </div>
 
-        <div class="checkout-estado oculto" id="estado-erro">
-          <div class="estado-x">✕</div>
-          <p class="estado-texto erro">Falha no pagamento</p>
-          <p class="estado-subtexto" id="erro-mensagem">Verifique os dados e tente novamente.</p>
-          <button class="checkout-btn-pagar" id="btn-tentar-novamente" type="button">Tentar novamente</button>
+        <!-- Estado: erro -->
+        <div class="ck-estado" id="estado-erro">
+          <div class="ck-estado-icone erro">✕</div>
+          <p class="ck-estado-titulo erro">Falha no pagamento</p>
+          <p class="ck-estado-sub" id="js-erro-msg">Verifique os dados e tente novamente.</p>
+          <button class="ck-btn" id="btn-tentar-novamente" type="button" style="margin-top:8px;">
+            Tentar novamente
+          </button>
         </div>
-      </div>
 
+      </section>
     </div>
   </main>
 
-  <script type="module" src="checkout.js"></script>
+  <script type="module" src="js/checkout.js"></script>
+
 </body>
 </html>

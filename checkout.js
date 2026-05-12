@@ -1,19 +1,17 @@
-import { app } from "./config.js";
-import { buscarProdutoPorId } from "./db.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+import { app } from "../config.js";
+import { buscarProdutoPorId } from "../db.js";
+import { getAuth, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-// ──────────────────────────────────────────────────────────────────────────────
-// CONFIGURAÇÃO
-// Substitua pela sua chave pública do Stripe (começa com pk_test_ ou pk_live_)
+/* ── CONFIGURAÇÃO ─────────────────────────────────────── */
 const STRIPE_PUBLIC_KEY = "pk_test_51TVx7JJuBe8PlzFoQKq7vzU5CSfF9MxgwgFkIcZ14q5JxrvhRhppocs5HbCrKVhGH9g15pIDCGkVkjQcprBPmGVc00bzHBJOHw";
 const API_BASE = "/api";
-
-// MODO DE PAGAMENTO POR CARTÃO:
-// "checkout"  → redireciona para a página hospedada pelo Stripe (mais simples, recomendado)
-// "element"   → formulário embutido na página usando Stripe Payment Element
+// "checkout" → redireciona para o Stripe (recomendado para modo teste)
+// "element"  → formulário embutido via Payment Element
 const MODO_CARTAO = "checkout";
-// ──────────────────────────────────────────────────────────────────────────────
+/* ──────────────────────────────────────────────────────── */
 
 const auth = getAuth(app);
 const db   = getFirestore(app);
@@ -22,192 +20,203 @@ const params    = new URLSearchParams(window.location.search);
 const produtoId = params.get("id");
 const cancelado = params.get("cancelado");
 
-let stripe, elements, paymentElement, produto, usuarioAtual;
+let stripe, elements, paymentElement, produto, usuario;
 let metodoPagamento = "cartao";
 
+/* ── Helpers ──────────────────────────────────────────── */
+const $       = id => document.getElementById(id);
+const setText = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+const fmtPreco = v => `R$ ${Number(v).toFixed(2).replace(".", ",")}`;
+
+/* ── Init ─────────────────────────────────────────────── */
 if (!produtoId) {
-  mostrarErroFatal("Produto não encontrado.");
+  erroFatal("Produto não encontrado.");
 } else {
-  inicializar();
+  init();
 }
 
-async function inicializar() {
+async function init() {
   try {
     produto = await buscarProdutoPorId(produtoId);
-    if (!produto || !produto.ativo) { mostrarErroFatal("Produto não encontrado."); return; }
-    if (produto.gratuito) { mostrarErroFatal("Este produto é gratuito. Baixe direto na página do produto."); return; }
+    if (!produto || !produto.ativo) { erroFatal("Produto não encontrado."); return; }
+    if (produto.gratuito)           { erroFatal("Este produto é gratuito. Baixe direto na página do produto."); return; }
 
     preencherResumo(produto);
 
-    // Aviso de cancelamento vindo do Stripe Checkout
     if (cancelado === "1") {
-      mostrarErro("Pagamento cancelado. Você pode tentar novamente quando quiser.");
+      mostrarErroInline("Pagamento cancelado. Você pode tentar novamente quando quiser.");
     }
 
-    await carregarStripe();
+    await carregarStripeJS();
 
-    onAuthStateChanged(auth, async (usuario) => {
-      if (!usuario) {
-        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+    onAuthStateChanged(auth, async (u) => {
+      if (!u) {
+        location.href = `login.html?redirect=${encodeURIComponent(location.href)}`;
         return;
       }
-      usuarioAtual = usuario;
-      await configurarFormulario();
+      usuario = u;
+      await setupFormulario();
     });
+
   } catch (e) {
-    mostrarErroFatal("Erro ao carregar checkout. Tente novamente.");
+    erroFatal("Erro ao carregar checkout. Tente novamente.");
   }
 }
 
-async function carregarStripe() {
-  return new Promise((resolve, reject) => {
-    if (window.Stripe) { resolve(); return; }
+/* ── Carrega Stripe.js dinamicamente ─────────────────── */
+function carregarStripeJS() {
+  return new Promise((ok, fail) => {
+    if (window.Stripe) { ok(); return; }
     const s = document.createElement("script");
     s.src = "https://js.stripe.com/v3/";
-    s.onload = resolve;
-    s.onerror = () => reject(new Error("Falha ao carregar Stripe.js"));
+    s.onload = ok;
+    s.onerror = () => fail(new Error("Falha ao carregar Stripe.js"));
     document.head.appendChild(s);
   });
 }
 
-async function configurarFormulario() {
+/* ── Configura formulário após login ─────────────────── */
+async function setupFormulario() {
   try {
     stripe = window.Stripe(STRIPE_PUBLIC_KEY);
 
     if (MODO_CARTAO === "element") {
-      // ── Modo Payment Element (formulário embutido) ──────────────────────────
-      const idToken = await usuarioAtual.getIdToken();
-      const resp = await fetch(`${API_BASE}/criar-payment-intent`, {
+      /* Modo embutido: cria PaymentIntent e monta Payment Element */
+      const token = await usuario.getIdToken();
+      const res = await fetch(`${API_BASE}/criar-payment-intent`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${idToken}` },
-        body: JSON.stringify({ produtoId, usuarioId: usuarioAtual.uid }),
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ produtoId, usuarioId: usuario.uid }),
       });
-      if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.mensagem || `Erro ${resp.status}`); }
-      const { clientSecret } = await resp.json();
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e.mensagem || `Erro ${res.status}`);
+      }
+      const { clientSecret } = await res.json();
 
       elements = stripe.elements({
         clientSecret,
         appearance: {
           theme: "night",
           variables: {
-            colorPrimary: "#c8a84e", colorBackground: "#221a1a",
-            colorText: "#E8DCC4", colorDanger: "#c0524a",
-            fontFamily: "DM Sans, sans-serif", borderRadius: "8px",
-            colorTextPlaceholder: "#5a4f47", colorIcon: "#c8a84e",
+            colorPrimary:         "#c8a84e",
+            colorBackground:      "#221a1a",
+            colorText:            "#E8DCC4",
+            colorDanger:          "#c0524a",
+            fontFamily:           "DM Sans, sans-serif",
+            borderRadius:         "8px",
+            colorTextPlaceholder: "#5a4f47",
+            colorIcon:            "#c8a84e",
           },
           rules: {
-            ".Input": { border: "1px solid #3a2c2c", boxShadow: "none" },
+            ".Input":       { border: "1px solid #3a2c2c", boxShadow: "none" },
             ".Input:focus": { border: "1px solid #c8a84e", boxShadow: "none" },
-            ".Label": { color: "#817361" },
+            ".Label":       { color: "#817361" },
           },
         },
       });
 
       paymentElement = elements.create("payment");
       paymentElement.mount("#payment-element");
-      paymentElement.on("ready", () => {
-        document.getElementById("btn-pagar-cartao").disabled = false;
-      });
+      paymentElement.on("ready", () => { $("btn-pagar-cartao").disabled = false; });
+
     } else {
-      // ── Modo Stripe Checkout (redirecionamento) ─────────────────────────────
-      // Esconde o container do Payment Element, não é necessário neste modo
-      const container = document.getElementById("stripe-element-container");
-      if (container) container.style.display = "none";
-
-      const inputTitular = document.getElementById("nome-titular")?.closest(".checkout-info-titular");
-      if (inputTitular) inputTitular.style.display = "none";
-
-      // Habilita o botão imediatamente
-      const btn = document.getElementById("btn-pagar-cartao");
-      if (btn) btn.disabled = false;
+      /* Modo Checkout: esconde campos do formulário e habilita botão */
+      $("stripe-element-wrapper").style.display = "none";
+      $("div-nome-titular").style.display = "none";
+      $("btn-pagar-cartao").disabled = false;
+      setText("js-btn-texto", `Pagar ${fmtPreco(produto.preco)}`);
     }
+
   } catch (e) {
-    mostrarErro(e.message || "Não foi possível inicializar o pagamento.");
+    mostrarErroInline(e.message || "Não foi possível inicializar o pagamento.");
   }
 }
 
-// ── Preencher resumo do produto ───────────────────────────────────────────────
-
+/* ── Preencher resumo lateral ─────────────────────────── */
 function preencherResumo(p) {
-  setText("produto-nome-resumo", p.nome);
-  const tipoLabel = p.tipo === "textura" ? "Textura PBR" : p.tipo === "modelo" ? "Modelo 3D" : "HDRI";
-  setText("produto-tipo-resumo", tipoLabel);
+  setText("js-produto-nome", p.nome);
+
+  const tipo = p.tipo === "textura" ? "Textura PBR"
+             : p.tipo === "modelo"  ? "Modelo 3D"
+             : "HDRI";
+  setText("js-produto-tipo", tipo);
+
   const specs = [p.resolucao, (p.formato || []).join("/")].filter(Boolean).join(" · ");
-  setText("produto-spec-resumo", specs || "—");
+  setText("js-produto-spec", specs || "—");
+
   if (p.urlImagem) {
-    const c = document.getElementById("produto-img-container");
-    if (c) {
-      const img = document.createElement("img");
-      img.src = p.urlImagem; img.alt = p.nome;
-      c.innerHTML = ""; c.appendChild(img);
-    }
+    const img = document.createElement("img");
+    img.src = p.urlImagem;
+    img.alt = p.nome;
+    $("js-produto-img").innerHTML = "";
+    $("js-produto-img").appendChild(img);
   }
-  const preco = `R$ ${Number(p.preco).toFixed(2)}`;
-  setText("subtotal-valor", preco);
-  setText("total-valor", preco);
+
+  const preco = fmtPreco(p.preco);
+  setText("js-subtotal", preco);
+  setText("js-total", preco);
   document.title = `Checkout — ${p.nome} — JoinRender`;
-  setText("btn-pagar-texto", `Pagar R$ ${Number(p.preco).toFixed(2)}`);
+  setText("js-btn-texto", `Pagar ${preco}`);
 }
 
-function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+/* ── Seleção de método (Cartão / PIX) ─────────────────── */
+$("aba-cartao").addEventListener("click", () => setMetodo("cartao"));
+$("aba-pix").addEventListener("click",    () => setMetodo("pix"));
 
-// ── Seletor de método de pagamento ────────────────────────────────────────────
-
-document.getElementById("tab-cartao")?.addEventListener("click", () => setMetodo("cartao"));
-document.getElementById("tab-pix")?.addEventListener("click",    () => setMetodo("pix"));
-
-function setMetodo(metodo) {
-  metodoPagamento = metodo;
-  ["cartao", "pix"].forEach(m => {
-    document.getElementById(`tab-${m}`)?.classList.toggle("ativo", m === metodo);
-    document.getElementById(`tab-${m}`)?.setAttribute("aria-selected", String(m === metodo));
-    document.getElementById(`painel-${m}`)?.classList.toggle("oculto", m !== metodo);
+function setMetodo(m) {
+  metodoPagamento = m;
+  ["cartao", "pix"].forEach(x => {
+    $(`aba-${x}`).classList.toggle("ativo", x === m);
+    $(`aba-${x}`).setAttribute("aria-selected", String(x === m));
+    $(`painel-${x}`).classList.toggle("oculto", x !== m);
   });
+  esconderErroInline();
 }
 
-// ── Botão pagar cartão ────────────────────────────────────────────────────────
-
-document.getElementById("btn-pagar-cartao")?.addEventListener("click", async () => {
-  if (!stripe) return;
-  const btn = document.getElementById("btn-pagar-cartao");
-  const btnTexto = document.getElementById("btn-pagar-texto");
+/* ── Botão pagar cartão ───────────────────────────────── */
+$("btn-pagar-cartao").addEventListener("click", async () => {
+  const btn  = $("btn-pagar-cartao");
+  const span = $("js-btn-texto");
   btn.disabled = true;
-  if (btnTexto) btnTexto.textContent = "Aguarde…";
+  span.textContent = "Aguarde…";
+  esconderErroInline();
 
   if (MODO_CARTAO === "checkout") {
-    // ── Stripe Checkout: cria sessão e redireciona ──────────────────────────
+    /* Stripe Checkout: cria sessão e redireciona */
     try {
-      const idToken = await usuarioAtual.getIdToken();
-      const resp = await fetch(`${API_BASE}/criar-checkout-session`, {
+      const token = await usuario.getIdToken();
+      const res = await fetch(`${API_BASE}/criar-checkout-session`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${idToken}` },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ produtoId }),
       });
-      if (!resp.ok) {
-        const e = await resp.json().catch(() => ({}));
-        throw new Error(e.mensagem || `Erro ${resp.status}`);
+      if (!res.ok) {
+        const e = await res.json().catch(() => ({}));
+        throw new Error(e.mensagem || `Erro ${res.status}`);
       }
-      const { url } = await resp.json();
-      // Redireciona para a página de pagamento hospedada pelo Stripe
-      window.location.href = url;
+      const { url } = await res.json();
+      location.href = url;
+
     } catch (e) {
       btn.disabled = false;
-      if (btnTexto) btnTexto.textContent = `Pagar R$ ${Number(produto.preco).toFixed(2)}`;
-      mostrarErro(e.message || "Não foi possível iniciar o pagamento. Tente novamente.");
+      span.textContent = `Pagar ${fmtPreco(produto.preco)}`;
+      mostrarErroInline(e.message || "Não foi possível iniciar o pagamento. Tente novamente.");
     }
+
   } else {
-    // ── Payment Element embutido: confirma direto ───────────────────────────
+    /* Payment Element embutido: confirma direto */
     if (!elements) return;
     mostrarEstado("processando");
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/checkout-retorno.html?produto=${produtoId}`,
+        return_url: `${location.origin}/checkoutretorno.html?produto=${produtoId}`,
         payment_method_data: {
           billing_details: {
-            name: document.getElementById("nome-titular")?.value?.trim() || usuarioAtual?.displayName || "",
-            email: usuarioAtual?.email || "",
+            name:  $("nome-titular").value.trim() || usuario?.displayName || "",
+            email: usuario?.email || "",
           },
         },
       },
@@ -215,196 +224,204 @@ document.getElementById("btn-pagar-cartao")?.addEventListener("click", async () 
     });
 
     if (error) {
-      mostrarEstado("erro");
-      setText("erro-mensagem", traduzirErroStripe(error));
+      mostrarEstado("none");
+      mostrarErroInline(traduzirErro(error));
       btn.disabled = false;
-      if (btnTexto) btnTexto.textContent = `Pagar R$ ${Number(produto.preco).toFixed(2)}`;
+      span.textContent = `Pagar ${fmtPreco(produto.preco)}`;
       return;
     }
-    await onPagamentoAprovado();
+    await pagamentoAprovado();
   }
 });
 
-// ── PIX ───────────────────────────────────────────────────────────────────────
+/* ── PIX: gerar QR Code ───────────────────────────────── */
+$("btn-gerar-pix").addEventListener("click", async () => {
+  const btn = $("btn-gerar-pix");
+  btn.disabled = true;
+  btn.textContent = "Gerando…";
+  esconderErroInline();
 
-let pixTimer = null;
-
-document.getElementById("btn-gerar-pix")?.addEventListener("click", async () => {
-  const btn = document.getElementById("btn-gerar-pix");
-  btn.disabled = true; btn.textContent = "Gerando PIX…";
   try {
-    const idToken = await usuarioAtual.getIdToken();
-    const resp = await fetch(`${API_BASE}/criar-pix`, {
+    const token = await usuario.getIdToken();
+    const res = await fetch(`${API_BASE}/criar-pix`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${idToken}` },
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify({ produtoId }),
     });
-    if (!resp.ok) throw new Error(`Erro ${resp.status}`);
-    const { qrCode, qrCodeBase64, copiaCola, expiresIn } = await resp.json();
+    if (!res.ok) throw new Error(`Erro ${res.status}`);
+    const { qrCode, qrCodeBase64, copiaCola, expiresIn } = await res.json();
 
-    document.getElementById("pix-instrucoes-inicial")?.classList.add("oculto");
-    document.getElementById("pix-qr-container")?.classList.remove("oculto");
+    $("pix-intro").style.display = "none";
+    btn.style.display = "none";
+    $("pix-qr-area").classList.remove("oculto");
 
-    const qrBox = document.getElementById("pix-qr-box");
-    if (qrBox) {
-      if (qrCodeBase64) {
-        const img = document.createElement("img");
-        img.src = `data:image/png;base64,${qrCodeBase64}`; img.alt = "QR Code PIX";
-        qrBox.innerHTML = ""; qrBox.appendChild(img);
-      } else {
-        await carregarQRLib();
-        qrBox.innerHTML = "";
-        if (window.QRCode) new window.QRCode(qrBox, {
-          text: qrCode || copiaCola, width: 176, height: 176,
+    const qrBox = $("pix-qr-box");
+    if (qrCodeBase64) {
+      const img = document.createElement("img");
+      img.src = `data:image/png;base64,${qrCodeBase64}`;
+      img.alt = "QR Code PIX";
+      qrBox.innerHTML = "";
+      qrBox.appendChild(img);
+    } else {
+      await carregarQRLib();
+      qrBox.innerHTML = "";
+      if (window.QRCode) {
+        new window.QRCode(qrBox, {
+          text: qrCode || copiaCola,
+          width: 176, height: 176,
           colorDark: "#000000", colorLight: "#ffffff",
         });
       }
     }
 
-    const inputCopia = document.getElementById("pix-codigo");
-    if (inputCopia) inputCopia.value = copiaCola || qrCode || "";
+    $("pix-codigo").value = copiaCola || qrCode || "";
     iniciarTimerPix(expiresIn || 1800);
     iniciarPollingPix();
+
   } catch (e) {
-    btn.disabled = false; btn.textContent = "Gerar QR Code PIX";
-    mostrarErro("Não foi possível gerar o PIX. Tente novamente.");
+    btn.disabled = false;
+    btn.textContent = "Gerar QR Code PIX";
+    mostrarErroInline("Não foi possível gerar o PIX. Tente novamente.");
   }
 });
 
-document.getElementById("btn-copiar-pix")?.addEventListener("click", () => {
-  const v = document.getElementById("pix-codigo")?.value;
+/* ── PIX: copiar código ───────────────────────────────── */
+$("btn-copiar-pix").addEventListener("click", () => {
+  const v = $("pix-codigo").value;
   if (!v) return;
   navigator.clipboard.writeText(v).then(() => {
-    const btn = document.getElementById("btn-copiar-pix");
-    if (btn) {
-      btn.innerHTML = '<i class="fi fi-rr-check"></i><span>Copiado!</span>';
-      setTimeout(() => { btn.innerHTML = '<i class="fi fi-rr-copy"></i><span>Copiar</span>'; }, 2000);
-    }
+    const btn = $("btn-copiar-pix");
+    btn.innerHTML = '<i class="fi fi-rr-check"></i> Copiado!';
+    setTimeout(() => { btn.innerHTML = '<i class="fi fi-rr-copy"></i> Copiar'; }, 2200);
   });
 });
 
-function iniciarTimerPix(segundos) {
-  const el = document.getElementById("pix-timer");
-  let r = segundos;
-  pixTimer = setInterval(() => {
+/* ── Timer PIX ────────────────────────────────────────── */
+let pixTimerID = null;
+
+function iniciarTimerPix(seg) {
+  const el = $("pix-timer");
+  let r = seg;
+  pixTimerID = setInterval(() => {
     r--;
-    if (r <= 0) { clearInterval(pixTimer); if (el) el.textContent = "00:00"; return; }
+    if (r <= 0) { clearInterval(pixTimerID); if (el) el.textContent = "00:00"; return; }
     const m = String(Math.floor(r / 60)).padStart(2, "0");
     const s = String(r % 60).padStart(2, "0");
     if (el) el.textContent = `${m}:${s}`;
   }, 1000);
 }
 
-let pollingInterval = null;
+/* ── Polling PIX ──────────────────────────────────────── */
+let pollingID = null;
 
-async function iniciarPollingPix() {
-  pollingInterval = setInterval(async () => {
+function iniciarPollingPix() {
+  pollingID = setInterval(async () => {
     try {
-      const idToken = await usuarioAtual.getIdToken();
-      const resp = await fetch(`${API_BASE}/verificar-pix?produtoId=${produtoId}`, {
-        headers: { "Authorization": `Bearer ${idToken}` },
+      const token = await usuario.getIdToken();
+      const res = await fetch(`${API_BASE}/verificar-pix?produtoId=${produtoId}`, {
+        headers: { "Authorization": `Bearer ${token}` },
       });
-      if (!resp.ok) return;
-      const { pago } = await resp.json();
+      if (!res.ok) return;
+      const { pago } = await res.json();
       if (pago) {
-        clearInterval(pollingInterval);
-        clearInterval(pixTimer);
-        await onPagamentoAprovado();
+        clearInterval(pollingID);
+        clearInterval(pixTimerID);
+        await pagamentoAprovado();
       }
     } catch (_) {}
   }, 3000);
 }
 
-async function carregarQRLib() {
-  if (window.QRCode) return;
-  return new Promise(resolve => {
+/* ── Carrega lib QRCode sob demanda ───────────────────── */
+function carregarQRLib() {
+  if (window.QRCode) return Promise.resolve();
+  return new Promise(ok => {
     const s = document.createElement("script");
     s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
-    s.onload = resolve; document.head.appendChild(s);
+    s.onload = ok;
+    document.head.appendChild(s);
   });
 }
 
-// ── Pós-pagamento (Payment Element / PIX) ────────────────────────────────────
-
-async function onPagamentoAprovado() {
+/* ── Pós-pagamento aprovado ───────────────────────────── */
+async function pagamentoAprovado() {
   try {
-    await setDoc(doc(db, "compras", `${usuarioAtual.uid}_${produtoId}`), {
-      usuarioId: usuarioAtual.uid, produtoId,
-      preco: produto.preco, nomeProduto: produto.nome, tipoProduto: produto.tipo,
-      urlArquivo: produto.urlArquivo || produto.urlModelo || "",
-      criadoEm: serverTimestamp(), status: "aprovado",
+    await setDoc(doc(db, "compras", `${usuario.uid}_${produtoId}`), {
+      usuarioId:   usuario.uid,
+      produtoId,
+      preco:       produto.preco,
+      nomeProduto: produto.nome,
+      tipoProduto: produto.tipo,
+      urlArquivo:  produto.urlArquivo || produto.urlModelo || "",
+      criadoEm:   serverTimestamp(),
+      status:     "aprovado",
     }, { merge: true });
   } catch (_) {}
 
   mostrarEstado("sucesso");
-  setText("sucesso-mensagem", `"${produto.nome}" foi adicionado à sua biblioteca.`);
+  setText("js-sucesso-msg", `"${produto.nome}" foi adicionado à sua biblioteca.`);
 
   const url = produto.urlArquivo || produto.urlModelo || null;
   if (url) {
     setTimeout(() => {
       const a = document.createElement("a");
-      a.href = url; a.download = `${produto.nome || "asset"}.zip`; a.target = "_blank";
-      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      a.href = url;
+      a.download = `${produto.nome || "asset"}.zip`;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }, 1200);
   }
 }
 
-// ── Botões pós-estado ─────────────────────────────────────────────────────────
+/* ── Botões pós-estado ────────────────────────────────── */
+$("btn-ir-biblioteca").addEventListener("click", () => { location.href = "login.html"; });
 
-document.getElementById("btn-ir-biblioteca")?.addEventListener("click", () => {
-  window.location.href = "login.html";
-});
-
-document.getElementById("btn-tentar-novamente")?.addEventListener("click", () => {
-  mostrarEstado("nenhum");
+$("btn-tentar-novamente").addEventListener("click", () => {
+  mostrarEstado("none");
   setMetodo("cartao");
-  const btn = document.getElementById("btn-pagar-cartao");
-  if (btn) btn.disabled = false;
-  setText("btn-pagar-texto", `Pagar R$ ${Number(produto?.preco).toFixed(2)}`);
+  $("btn-pagar-cartao").disabled = false;
+  setText("js-btn-texto", `Pagar ${fmtPreco(produto?.preco)}`);
 });
 
-// ── Utilitários de UI ─────────────────────────────────────────────────────────
-
+/* ── Helpers de UI ────────────────────────────────────── */
 function mostrarEstado(estado) {
-  ["processando", "sucesso", "erro"].forEach(s =>
-    document.getElementById(`estado-${s}`)?.classList.add("oculto")
-  );
-  document.querySelectorAll(".checkout-painel, .checkout-metodos").forEach(el =>
-    el.classList.toggle("oculto-checkout", estado !== "nenhum" && estado !== "")
-  );
-  if (["processando", "sucesso", "erro"].includes(estado))
-    document.getElementById(`estado-${estado}`)?.classList.remove("oculto");
+  const paineis = document.querySelectorAll(".ck-painel, .ck-abas");
+  paineis.forEach(el => el.classList.toggle("oculto", estado !== "none" && estado !== ""));
+  ["processando", "sucesso", "erro"].forEach(s => {
+    $(`estado-${s}`)?.classList.toggle("visivel", s === estado);
+  });
 }
 
-function mostrarErro(msg) {
-  let d = document.getElementById("checkout-erro-inline");
-  if (!d) {
-    d = document.createElement("div");
-    d.id = "checkout-erro-inline";
-    d.style.cssText = "background:rgba(192,82,74,0.1);border:1px solid rgba(192,82,74,0.3);border-radius:8px;padding:10px 14px;color:#e0726b;font-size:0.82rem;margin-top:12px;";
-    document.querySelector(".checkout-painel:not(.oculto)")?.appendChild(d);
-  }
-  d.textContent = msg;
+function mostrarErroInline(msg) {
+  const el = $("js-erro-inline");
+  el.textContent = msg;
+  el.classList.add("visivel");
 }
 
-function mostrarErroFatal(msg) {
-  document.body.innerHTML = `<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#1C1515;color:#E8DCC4;font-family:DM Sans,sans-serif;padding:24px;text-align:center;"><div style="font-size:2rem;">⚠</div><p style="color:#817361;max-width:320px;">${msg}</p><a href="index.html" style="padding:12px 24px;background:#c8a84e;color:#1a1313;border-radius:8px;text-decoration:none;font-weight:600;">Voltar ao início</a></div>`;
+function esconderErroInline() {
+  $("js-erro-inline").classList.remove("visivel");
 }
 
-function traduzirErroStripe(error) {
-  const c = {
-    card_declined:         "Cartão recusado.",
-    insufficient_funds:    "Saldo insuficiente.",
-    expired_card:          "Cartão expirado.",
-    incorrect_cvc:         "CVC incorreto.",
-    processing_error:      "Erro de processamento. Tente novamente.",
-    incorrect_number:      "Número do cartão inválido.",
+function erroFatal(msg) {
+  document.body.innerHTML = `
+    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#1C1515;color:#E8DCC4;font-family:'DM Sans',sans-serif;padding:24px;text-align:center;">
+      <div style="font-size:2.5rem;opacity:0.6;">⚠</div>
+      <p style="color:#817361;max-width:320px;line-height:1.6;">${msg}</p>
+      <a href="index.html" style="padding:12px 28px;background:#c8a84e;color:#1a1313;border-radius:8px;text-decoration:none;font-weight:700;">Voltar ao início</a>
+    </div>`;
+}
+
+function traduzirErro(error) {
+  const mapa = {
+    card_declined:           "Cartão recusado.",
+    insufficient_funds:      "Saldo insuficiente.",
+    expired_card:            "Cartão expirado.",
+    incorrect_cvc:           "CVC incorreto.",
+    processing_error:        "Erro de processamento. Tente novamente.",
+    incorrect_number:        "Número do cartão inválido.",
     authentication_required: "Autenticação necessária. Verifique o app do seu banco.",
   };
-  return c[error.code] || error.message || "Erro desconhecido.";
+  return mapa[error.code] || error.message || "Erro desconhecido.";
 }
-
-// Injeta classes utilitárias de visibilidade
-const style = document.createElement("style");
-style.textContent = ".oculto-checkout{display:none!important}.oculto{display:none!important}";
-document.head.appendChild(style);
