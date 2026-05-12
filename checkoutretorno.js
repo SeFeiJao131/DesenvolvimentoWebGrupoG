@@ -57,9 +57,18 @@ if (cancelado === "1" && produtoId) {
           $("js-produto-box").style.display = "block";
           $("js-produto-nome").textContent  = data.nomeProduto;
           $("js-sucesso-msg").textContent   =
-            `"${data.nomeProduto}" foi adicionado à sua biblioteca.`;
+            `"${data.nomeProduto}" foi adicionado à sua conta.`;
         }
 
+        /* Botão leva de volta para a página do produto */
+        const btnBiblioteca = $("btn-biblioteca");
+        if (btnBiblioteca && produtoId) {
+          btnBiblioteca.onclick = () => {
+            location.href = `produto.html?id=${produtoId}`;
+          };
+        }
+
+        /* Download automático */
         if (data.urlArquivo) {
           setTimeout(() => {
             const a    = document.createElement("a");
@@ -89,8 +98,3 @@ if (cancelado === "1" && produtoId) {
     }
   });
 }
-
-/* ── Botão biblioteca ─────────────────────────────────── */
-$("btn-biblioteca")?.addEventListener("click", () => {
-  location.href = "login.html";
-});
