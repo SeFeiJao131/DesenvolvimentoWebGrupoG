@@ -38,17 +38,7 @@ onAuthStateChanged(auth, (usuario) => {
   }
 });
 
-// ── Mostrar/ocultar senha ─────────────────────────────────────────────────────
-const inputSenha = document.getElementById("input-senha");
-const botaoOlho  = document.getElementById("botao-olho");
-
-if (botaoOlho && inputSenha) {
-  botaoOlho.addEventListener("click", () => {
-    const visivel = inputSenha.type === "text";
-    inputSenha.type       = visivel ? "password" : "text";
-    botaoOlho.textContent = visivel ? "👁" : "🙈";
-  });
-}
+// ── Mostrar/ocultar senha — gerenciado pelo HTML, não duplicar aqui ───────────
 
 // ── Login com e-mail/senha ────────────────────────────────────────────────────
 document.querySelector(".botao-entrar")?.addEventListener("click", async () => {

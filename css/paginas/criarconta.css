@@ -120,6 +120,15 @@
 .cc-input::placeholder { color: #3d2c2c; }
 .cc-input:focus { border-color: var(--cor-dourado); }
 
+.cc-input:-webkit-autofill,
+.cc-input:-webkit-autofill:hover,
+.cc-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--cor-fundo-input2) inset !important;
+  -webkit-text-fill-color: var(--cor-creme) !important;
+  border-color: var(--cor-borda-escura) !important;
+  caret-color: var(--cor-creme);
+}
+
 .cc-senha-wrapper { position: relative; display: flex; align-items: center; }
 .cc-senha-wrapper .cc-input { padding-right: 48px; }
 

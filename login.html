@@ -122,6 +122,15 @@
     .login-input::placeholder { color: var(--cor-texto-suave); }
     .login-input:focus { border-color: var(--cor-dourado); }
 
+    .login-input:-webkit-autofill,
+    .login-input:-webkit-autofill:hover,
+    .login-input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--cor-fundo-input) inset !important;
+      -webkit-text-fill-color: var(--cor-creme) !important;
+      border-color: var(--cor-borda) !important;
+      caret-color: var(--cor-creme);
+    }
+
     .campo-senha-wrapper { position: relative; }
     .campo-senha-wrapper .login-input { padding-right: 52px; }
 
