@@ -13,7 +13,7 @@
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--cor-dourado-alt);
+  color: var(--cor-creme);
   text-decoration: none;
 }
 
@@ -346,17 +346,9 @@
   font-weight: 700;
 }
 
-.ck-estado-titulo.sucesso {
-  color: #5cb85c;
-}
-
-.ck-estado-titulo.erro {
-  color: var(--cor-erro);
-}
-
-.ck-estado-titulo.neutro {
-  color: var(--cor-creme);
-}
+.ck-estado-titulo.sucesso { color: #5cb85c; }
+.ck-estado-titulo.erro    { color: var(--cor-erro); }
+.ck-estado-titulo.neutro  { color: var(--cor-creme); }
 
 .ck-estado-sub {
   font-size: 0.83rem;

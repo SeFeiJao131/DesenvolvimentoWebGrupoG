@@ -1,8 +1,19 @@
+/* ── Página centralizada ──────────────────────────────── */
+.rt-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px var(--container-pad);
+}
+
+/* ── Logo ─────────────────────────────────────────────── */
 .rt-logo {
   font-family: var(--font-serif);
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--cor-dourado-alt);
+  color: var(--cor-creme);
   text-decoration: none;
   margin-bottom: 32px;
 }
@@ -33,11 +44,11 @@
   border: 4px solid rgba(200, 168, 78, 0.2);
   border-top-color: var(--cor-dourado-alt);
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  animation: rt-spin 0.9s linear infinite;
   margin-bottom: 4px;
 }
 
-@keyframes spin {
+@keyframes rt-spin {
   to {
     transform: rotate(360deg);
   }
@@ -78,21 +89,10 @@
   line-height: 1.2;
 }
 
-.rt-titulo.sucesso {
-  color: #5cb85c;
-}
-
-.rt-titulo.erro {
-  color: #c0524a;
-}
-
-.rt-titulo.aguardando {
-  color: var(--cor-dourado-alt);
-}
-
-.rt-titulo.neutro {
-  color: var(--cor-creme);
-}
+.rt-titulo.sucesso  { color: #5cb85c; }
+.rt-titulo.erro     { color: #c0524a; }
+.rt-titulo.aguardando { color: var(--cor-dourado-alt); }
+.rt-titulo.neutro   { color: var(--cor-creme); }
 
 .rt-subtexto {
   font-size: 0.88rem;

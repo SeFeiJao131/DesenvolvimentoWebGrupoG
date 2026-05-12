@@ -13,82 +13,70 @@
 </head>
 
 <body>
+  <div class="rt-page">
 
-  <a class="rt-logo" href="index.html" aria-label="JoinRender — Início">JR.</a>
+    <a class="rt-logo" href="index.html" aria-label="JoinRender — Início">JR.</a>
 
-  <!-- Estado: verificando -->
-  <div class="rt-card visivel" id="estado-verificando">
-    <div class="rt-spinner"></div>
-    <p class="rt-titulo neutro">Verificando pagamento…</p>
-    <p class="rt-subtexto">Aguarde, estamos confirmando sua compra.</p>
-  </div>
-
-  <!-- Estado: sucesso -->
-  <div class="rt-card" id="estado-sucesso">
-    <div class="rt-icone sucesso">✓</div>
-    <p class="rt-titulo sucesso">Pagamento aprovado!</p>
-    <p class="rt-subtexto" id="js-sucesso-msg">Seu ativo foi adicionado à sua biblioteca.</p>
-
-    <div class="rt-produto" id="js-produto-box" style="display:none;">
-      Produto adquirido: <strong id="js-produto-nome">—</strong>
+    <!-- Estado: verificando -->
+    <div class="rt-card visivel" id="estado-verificando">
+      <div class="rt-spinner"></div>
+      <p class="rt-titulo neutro">Verificando pagamento…</p>
+      <p class="rt-subtexto">Aguarde, estamos confirmando sua compra.</p>
     </div>
 
-    <div class="rt-divisor"></div>
+    <!-- Estado: sucesso -->
+    <div class="rt-card" id="estado-sucesso">
+      <div class="rt-icone sucesso">✓</div>
+      <p class="rt-titulo sucesso">Pagamento aprovado!</p>
+      <p class="rt-subtexto" id="js-sucesso-msg">Seu ativo foi adicionado à sua biblioteca.</p>
 
-    <div class="rt-garantias">
-      <div class="rt-garantia">
-        <i class="fi fi-rr-check-circle"></i>
-        <span>Download iniciado automaticamente</span>
+      <div class="rt-produto" id="js-produto-box" style="display:none;">
+        Produto adquirido: <strong id="js-produto-nome">—</strong>
       </div>
-      <div class="rt-garantia">
-        <i class="fi fi-rr-shield-check"></i>
-        <span>Licença comercial incluída</span>
+
+      <div class="rt-divisor"></div>
+
+      <div class="rt-garantias">
+        <div class="rt-garantia">
+          <i class="fi fi-rr-check-circle"></i>
+          <span>Download iniciado automaticamente</span>
+        </div>
+        <div class="rt-garantia">
+          <i class="fi fi-rr-shield-check"></i>
+          <span>Licença comercial incluída</span>
+        </div>
+        <div class="rt-garantia">
+          <i class="fi fi-rr-infinity"></i>
+          <span>Acesso permanente na sua biblioteca</span>
+        </div>
       </div>
-      <div class="rt-garantia">
-        <i class="fi fi-rr-infinity"></i>
-        <span>Acesso permanente na sua biblioteca</span>
-      </div>
+
+      <button class="rt-btn sucesso" id="btn-biblioteca" type="button">
+        <i class="fi fi-rr-book-alt"></i> Ir para minha biblioteca
+      </button>
+      <a class="rt-btn secundario" href="index.html">
+        <i class="fi fi-rr-home"></i> Voltar ao início
+      </a>
     </div>
 
-    <button class="rt-btn sucesso" id="btn-biblioteca" type="button">
-      <i class="fi fi-rr-book-alt"></i> Ir para minha biblioteca
-    </button>
-    <a class="rt-btn secundario" href="index.html">
-      <i class="fi fi-rr-home"></i> Voltar ao início
-    </a>
-  </div>
-
-  <!-- Estado: aguardando -->
-  <div class="rt-card" id="estado-aguardando">
-    <div class="rt-icone aguardando">
-      <i class="fi fi-rr-clock"></i>
+    <!-- Estado: erro -->
+    <div class="rt-card" id="estado-erro">
+      <div class="rt-icone erro">✕</div>
+      <p class="rt-titulo erro">Pagamento não confirmado</p>
+      <p class="rt-subtexto" id="js-erro-msg">
+        Ocorreu um problema ao verificar seu pagamento.
+      </p>
+      <a class="rt-btn" id="btn-tentar-novamente" href="#">
+        <i class="fi fi-rr-refresh"></i> Tentar novamente
+      </a>
+      <a class="rt-btn secundario" href="index.html">
+        <i class="fi fi-rr-home"></i> Voltar ao início
+      </a>
     </div>
-    <p class="rt-titulo aguardando">Pagamento em processamento</p>
-    <p class="rt-subtexto">
-      Seu pagamento foi recebido e está sendo confirmado.
-      Você receberá um e-mail assim que for aprovado.
-    </p>
-    <a class="rt-btn" href="index.html">
-      <i class="fi fi-rr-home"></i> Voltar ao início
-    </a>
+
   </div>
 
-  <!-- Estado: erro -->
-  <div class="rt-card" id="estado-erro">
-    <div class="rt-icone erro">✕</div>
-    <p class="rt-titulo erro">Pagamento não confirmado</p>
-    <p class="rt-subtexto" id="js-erro-msg">
-      Ocorreu um problema ao verificar seu pagamento.
-    </p>
-    <a class="rt-btn" id="btn-tentar-novamente" href="#">
-      <i class="fi fi-rr-refresh"></i> Tentar novamente
-    </a>
-    <a class="rt-btn secundario" href="index.html">
-      <i class="fi fi-rr-home"></i> Voltar ao início
-    </a>
-  </div>
-
-  <script type="module" src="js/checkoutretorno.js"></script>
+  <script type="module" src="checkoutretorno.js"></script>
 
 </body>
 </html>
