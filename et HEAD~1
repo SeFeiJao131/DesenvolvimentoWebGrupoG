@@ -1,0 +1,94 @@
+[33m41f21ff[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m apis de pagamento
+[33ma7eb32e[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m fazendo pagamento do site
+[33mf6a6f07[m pagamento
+[33m1c4947e[m fazendo pagamento funcionar
+[33m9951bcf[m comecando sistema de pagamento
+[33md889a8f[m Adicionando um gitignore por boas praticas, e otimizando o site
+[33me31e992[m Fazendo a pagina novidades funcionar
+[33med3d7db[m arrumando responsividade do site
+[33mba7fef6[m Arrumando responsividade do site
+[33mb8a1e70[m arrumando responsividade do site
+[33ma5dced3[m arrumando a responsividade
+[33m4023802[m arrumando responsividade do site
+[33m6f62e31[m corrigindo e otimizando o site
+[33mc99f74b[m otimizando site
+[33m08947bd[m Arrumando vizualizador 3d
+[33m320784a[m arrumando o vizualizador 3d
+[33m7ee46fa[m arrumando site
+[33m7867b63[m arrumando bug
+[33m4b0ac93[m arrumando bugs
+[33m124c505[m arrumando pesquisa
+[33mdaf916c[m arummando pesquis
+[33m1f1cb46[m arrumando pesquisa
+[33m27763b8[m arrumando pesquisa
+[33mf97d520[m arrumando barra de pesquisa
+[33m2e6bec7[m arrumando barra de pesquisa
+[33md519e51[m .
+[33m3c24ce7[m arrumando barra de pesquisa
+[33m0cf0a11[m fazendo barra de pesquisa funcionar
+[33m926f8c8[m comecando mecanismo de busca
+[33mf21d1be[m arrumando pagina dos produtos
+[33m832e78f[m arrumando pagina dos produtos
+[33m575d540[m arrumando api
+[33m7da7333[m arrumando api
+[33m40299a1[m arrumando api
+[33md68c1e3[m arrumando api
+[33me8cee24[m arrumando api
+[33m88101a8[m arrumando api
+[33m01a93d9[m arrumando api no site
+[33m0503aa6[m adicionando a nova api
+[33md407654[m reescreve stats.js
+[33m336101d[m corrigindo api
+[33m0dd12fb[m Api
+[33me316551[m criando uma api para o site
+[33me266b17[m .
+[33m2e04f98[m Arrumando vizualizador 3d
+[33m89acdd9[m arrumando login
+[33m99acac5[m arrumando login
+[33m990604b[m Arrumando login
+[33mf2d4c8c[m Login google, github e x
+[33m4a1fb5b[m Merge branch 'main' of https://github.com/SeFeiJao131/DesenvolvimentoWebGrupoG
+[33mc562b70[m .
+[33m545f185[m Update index.html
+[33m22062bc[m Update index.html
+[33m3a77a25[m Rename politicadeprivacidade.html to privacidade.html
+[33m5ff05d9[m Rename termosdeuso.html to termos.html
+[33m5e3e25c[m Create contato.html
+[33m0127bdd[m Create politicadeprivacidade.html
+[33mb9a6b6d[m Create termosdeuso.html
+[33m2d2e02d[m Create sobre.html
+[33mb61d193[m Update Criarconta.html
+[33meb4ff58[m Update criarconta.js
+[33mcf15c04[m Arrumando bug
+[33m834e45e[m corrigindo bug do vizualizador 3d
+[33mbdf6678[m corrigindo pagina de produtos
+[33m5c2cef5[m Atualizando site
+[33mf30596a[m Atualizando o site
+[33m846a3c9[m Arrumando bug
+[33m4ba843b[m correcao de bugs, coloquei imagens nas categorias das paginas layouts, e comecei a fazer a pagina categoria uma pagina dinamica
+[33m99ef289[m organizando os css do site em pastas
+[33m00967b9[m Criando aba de criar conta
+[33m353d28b[m Criando aba de criar conta
+[33m982f9a0[m corrigindo bugs
+[33m2a14157[m Adicionando sign up
+[33ma53ceca[m mais um commit porque eu sou burro
+[33m7325539[m a
+[33m438451f[m a
+[33m365ec0d[m Arrumando erro no login
+[33m304dab0[m a
+[33mc7d86b6[m Continuando login
+[33mecc7ad8[m comecando a fazer o login
+[33m70d8627[m Paginas de hdri, links entre paginas, arrumei o problema das fontes
+[33mfb8a9f0[m nova pagina de novidades(html,css, e js)
+[33m6f925cf[m Arrumei os cards no index com espacamento alto
+[33m59f675e[m[33m ([m[1;32mteste-nova-feature[m[33m)[m atualização do layout
+[33m96d9a0e[m Atualizando site
+[33ma7d02a9[m Atualizando site
+[33mafbc46b[m Atualização do site
+[33ma24b3ca[m Atualização do site
+[33mf4de808[m Atualização do site
+[33m701fb11[m Atualização do site
+[33mfbaf978[m Atualização do site
+[33m24c2b2f[m Merge branch 'main' of https://github.com/SeFeiJao131/DesenvolvimentoWebGrupoG
+[33m47aba1c[m[33m ([m[1;33mtag: [m[1;33mv1.0[m[33m)[m Primeira versão do site
+[33maa0cdcf[m Initial commit

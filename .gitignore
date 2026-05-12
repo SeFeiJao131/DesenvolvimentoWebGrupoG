@@ -1,31 +1,17 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# .gitignore — JoinRender
-# ─────────────────────────────────────────────────────────────────────────────
-
-# ── Variáveis de ambiente (NUNCA subir ao Git) ────────────────────────────────
 .env
 .env.local
 .env.production
 .env.development
-
-# ── Dependências ──────────────────────────────────────────────────────────────
 node_modules/
-
-# ── Build outputs ─────────────────────────────────────────────────────────────
 dist/
 build/
 .vercel/
 .next/
-
-# ── Arquivos de sistema ───────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 *.log
-
-# ── Firebase local emulator ───────────────────────────────────────────────────
 .firebase/
 firebase-debug.log
 firestore-debug.log
-
-# ── Arquivo sem extensão e sem propósito (removido do projeto) ────────────────
-# O arquivo "pro" na raiz era vazio e sem uso — foi excluído do projeto.
+.env
+serviceAccountKey.json

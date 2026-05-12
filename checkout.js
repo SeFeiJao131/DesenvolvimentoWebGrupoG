@@ -1,5 +1,5 @@
-import { app } from "../config.js";
-import { buscarProdutoPorId } from "../db.js";
+import { app } from "./config.js";
+import { buscarProdutoPorId } from "./db.js";
 import { getAuth, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, serverTimestamp }
@@ -8,8 +8,6 @@ import { getFirestore, doc, setDoc, serverTimestamp }
 /* ── CONFIGURAÇÃO ─────────────────────────────────────── */
 const STRIPE_PUBLIC_KEY = "pk_test_51TVx7JJuBe8PlzFoQKq7vzU5CSfF9MxgwgFkIcZ14q5JxrvhRhppocs5HbCrKVhGH9g15pIDCGkVkjQcprBPmGVc00bzHBJOHw";
 const API_BASE = "/api";
-// "checkout" → redireciona para o Stripe (recomendado para modo teste)
-// "element"  → formulário embutido via Payment Element
 const MODO_CARTAO = "checkout";
 /* ──────────────────────────────────────────────────────── */
 
@@ -81,9 +79,8 @@ async function setupFormulario() {
     stripe = window.Stripe(STRIPE_PUBLIC_KEY);
 
     if (MODO_CARTAO === "element") {
-      /* Modo embutido: cria PaymentIntent e monta Payment Element */
       const token = await usuario.getIdToken();
-      const res = await fetch(`${API_BASE}/criar-payment-intent`, {
+      const res = await fetch(`${API_BASE}/criarpagamento`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ produtoId, usuarioId: usuario.uid }),
@@ -121,7 +118,6 @@ async function setupFormulario() {
       paymentElement.on("ready", () => { $("btn-pagar-cartao").disabled = false; });
 
     } else {
-      /* Modo Checkout: esconde campos do formulário e habilita botão */
       $("stripe-element-wrapper").style.display = "none";
       $("div-nome-titular").style.display = "none";
       $("btn-pagar-cartao").disabled = false;
@@ -183,10 +179,9 @@ $("btn-pagar-cartao").addEventListener("click", async () => {
   esconderErroInline();
 
   if (MODO_CARTAO === "checkout") {
-    /* Stripe Checkout: cria sessão e redireciona */
     try {
       const token = await usuario.getIdToken();
-      const res = await fetch(`${API_BASE}/criar-checkout-session`, {
+      const res = await fetch(`${API_BASE}/criarcheckoutsessao`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ produtoId }),
@@ -205,7 +200,6 @@ $("btn-pagar-cartao").addEventListener("click", async () => {
     }
 
   } else {
-    /* Payment Element embutido: confirma direto */
     if (!elements) return;
     mostrarEstado("processando");
 
@@ -243,7 +237,7 @@ $("btn-gerar-pix").addEventListener("click", async () => {
 
   try {
     const token = await usuario.getIdToken();
-    const res = await fetch(`${API_BASE}/criar-pix`, {
+    const res = await fetch(`${API_BASE}/criarpix`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify({ produtoId }),
@@ -318,7 +312,7 @@ function iniciarPollingPix() {
   pollingID = setInterval(async () => {
     try {
       const token = await usuario.getIdToken();
-      const res = await fetch(`${API_BASE}/verificar-pix?produtoId=${produtoId}`, {
+      const res = await fetch(`${API_BASE}/verificarpix?produtoId=${produtoId}`, {
         headers: { "Authorization": `Bearer ${token}` },
       });
       if (!res.ok) return;
@@ -353,8 +347,8 @@ async function pagamentoAprovado() {
       nomeProduto: produto.nome,
       tipoProduto: produto.tipo,
       urlArquivo:  produto.urlArquivo || produto.urlModelo || "",
-      criadoEm:   serverTimestamp(),
-      status:     "aprovado",
+      criadoEm:    serverTimestamp(),
+      status:      "aprovado",
     }, { merge: true });
   } catch (_) {}
 
