@@ -19,7 +19,6 @@ const produtoId = params.get("id");
 const cancelado = params.get("cancelado");
 
 let stripe, elements, paymentElement, produto, usuario;
-let metodoPagamento = "cartao";
 
 /* ── Helpers ──────────────────────────────────────────── */
 const $       = id => document.getElementById(id);
@@ -156,20 +155,6 @@ function preencherResumo(p) {
   setText("js-btn-texto", `Pagar ${preco}`);
 }
 
-/* ── Seleção de método (Cartão / PIX) ─────────────────── */
-$("aba-cartao").addEventListener("click", () => setMetodo("cartao"));
-$("aba-pix").addEventListener("click",    () => setMetodo("pix"));
-
-function setMetodo(m) {
-  metodoPagamento = m;
-  ["cartao", "pix"].forEach(x => {
-    $(`aba-${x}`).classList.toggle("ativo", x === m);
-    $(`aba-${x}`).setAttribute("aria-selected", String(x === m));
-    $(`painel-${x}`).classList.toggle("oculto", x !== m);
-  });
-  esconderErroInline();
-}
-
 /* ── Botão pagar cartão ───────────────────────────────── */
 $("btn-pagar-cartao").addEventListener("click", async () => {
   const btn  = $("btn-pagar-cartao");
@@ -228,115 +213,6 @@ $("btn-pagar-cartao").addEventListener("click", async () => {
   }
 });
 
-/* ── PIX: gerar QR Code ───────────────────────────────── */
-$("btn-gerar-pix").addEventListener("click", async () => {
-  const btn = $("btn-gerar-pix");
-  btn.disabled = true;
-  btn.textContent = "Gerando…";
-  esconderErroInline();
-
-  try {
-    const token = await usuario.getIdToken();
-    const res = await fetch(`${API_BASE}/criarpix`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-      body: JSON.stringify({ produtoId }),
-    });
-    if (!res.ok) throw new Error(`Erro ${res.status}`);
-    const { qrCode, qrCodeBase64, copiaCola, expiresIn } = await res.json();
-
-    $("pix-intro").style.display = "none";
-    btn.style.display = "none";
-    $("pix-qr-area").classList.remove("oculto");
-
-    const qrBox = $("pix-qr-box");
-    if (qrCodeBase64) {
-      const img = document.createElement("img");
-      img.src = `data:image/png;base64,${qrCodeBase64}`;
-      img.alt = "QR Code PIX";
-      qrBox.innerHTML = "";
-      qrBox.appendChild(img);
-    } else {
-      await carregarQRLib();
-      qrBox.innerHTML = "";
-      if (window.QRCode) {
-        new window.QRCode(qrBox, {
-          text: qrCode || copiaCola,
-          width: 176, height: 176,
-          colorDark: "#000000", colorLight: "#ffffff",
-        });
-      }
-    }
-
-    $("pix-codigo").value = copiaCola || qrCode || "";
-    iniciarTimerPix(expiresIn || 1800);
-    iniciarPollingPix();
-
-  } catch (e) {
-    btn.disabled = false;
-    btn.textContent = "Gerar QR Code PIX";
-    mostrarErroInline("Não foi possível gerar o PIX. Tente novamente.");
-  }
-});
-
-/* ── PIX: copiar código ───────────────────────────────── */
-$("btn-copiar-pix").addEventListener("click", () => {
-  const v = $("pix-codigo").value;
-  if (!v) return;
-  navigator.clipboard.writeText(v).then(() => {
-    const btn = $("btn-copiar-pix");
-    btn.innerHTML = '<i class="fi fi-rr-check"></i> Copiado!';
-    setTimeout(() => { btn.innerHTML = '<i class="fi fi-rr-copy"></i> Copiar'; }, 2200);
-  });
-});
-
-/* ── Timer PIX ────────────────────────────────────────── */
-let pixTimerID = null;
-
-function iniciarTimerPix(seg) {
-  const el = $("pix-timer");
-  let r = seg;
-  pixTimerID = setInterval(() => {
-    r--;
-    if (r <= 0) { clearInterval(pixTimerID); if (el) el.textContent = "00:00"; return; }
-    const m = String(Math.floor(r / 60)).padStart(2, "0");
-    const s = String(r % 60).padStart(2, "0");
-    if (el) el.textContent = `${m}:${s}`;
-  }, 1000);
-}
-
-/* ── Polling PIX ──────────────────────────────────────── */
-let pollingID = null;
-
-function iniciarPollingPix() {
-  pollingID = setInterval(async () => {
-    try {
-      const token = await usuario.getIdToken();
-      const res = await fetch(`${API_BASE}/verificarpix?produtoId=${produtoId}`, {
-        headers: { "Authorization": `Bearer ${token}` },
-      });
-      if (!res.ok) return;
-      const { pago } = await res.json();
-      if (pago) {
-        clearInterval(pollingID);
-        clearInterval(pixTimerID);
-        await pagamentoAprovado();
-      }
-    } catch (_) {}
-  }, 3000);
-}
-
-/* ── Carrega lib QRCode sob demanda ───────────────────── */
-function carregarQRLib() {
-  if (window.QRCode) return Promise.resolve();
-  return new Promise(ok => {
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
-    s.onload = ok;
-    document.head.appendChild(s);
-  });
-}
-
 /* ── Pós-pagamento aprovado ───────────────────────────── */
 async function pagamentoAprovado() {
   try {
@@ -374,14 +250,13 @@ $("btn-ir-biblioteca").addEventListener("click", () => { location.href = "login.
 
 $("btn-tentar-novamente").addEventListener("click", () => {
   mostrarEstado("none");
-  setMetodo("cartao");
   $("btn-pagar-cartao").disabled = false;
   setText("js-btn-texto", `Pagar ${fmtPreco(produto?.preco)}`);
 });
 
 /* ── Helpers de UI ────────────────────────────────────── */
 function mostrarEstado(estado) {
-  const paineis = document.querySelectorAll(".ck-painel, .ck-abas");
+  const paineis = document.querySelectorAll(".ck-painel");
   paineis.forEach(el => el.classList.toggle("oculto", estado !== "none" && estado !== ""));
   ["processando", "sucesso", "erro"].forEach(s => {
     $(`estado-${s}`)?.classList.toggle("visivel", s === estado);

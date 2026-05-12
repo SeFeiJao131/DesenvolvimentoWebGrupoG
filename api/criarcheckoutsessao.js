@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       mode:            "payment",
       customer:        customerId,
       customer_update: { address: "auto" },
-      payment_method_types: ["card", "pix"],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {

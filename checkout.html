@@ -76,21 +76,6 @@
       <section class="ck-card">
         <h2 class="ck-section-title">Dados de pagamento</h2>
 
-        <!-- Abas Cartão / PIX -->
-        <div class="ck-abas" id="js-abas" role="tablist">
-          <button class="ck-aba ativo" id="aba-cartao" role="tab" aria-selected="true" type="button">
-            <i class="fi fi-rr-credit-card"></i>
-            Cartão
-          </button>
-          <button class="ck-aba" id="aba-pix" role="tab" aria-selected="false" type="button">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.996 2 7.51 6.487a3.5 3.5 0 0 0 0 4.95l1.06 1.06-1.414 1.415-1.06-1.06a5.5 5.5 0 0 1 0-7.779L11.996 0l5.9 5.073a5.5 5.5 0 0 1 0 7.779l-1.06 1.06-1.415-1.414 1.061-1.061a3.5 3.5 0 0 0 0-4.95L11.996 2z" fill="currentColor"/>
-              <path d="M11.996 22 16.48 17.51a3.5 3.5 0 0 0 0-4.95l-1.06-1.06 1.414-1.415 1.06 1.061a5.5 5.5 0 0 1 0 7.778L11.996 24l-5.9-5.076a5.5 5.5 0 0 1 0-7.778l1.06-1.061 1.415 1.415-1.061 1.06a3.5 3.5 0 0 0 0 4.95L11.996 22z" fill="currentColor"/>
-            </svg>
-            PIX
-          </button>
-        </div>
-
         <!-- Erro inline -->
         <div class="ck-erro-inline" id="js-erro-inline" role="alert"></div>
 
@@ -116,44 +101,6 @@
           <div class="ck-aviso">
             <i class="fi fi-rr-shield-check"></i>
             <span>Pagamento processado com segurança via Stripe. Seus dados nunca são armazenados em nossos servidores.</span>
-          </div>
-        </div>
-
-        <!-- Painel PIX -->
-        <div class="ck-painel oculto" id="painel-pix">
-          <div class="pix-intro" id="pix-intro">
-            <div class="pix-intro-icon">
-              <svg viewBox="0 0 24 24" fill="#32BCAD" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.996 2 7.51 6.487a3.5 3.5 0 0 0 0 4.95l1.06 1.06-1.414 1.415-1.06-1.06a5.5 5.5 0 0 1 0-7.779L11.996 0l5.9 5.073a5.5 5.5 0 0 1 0 7.779l-1.06 1.06-1.415-1.414 1.061-1.061a3.5 3.5 0 0 0 0-4.95L11.996 2z"/>
-                <path d="M11.996 22 16.48 17.51a3.5 3.5 0 0 0 0-4.95l-1.06-1.06 1.414-1.415 1.06 1.061a5.5 5.5 0 0 1 0 7.778L11.996 24l-5.9-5.076a5.5 5.5 0 0 1 0-7.778l1.06-1.061 1.415 1.415-1.061 1.06a3.5 3.5 0 0 0 0 4.95L11.996 22z"/>
-              </svg>
-            </div>
-            <p class="pix-titulo">Pagar via PIX</p>
-            <p class="pix-desc">Aprovação instantânea, 24h por dia, 7 dias por semana. Sem taxas adicionais.</p>
-          </div>
-
-          <button class="ck-btn pix" id="btn-gerar-pix" type="button">
-            Gerar QR Code PIX
-          </button>
-
-          <div class="pix-qr-area oculto" id="pix-qr-area">
-            <p class="pix-instrucao">Escaneie o QR Code com o app do seu banco</p>
-            <div class="pix-qr-box" id="pix-qr-box"></div>
-            <p class="pix-instrucao">ou copie o código:</p>
-            <div class="pix-copia-wrapper">
-              <input type="text" class="pix-copia-input" id="pix-codigo" readonly/>
-              <button class="pix-btn-copiar" id="btn-copiar-pix" type="button">
-                <i class="fi fi-rr-copy"></i> Copiar
-              </button>
-            </div>
-            <div class="pix-timer-row">
-              <i class="fi fi-rr-clock"></i>
-              <span>Expira em <strong id="pix-timer">30:00</strong></span>
-            </div>
-            <div class="pix-aguardando">
-              <div class="pix-dot"></div>
-              <span>Aguardando pagamento…</span>
-            </div>
           </div>
         </div>
 

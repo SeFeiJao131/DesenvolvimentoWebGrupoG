@@ -1,4 +1,4 @@
-import { app } from "../config.js";
+import { app } from "./config.js";
 import { getAuth, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
@@ -14,7 +14,7 @@ const auth = getAuth(app);
 const $ = id => document.getElementById(id);
 
 function mostrar(id) {
-  ["estado-verificando", "estado-sucesso", "estado-aguardando", "estado-erro"]
+  ["estado-verificando", "estado-sucesso", "estado-erro"]
     .forEach(s => {
       const el = $(s);
       if (el) el.classList.toggle("visivel", s === id);
@@ -23,12 +23,10 @@ function mostrar(id) {
 
 /* ── Fluxo principal ──────────────────────────────────── */
 
-/* Voltou do cancelamento → redireciona pro checkout */
 if (cancelado === "1" && produtoId) {
   location.href = `checkout.html?id=${produtoId}&cancelado=1`;
 
 } else if (!sessionId) {
-  /* Sem session_id → erro imediato */
   mostrar("estado-erro");
   $("js-erro-msg").textContent = "Sessão de pagamento inválida ou expirada.";
   $("btn-tentar-novamente").href = produtoId
@@ -36,7 +34,6 @@ if (cancelado === "1" && produtoId) {
     : "index.html";
 
 } else {
-  /* Tem session_id → aguarda auth e verifica com o backend */
   onAuthStateChanged(auth, async (usuario) => {
     if (!usuario) {
       location.href = `login.html?redirect=${encodeURIComponent(location.href)}`;
@@ -46,7 +43,7 @@ if (cancelado === "1" && produtoId) {
     try {
       const token = await usuario.getIdToken();
       const res   = await fetch(
-        `${API_BASE}/verificar-sessao?session_id=${sessionId}`,
+        `${API_BASE}/verificarsessao?session_id=${sessionId}`,
         { headers: { "Authorization": `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -54,7 +51,6 @@ if (cancelado === "1" && produtoId) {
       if (!res.ok) throw new Error(data.mensagem || `Erro ${res.status}`);
 
       if (data.pago) {
-        /* Pagamento confirmado */
         mostrar("estado-sucesso");
 
         if (data.nomeProduto) {
@@ -64,7 +60,6 @@ if (cancelado === "1" && produtoId) {
             `"${data.nomeProduto}" foi adicionado à sua biblioteca.`;
         }
 
-        /* Download automático */
         if (data.urlArquivo) {
           setTimeout(() => {
             const a    = document.createElement("a");
@@ -78,8 +73,11 @@ if (cancelado === "1" && produtoId) {
         }
 
       } else {
-        /* Recebido mas ainda processando (ex: PIX pendente) */
-        mostrar("estado-aguardando");
+        mostrar("estado-erro");
+        $("js-erro-msg").textContent = "Pagamento não confirmado. Tente novamente.";
+        $("btn-tentar-novamente").href = produtoId
+          ? `checkout.html?id=${produtoId}`
+          : "index.html";
       }
 
     } catch (e) {
