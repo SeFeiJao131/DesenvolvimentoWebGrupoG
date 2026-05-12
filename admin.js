@@ -424,7 +424,7 @@ document.getElementById("btn-sync-algolia")?.addEventListener("click", async () 
         method: "POST",
         headers: {
           "X-Algolia-Application-Id": "AC7XL6FVL6",
-          "X-Algolia-API-Key":        "SUBSTITUA_PELA_WRITE_KEY_VIA_ENV",
+          "X-Algolia-API-Key":        "05dfe43bb394a10f7c1e934d342c22f4",
           "Content-Type":             "application/json",
         },
         body: JSON.stringify({ requests: lote.map(o => ({ action: "updateObject", body: o })) }),
