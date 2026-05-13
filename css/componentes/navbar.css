@@ -244,6 +244,9 @@ header.scrolled {
   .barra-pesquisa { display: none; }
   /* Esconde "Sobre" do header em mobile — está no drawer */
   .acoes-header .textobranco { display: none; }
+  /* Esconde login/signup — estão no drawer */
+  .acoes-header .loginbotao,
+  .acoes-header .signupbotao { display: none; }
 }
 
 @media (max-width: 480px) {
