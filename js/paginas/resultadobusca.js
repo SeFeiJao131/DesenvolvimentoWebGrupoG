@@ -24,16 +24,12 @@ function highlightSeguro(hit) {
   const nomeRaw  = hit.nome || "Sem nome";
   const hlValue  = hit._highlightResult?.nome?.value || "";
 
-  // O Algolia retorna tags <em> para highlight — extraímos os termos marcados
-  // e reconstruímos o highlight sem risco de XSS
   if (!hlValue || !hlValue.includes("<em>")) return sanitizar(nomeRaw);
 
   const nomeSanitizado = sanitizar(nomeRaw);
-  // Extrai os termos destacados pelo Algolia
   const termos = [...hlValue.matchAll(/<em>([^<]+)<\/em>/g)].map(m => m[1]);
   if (!termos.length) return nomeSanitizado;
 
-  // Aplica highlight seguro substituindo os termos por <mark>
   let resultado = nomeSanitizado;
   termos.forEach(termo => {
     const regex = new RegExp("(" + termo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
@@ -42,20 +38,20 @@ function highlightSeguro(hit) {
   return resultado;
 }
 
-/* ─── Card (mesmo layout da página de categoria) ─────────────── */
+/* ─── Card ───────────────────────────────────────────────────── */
 function htmlCard(hit) {
   const tipoLabel = hit.tipo === "modelo" ? "Modelo 3D"
                   : hit.tipo === "hdri"   ? "HDRI"
                   : "Textura";
 
-  const isNovo    = hit.novo || ehNovo(hit.criadoEm);
-  const isGratis  = hit.gratis || hit.gratuito || false;
+  const isNovo      = hit.novo || ehNovo(hit.criadoEm);
+  const isGratis    = hit.gratis || hit.gratuito || false;
   const badgeGratis = isGratis ? `<span class="badge-gratis-cat">Grátis</span>` : "";
   const badgeNovo   = isNovo   ? `<span class="badge-novo-cat">Novo</span>`     : "";
-  const nomeHL    = highlightSeguro(hit);
-  const urlImagem = sanitizar(hit.urlImagem || "");
-  const nomeAlt   = sanitizar(hit.nome || "");
-  const produtoId = sanitizar(hit.objectID || "");
+  const nomeHL      = highlightSeguro(hit);
+  const urlImagem   = sanitizar(hit.urlImagem || "");
+  const nomeAlt     = sanitizar(hit.nome || "");
+  const produtoId   = sanitizar(hit.objectID || "");
 
   return `
     <a href="produto.html?id=${produtoId}" class="card-categoria">
@@ -71,8 +67,8 @@ function htmlCard(hit) {
     </a>`;
 }
 
-/* ─── Renderiza seção ─────────────────────────────────────────── */
-function renderizarSecao(gradeEl, contadorEl, btnEl, hits) {
+/* ─── Renderiza seção — mostra todos os itens sem ocultar ─────── */
+function renderizarSecao(gradeEl, contadorEl, hits) {
   const secao = gradeEl.closest(".secao-resultados");
   if (!hits.length) {
     secao.style.display = "none";
@@ -81,29 +77,15 @@ function renderizarSecao(gradeEl, contadorEl, btnEl, hits) {
   secao.style.display = "";
   contadorEl.textContent = `${hits.length} resultado${hits.length !== 1 ? "s" : ""}`;
   gradeEl.innerHTML = hits.map(htmlCard).join("");
-  gradeEl.classList.remove("expandida");
-  btnEl.classList.remove("aberto");
-  btnEl.querySelector(".btn-expandir-texto").textContent = "Ver todos";
-
-  // Mede a altura real do primeiro card e usa como max-height da grade recolhida
-  requestAnimationFrame(() => {
-    const primeiroCard = gradeEl.querySelector("a, div");
-    if (primeiroCard) {
-      const altura = primeiroCard.getBoundingClientRect().height;
-      gradeEl.style.maxHeight = altura + "px";
-    }
-  });
 }
 
-/* ─── Pesquisa no Algolia (sem filtros server-side — tudo no cliente) ── */
+/* ─── Pesquisa no Algolia ─────────────────────────────────────── */
 async function pesquisarAlgolia(termo) {
   const url = `https://${RB_APP_ID}-dsn.algolia.net/1/indexes/${RB_INDEX}/query`;
 
-  // Busca TUDO que corresponde ao termo — filtros são aplicados no cliente.
-  // Isso evita a necessidade de configurar facets no painel do Algolia.
   const body = {
     query:                 termo,
-    hitsPerPage:           1000, // pega todos os registros do índice
+    hitsPerPage:           1000,
     attributesToHighlight: ["nome"],
     highlightPreTag:       '<mark class="busca-hl">',
     highlightPostTag:      "</mark>",
@@ -130,7 +112,7 @@ function aplicarFiltro(hits, filtro) {
     case "textura": return hits.filter(h => h.tipo === "textura" || h.tipo === "hdri");
     case "gratis":  return hits.filter(h => h.gratuito === true || h.gratis === true || h.preco === 0);
     case "novo":    return hits.filter(h => h.novo || ehNovo(h.criadoEm));
-    default:        return hits; // "todos"
+    default:        return hits;
   }
 }
 
@@ -141,31 +123,24 @@ async function renderizarPagina(termo, filtro) {
   const gradeTexturas = document.getElementById("grade-texturas");
   const countModelos  = document.getElementById("count-modelos");
   const countTexturas = document.getElementById("count-texturas");
-  const btnModelos    = document.getElementById("btn-modelos");
-  const btnTexturas   = document.getElementById("btn-texturas");
 
-  /* Loading */
   totalEl.textContent = "…";
   gradeModelos.innerHTML  = `<p class="busca-pg-loading">Buscando…</p>`;
   gradeTexturas.innerHTML = `<p class="busca-pg-loading">Buscando…</p>`;
-
-  // Garante que as seções fiquem visíveis durante o carregamento
   document.getElementById("secao-modelos").style.display  = "";
   document.getElementById("secao-texturas").style.display = "";
 
   try {
-    const hits     = await pesquisarAlgolia(termo);
+    const hits      = await pesquisarAlgolia(termo);
     const filtrados = aplicarFiltro(hits, filtro);
-
-    const modelos  = filtrados.filter(h => h.tipo === "modelo");
-    const texturas = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri");
+    const modelos   = filtrados.filter(h => h.tipo === "modelo");
+    const texturas  = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri");
 
     totalEl.textContent = filtrados.length;
 
-    renderizarSecao(gradeModelos,  countModelos,  btnModelos,  modelos);
-    renderizarSecao(gradeTexturas, countTexturas, btnTexturas, texturas);
+    renderizarSecao(gradeModelos,  countModelos,  modelos);
+    renderizarSecao(gradeTexturas, countTexturas, texturas);
 
-    // Mensagem quando nenhum resultado em nenhuma seção
     if (!modelos.length && !texturas.length) {
       gradeModelos.innerHTML = `<p class="busca-pg-vazio">Nenhum resultado para este filtro.</p>`;
       document.getElementById("secao-modelos").style.display = "";
@@ -181,46 +156,22 @@ async function renderizarPagina(termo, filtro) {
   }
 }
 
-/* ─── Expandir / recolher seção ──────────────────────────────── */
-function configurarExpandir(btnId, gradeId) {
-  const btn   = document.getElementById(btnId);
-  const grade = document.getElementById(gradeId);
-  if (!btn || !grade) return;
-  btn.addEventListener("click", () => {
-    const aberto = btn.classList.toggle("aberto");
-    grade.classList.toggle("expandida", aberto);
-    btn.querySelector(".btn-expandir-texto").textContent = aberto ? "Recolher" : "Ver todos";
-    if (aberto) {
-      grade.style.maxHeight = "6000px";
-    } else {
-      const primeiroCard = grade.querySelector("a, div");
-      if (primeiroCard) {
-        grade.style.maxHeight = primeiroCard.getBoundingClientRect().height + "px";
-      }
-    }
-  });
-}
-
 /* ─── Inicialização ───────────────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const termo  = params.get("q") || "";
 
-  /* Preenche cabeçalho */
   const termoCapit = termo ? termo.charAt(0).toUpperCase() + termo.slice(1) : "";
   document.getElementById("titulo-termo").textContent     = termo ? `"${termoCapit}"` : "";
   document.getElementById("breadcrumb-termo").textContent = termo || "todos";
   if (termo) document.title = `Busca: ${termo} — JoinRender`;
 
-  /* Sincroniza input do header */
   const inputHeader = document.getElementById("input-busca-header");
   if (inputHeader && termo) inputHeader.value = termo;
 
-  /* Filtro ativo */
   let filtroAtivo = "todos";
   renderizarPagina(termo, filtroAtivo);
 
-  /* Filtros rápidos */
   document.querySelectorAll(".filtro-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".filtro-btn").forEach(b => b.classList.remove("ativo"));
@@ -229,8 +180,4 @@ document.addEventListener("DOMContentLoaded", () => {
       renderizarPagina(termo, filtroAtivo);
     });
   });
-
-  /* Expandir / recolher */
-  configurarExpandir("btn-modelos",  "grade-modelos");
-  configurarExpandir("btn-texturas", "grade-texturas");
 });

@@ -113,36 +113,11 @@
   letter-spacing: 1px;
 }
 
-.btn-expandir {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: 1px solid var(--cor-borda);
-  color: var(--cor-creme-alpha);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 8px 18px;
-  border-radius: var(--radius-pill);
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-  min-height: 44px;
-  white-space: nowrap;
-}
-.btn-expandir:hover { border-color: var(--cor-dourado-alt); color: var(--cor-dourado-alt); }
-.btn-expandir .seta-icon { display: inline-block; transition: transform 0.35s ease; font-size: 14px; }
-.btn-expandir.aberto .seta-icon { transform: rotate(180deg); }
-
 .grade-busca-pg {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
-  overflow: hidden;
-  transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.grade-busca-pg.expandida { max-height: 6000px; }
 
 .badge-resultado-gratis {
   font-family: var(--font-sans);
