@@ -19,11 +19,17 @@
 - [Autenticação](#autenticação)
 - [Busca com Algolia](#busca-com-algolia)
 - [Painel Administrativo](#painel-administrativo)
+- [Integração de Pagamentos (Stripe)](#integração-de-pagamentos-stripe)
+- [Newsletter (Brevo)](#newsletter-brevo)
 - [CSS — Sistema de Design](#css--sistema-de-design)
 - [Acessibilidade](#acessibilidade)
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Variáveis de Ambiente](#variáveis-de-ambiente)
 - [Instalação e Execução](#instalação-e-execução)
+- [Deploy no Vercel](#deploy-no-vercel)
+- [Como Contribuir](#como-contribuir)
+- [Autores](#autores)
+- [Licença](#licença)
 
 ---
 
@@ -48,6 +54,8 @@ O projeto foi desenvolvido como trabalho universitário pelo **Grupo G**, com fo
 ### Para Usuários Autenticados
 - Download de assets gratuitos com registro automático no histórico
 - Verificação de downloads anteriores (evita duplicatas)
+- Checkout para compra de assets pagos via Stripe (Cartão de Crédito e PIX)
+- Histórico de compras acessível via API
 
 ### Para Administradores
 - Painel de administração protegido para gerenciamento completo do catálogo
@@ -77,7 +85,8 @@ O projeto foi desenvolvido como trabalho universitário pelo **Grupo G**, com fo
 | Node.js | Runtime das funções serverless |
 | Express.js | Servidor para desenvolvimento local |
 | Firebase Admin SDK | Acesso ao Firestore e Auth no servidor |
-| Stripe SDK | Integração de pagamentos (em desenvolvimento) |
+| Stripe SDK | Integração de pagamentos (Checkout, PIX, Webhooks) |
+| Brevo (Sendinblue) | Cadastro de leads na newsletter |
 | dotenv | Gerenciamento de variáveis de ambiente |
 | nodemon | Hot-reload em desenvolvimento |
 
@@ -88,6 +97,8 @@ O projeto foi desenvolvido como trabalho universitário pelo **Grupo G**, com fo
 | Firebase Authentication | Autenticação de usuários |
 | Firebase Storage | Armazenamento de imagens e arquivos dos assets |
 | Algolia | Motor de busca e autocomplete |
+| Stripe | Processamento de pagamentos (cartão e PIX) |
+| Brevo | Plataforma de e-mail marketing e newsletter |
 | Vercel | Deploy das funções serverless da API |
 
 ---
@@ -98,44 +109,30 @@ O projeto foi desenvolvido como trabalho universitário pelo **Grupo G**, com fo
 DesenvolvimentoWebGrupoG-main/
 │
 ├── index.html                  # Página inicial (Home)
-├── login.html                  # Página de login
-├── Criarconta.html             # Página de criação de conta
-├── produto.html                # Página de produto individual
-├── paginacategoria.html        # Página de categoria com grid de produtos
-├── LayoutTexturas.html         # Layout do catálogo de Texturas
-├── LayoutModelos.html          # Layout do catálogo de Modelos 3D
-├── LayoutHdri.html             # Layout do catálogo de HDRIs
-├── Novidade.html               # Página de Novidades
-├── ResultadoBusca.html         # Página de resultados de busca
-├── checkout.html               # Página de checkout (em desenvolvimento)
-├── checkoutretorno.html        # Retorno após pagamento (em desenvolvimento)
-├── admin.html                  # Painel administrativo
-├── contato.html                # Página de contato
-├── sobre.html                  # Página institucional Sobre
-├── privacidade.html            # Política de privacidade
-├── termos.html                 # Termos de uso
-│
-├── config.js                   # Configuração e inicialização do Firebase
-├── db.js                       # Camada de acesso ao Firestore (CRUD de produtos/usuários)
-├── auth.js                     # Gerenciamento de estado de autenticação global
-├── script.js                   # Utilitários globais (busca, carrossel, filtros)
-├── busca.js                    # Painel de busca com autocomplete Algolia
-├── algolia.js                  # Stubs de sincronização Firestore → Algolia
-├── nav-mobile.js               # Drawer de navegação mobile (hamburger)
-├── admin.js                    # Lógica completa do painel administrativo
-├── login.js                    # Lógica de login (e-mail, social)
-├── criarconta.js               # Lógica de criação de conta
-├── produto-pagina.js           # Lógica da página de produto individual
-├── novidade.js                 # Carregamento dinâmico da página de novidades
-├── categoria.js                # Carregamento dinâmico por categoria
-├── resultadobusca.js           # Lógica da página de resultados de busca
-├── checkout.js                 # Lógica de checkout (em desenvolvimento)
-├── checkoutretorno.js          # Lógica de retorno do pagamento (em desenvolvimento)
-├── fonts.css                   # Importação das fontes do Google Fonts
 ├── package.json                # Dependências Node.js da API
+│
+├── paginas/
+│   ├── login.html              # Página de login
+│   ├── Criarconta.html         # Página de criação de conta
+│   ├── produto.html            # Página de produto individual
+│   ├── paginacategoria.html    # Página de categoria com grid de produtos
+│   ├── LayoutTexturas.html     # Layout do catálogo de Texturas
+│   ├── LayoutModelos.html      # Layout do catálogo de Modelos 3D
+│   ├── LayoutHdri.html         # Layout do catálogo de HDRIs
+│   ├── Novidade.html           # Página de Novidades
+│   ├── ResultadoBusca.html     # Página de resultados de busca
+│   ├── checkout.html           # Página de checkout
+│   ├── checkoutretorno.html    # Retorno após pagamento
+│   ├── admin.html              # Painel administrativo
+│   ├── contato.html            # Página de contato
+│   ├── sobre.html              # Página institucional Sobre
+│   ├── privacidade.html        # Política de privacidade
+│   ├── termos.html             # Termos de uso
+│   └── licenca.html            # Licenças de terceiros
 │
 ├── css/
 │   ├── main.css                # Ponto de entrada do CSS (importa todos os módulos)
+│   ├── fonts.css               # Importação das fontes do Google Fonts
 │   ├── base/
 │   │   ├── variav.css          # Variáveis CSS (cores, tipografia, espaçamentos)
 │   │   └── reset.css           # Reset de estilos globais
@@ -154,8 +151,35 @@ DesenvolvimentoWebGrupoG-main/
 │       ├── login.css           # Estilos da página de login
 │       ├── resultadobusca.css  # Estilos da página de busca
 │       ├── institucional.css   # Estilos das páginas institucionais
-│       ├── checkout.css        # Estilos do checkout (em desenvolvimento)
-│       └── checkoutretorno.css # Estilos do retorno de pagamento (em desenvolvimento)
+│       ├── checkout.css        # Estilos do checkout
+│       └── checkoutretorno.css # Estilos do retorno de pagamento
+│
+├── js/
+│   ├── nucleo/
+│   │   ├── config.js           # Configuração e inicialização do Firebase
+│   │   ├── db.js               # Camada de acesso ao Firestore (CRUD)
+│   │   ├── auth.js             # Gerenciamento de estado de autenticação global
+│   │   ├── script.js           # Utilitários globais (busca, carrossel, filtros)
+│   │   ├── busca.js            # Painel de busca com autocomplete Algolia
+│   │   ├── algolia.js          # Stubs de sincronização Firestore → Algolia
+│   │   ├── nav-mobile.js       # Drawer de navegação mobile (hamburger)
+│   │   └── jornal.js           # Lógica de inscrição na newsletter (Brevo)
+│   ├── main/
+│   │   ├── main-busca.js       # Entry point da página de busca
+│   │   ├── main-categoria.js   # Entry point da página de categoria
+│   │   ├── main-institucional.js # Entry point das páginas institucionais
+│   │   ├── main-layouts.js     # Entry point dos layouts de catálogo
+│   │   └── main-novidade.js    # Entry point da página de novidades
+│   └── paginas/
+│       ├── admin.js            # Lógica completa do painel administrativo
+│       ├── login.js            # Lógica de login (e-mail, social)
+│       ├── criarconta.js       # Lógica de criação de conta
+│       ├── produto-pagina.js   # Lógica da página de produto individual
+│       ├── novidade.js         # Carregamento dinâmico da página de novidades
+│       ├── categoria.js        # Carregamento dinâmico por categoria
+│       ├── resultadobusca.js   # Lógica da página de resultados de busca
+│       ├── checkout.js         # Lógica de checkout (Stripe)
+│       └── checkoutretorno.js  # Lógica de retorno do pagamento
 │
 ├── api/
 │   ├── produtos.js             # GET /api/produtos — listagem pública de produtos
@@ -163,26 +187,17 @@ DesenvolvimentoWebGrupoG-main/
 │   ├── stats.js                # GET /api/stats — estatísticas do catálogo
 │   ├── verificarsessao.js      # GET /api/verificarsessao — valida sessão de pagamento
 │   ├── pagamento.js            # Servidor Express local para desenvolvimento
-│   ├── criarcheckoutsessao.js  # POST — cria sessão Stripe Checkout (em desenvolvimento)
-│   ├── criarpagamento.js       # POST — cria intenção de pagamento (em desenvolvimento)
-│   ├── criarpix.js             # POST — gera pagamento via PIX (em desenvolvimento)
-│   ├── minhascompras.js        # GET — histórico de compras do usuário (em desenvolvimento)
-│   ├── verificarpix.js         # GET — verifica status do PIX (em desenvolvimento)
-│   └── webhookstripe.js        # POST — webhook de eventos Stripe (em desenvolvimento)
+│   ├── assinar.js              # POST /api/assinar — inscrição na newsletter (Brevo)
+│   ├── criarcheckoutsessao.js  # POST — cria sessão Stripe Checkout
+│   ├── criarpagamento.js       # POST — cria intenção de pagamento (cartão)
+│   ├── criarpix.js             # POST — gera pagamento via PIX
+│   ├── minhascompras.js        # GET — histórico de compras do usuário
+│   ├── verificarpix.js         # GET — verifica status do PIX
+│   └── webhookstripe.js        # POST — webhook de eventos Stripe
 │
-├── Imagens/                    # Assets visuais usados nas páginas
-│   ├── CardIndex1.png
-│   ├── CardIndex2.png
-│   ├── CardIndex3.png
-│   ├── Imagem1.png
-│   ├── Imagem2.png
-│   ├── ImagemLogin.png
-│   ├── ImagemTexturas.png
-│   ├── [texturas de preview: Madeira, Mármore, Tijolo, etc.]
-│   └── [HDRIs de preview: Ensolarado, NascerDoSol, Noite, etc.]
-│
-└── Fontes/
-    └── jsMath-cmbx10.ttf       # Fonte personalizada jsMath
+└── assets/
+    ├── imagens/                # Assets visuais das páginas (WebP)
+    └── fontes/                 # Fontes personalizadas (jsMath-cmbx10.ttf)
 ```
 
 ---
@@ -235,6 +250,14 @@ Formulário de registro com:
 - Aceite obrigatório dos Termos de Uso
 - Registro social via Google, GitHub e Twitter
 
+### `checkout.html` — Checkout
+Página de pagamento para assets pagos, com suporte a:
+- **Cartão de crédito** via Stripe Elements (modo `checkout`)
+- **PIX** com geração de QR Code e polling de status
+
+### `checkoutretorno.html` — Retorno de Pagamento
+Página de confirmação exibida após o redirecionamento do Stripe, que valida a sessão via `/api/verificarsessao` e registra a compra no Firestore.
+
 ### `admin.html` — Painel Administrativo
 Interface administrativa (acesso restrito) para:
 - Visualização de estatísticas gerais do catálogo
@@ -248,6 +271,7 @@ Interface administrativa (acesso restrito) para:
 - **`contato.html`** — Formulário e informações de contato
 - **`privacidade.html`** — Política de privacidade
 - **`termos.html`** — Termos de uso da plataforma
+- **`licenca.html`** — Créditos e licenças de recursos de terceiros utilizados
 
 ---
 
@@ -266,12 +290,15 @@ O front-end é construído em **HTML, CSS e JavaScript puros**, sem frameworks. 
 | `busca.js` | Autocomplete com Algolia: painel inicial de sugestões e busca em tempo real |
 | `nav-mobile.js` | Drawer de navegação mobile com suporte a teclado (ESC para fechar) e ARIA |
 | `algolia.js` | Stubs de sincronização client-side → Algolia (desativados por segurança) |
+| `jornal.js` | Integração com Brevo para inscrição de e-mails na newsletter via `/api/assinar` |
 
 ---
 
 ## Back-end & API
 
 As rotas serverless ficam na pasta `/api` e são compatíveis com o **Vercel Serverless Functions** (formato `module.exports = async function handler(req, res)`).
+
+Para desenvolvimento local, o arquivo `api/pagamento.js` expõe todas as rotas via Express.js, permitindo testar sem deploy.
 
 ### Endpoints disponíveis
 
@@ -320,6 +347,38 @@ Retorna estatísticas gerais do catálogo.
 #### `GET /api/verificarsessao`
 Valida uma sessão de pagamento Stripe e registra a compra no Firestore.
 Requer header `Authorization: Bearer <firebase-id-token>`.
+
+#### `POST /api/assinar`
+Cadastra um e-mail na lista de newsletter via **Brevo** (lista de ID `3`).
+
+**Body:**
+```json
+{ "email": "usuario@exemplo.com" }
+```
+
+#### `POST /api/criarcheckoutsessao`
+Cria uma sessão Stripe Checkout para redirecionamento ao checkout hospedado.
+Requer autenticação via `Authorization: Bearer <firebase-id-token>`.
+
+#### `POST /api/criarpagamento`
+Cria um PaymentIntent Stripe para pagamento com cartão de crédito via Stripe Elements.
+Requer autenticação.
+
+#### `POST /api/criarpix`
+Gera um PaymentIntent Stripe com método PIX e retorna os dados do QR Code.
+Requer autenticação.
+
+#### `GET /api/verificarpix`
+Verifica o status de um PaymentIntent PIX via polling.
+Requer autenticação.
+
+#### `GET /api/minhascompras`
+Retorna o histórico de compras do usuário autenticado, consultando a coleção `compras` no Firestore.
+Requer autenticação.
+
+#### `POST /api/webhookstripe`
+Recebe e processa eventos do Stripe (ex: `checkout.session.completed`, `payment_intent.succeeded`) para confirmar compras no Firestore.
+Valida a assinatura do webhook via `STRIPE_WEBHOOK_SECRET`.
 
 ---
 
@@ -402,6 +461,8 @@ O módulo `auth.js` é carregado em todas as páginas e observa o estado de aute
 
 O `salvarUsuario()` em `db.js` utiliza `setDoc` com `merge: true` para garantir que o documento do usuário use o UID como ID (e não um ID aleatório gerado por `addDoc`), permitindo consultas diretas por UID.
 
+Os endpoints da API que exigem autenticação validam o **Firebase ID Token** via `admin.auth().verifyIdToken(token)` no servidor, utilizando o header `Authorization: Bearer <token>`.
+
 ---
 
 ## Busca com Algolia
@@ -444,6 +505,35 @@ Permite criar ou editar um produto com os campos:
 
 ### Upload para Firebase Storage
 Os arquivos são enviados com `uploadBytesResumable`, exibindo progresso em tempo real. As URLs geradas pelo Storage são salvas nos campos correspondentes do produto no Firestore.
+
+---
+
+## Integração de Pagamentos (Stripe)
+
+O JoinRender utiliza o **Stripe** para processamento de pagamentos de assets pagos. A integração suporta dois métodos:
+
+### Cartão de Crédito
+- O front-end chama `POST /api/criarpagamento` para criar um `PaymentIntent`
+- O Stripe Elements é montado com a `clientSecret` retornada
+- A confirmação do pagamento ocorre no browser via `stripe.confirmCardPayment()`
+
+### PIX
+- O front-end chama `POST /api/criarpix` para criar um `PaymentIntent` com método `pix`
+- A API retorna os dados do QR Code (código copia e cola e imagem base64)
+- O front-end realiza polling em `GET /api/verificarpix` até o pagamento ser confirmado
+
+### Webhook
+O endpoint `POST /api/webhookstripe` recebe notificações assíncronas do Stripe, valida a assinatura com `STRIPE_WEBHOOK_SECRET` e registra compras confirmadas na coleção `compras` do Firestore.
+
+> ⚠️ Para testes, utilize as chaves do modo **test** do Stripe (`sk_test_...` e `pk_test_...`).
+
+---
+
+## Newsletter (Brevo)
+
+O formulário de newsletter presente no rodapé do site envia o e-mail do visitante para `POST /api/assinar`, que o cadastra na lista de ID `3` da plataforma **Brevo** (ex-Sendinblue) via API REST.
+
+A chave da API Brevo é armazenada exclusivamente no servidor via variável de ambiente `BREVO_API_KEY`, nunca exposta no front-end.
 
 ---
 
@@ -504,20 +594,31 @@ O projeto implementa diversas práticas de acessibilidade:
 - Node.js 18+
 - Conta no Firebase com projeto configurado
 - Conta no Algolia com índice `produtos` criado
-- (Opcional) Conta no Stripe para funcionalidades de pagamento
+- Conta no Stripe para funcionalidades de pagamento
+- (Opcional) Conta no Brevo para newsletter
 
 ### Configuração do Firebase
 1. Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com)
 2. Ative **Authentication** com os provedores: E-mail/Senha, Google, GitHub e Twitter
 3. Ative o **Firestore** em modo de produção
 4. Ative o **Firebase Storage**
-5. Copie as credenciais do projeto para o arquivo `config.js`
+5. Copie as credenciais do projeto para o arquivo `js/nucleo/config.js`
+6. Gere uma **Service Account Key** em *Configurações do Projeto → Contas de serviço* e salve como `serviceAccountKey.json` (nunca commite esse arquivo)
 
 ### Configuração do Algolia
 1. Crie um índice chamado `produtos` no painel do Algolia
 2. Configure os campos de busca: `nome`, `descricao`, `tags`, `tipo`, `categorias`
-3. Anote a **Application ID** e a **Search-Only API Key** (para o front-end)
+3. Anote a **Application ID** e a **Search-Only API Key** (para o front-end, em `js/nucleo/busca.js`)
 4. Anote a **Write API Key** (apenas para uso no servidor — nunca expor no front-end)
+
+### Configuração do Stripe
+1. Crie uma conta em [dashboard.stripe.com](https://dashboard.stripe.com)
+2. Anote a **Secret Key** (`sk_test_...`) e a **Publishable Key** (`pk_test_...`)
+3. Em desenvolvimento, use o **Stripe CLI** para encaminhar webhooks locais:
+   ```bash
+   stripe listen --forward-to localhost:3000/api/webhook-stripe
+   ```
+4. Copie o `STRIPE_WEBHOOK_SECRET` exibido pelo CLI para o seu `.env`
 
 ---
 
@@ -534,15 +635,26 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 # Ou alternativamente (JSON completo da service account)
 FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 
-# Stripe (para pagamentos — em desenvolvimento)
+# Stripe
 STRIPE_SECRET_KEY=sk_test_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 
 # Algolia (somente para sincronização server-side)
+ALGOLIA_APP_ID=...
 ALGOLIA_WRITE_KEY=...
+
+# Brevo (newsletter)
+BREVO_API_KEY=...
 ```
 
-> ⚠️ **Nunca commitar o arquivo `.env` no repositório.** O `.gitignore` já está configurado para ignorá-lo.
+> ⚠️ **Nunca commitar o arquivo `.env` nem o `serviceAccountKey.json` no repositório.** O `.gitignore` já está configurado para ignorá-los.
+
+Você pode criar um `.env.example` com os nomes das variáveis (sem valores) para facilitar a configuração de outros colaboradores:
+
+```bash
+cp .env .env.example
+# Apague os valores sensíveis do .env.example antes de commitar
+```
 
 ---
 
@@ -562,14 +674,79 @@ cp .env.example .env
 
 # 4. Inicie o servidor de desenvolvimento da API
 npm run dev
+# O servidor Express sobe em http://localhost:3000
 
 # 5. Sirva o front-end
 # Use qualquer servidor HTTP estático, por exemplo:
 npx serve .
-# ou com extensão Live Server no VS Code
+# ou com a extensão Live Server no VS Code
 ```
 
-O front-end pode ser aberto diretamente no browser via `index.html` ou servido localmente. As páginas se comunicam com o Firebase diretamente via SDK do browser, sem necessidade do servidor Node.js para funcionalidades básicas.
+O front-end pode ser aberto diretamente no browser via `index.html` ou servido localmente. As páginas se comunicam com o Firebase diretamente via SDK do browser, sem necessidade do servidor Node.js para funcionalidades básicas (autenticação, leitura de produtos, download de assets gratuitos).
+
+O servidor Node.js (`npm run dev`) é necessário apenas para as rotas de **pagamento** (Stripe), **newsletter** (Brevo) e endpoints que requerem o **Firebase Admin SDK**.
+
+---
+
+## Deploy no Vercel
+
+O projeto está preparado para deploy serverless no **Vercel**. As funções na pasta `/api` são detectadas automaticamente como Vercel Serverless Functions.
+
+### Passos para deploy
+
+```bash
+# 1. Instale a CLI do Vercel (se ainda não tiver)
+npm install -g vercel
+
+# 2. Faça login
+vercel login
+
+# 3. Deploy de preview
+vercel
+
+# 4. Deploy para produção
+vercel --prod
+```
+
+### Variáveis de ambiente no Vercel
+
+Configure todas as variáveis do `.env` no painel do Vercel em **Settings → Environment Variables**. Elas serão injetadas automaticamente nas funções serverless em produção.
+
+### Configuração do webhook Stripe em produção
+
+Após o deploy, registre o URL do webhook no painel do Stripe:
+
+1. Acesse [dashboard.stripe.com/webhooks](https://dashboard.stripe.com/webhooks)
+2. Adicione o endpoint: `https://seu-dominio.vercel.app/api/webhookstripe`
+3. Selecione os eventos: `checkout.session.completed`, `payment_intent.succeeded`
+4. Copie o **Signing Secret** gerado e adicione-o como `STRIPE_WEBHOOK_SECRET` no Vercel
+
+---
+
+## Como Contribuir
+
+Contribuições são bem-vindas! Siga os passos abaixo:
+
+1. **Fork** o repositório
+2. Crie uma **branch** para sua feature ou correção:
+   ```bash
+   git checkout -b feature/minha-feature
+   ```
+3. Faça suas alterações e **commite** com mensagens claras:
+   ```bash
+   git commit -m "feat: adiciona filtro por resolução na busca"
+   ```
+4. **Push** para a sua branch:
+   ```bash
+   git push origin feature/minha-feature
+   ```
+5. Abra um **Pull Request** descrevendo o que foi alterado e por quê
+
+### Boas práticas
+- Mantenha a separação de responsabilidades: CSS modular por página/componente, JS por módulo funcional
+- Não exponha chaves de API no front-end
+- Adicione `aria-label` em novos elementos interativos
+- Teste em mobile antes de abrir um PR
 
 ---
 

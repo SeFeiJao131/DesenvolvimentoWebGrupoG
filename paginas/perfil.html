@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Meu perfil — JoinRender">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/fonts.css">
+  <title>Meu Perfil — JoinRender</title>
+
+  <style>
+    /* ════════════════════════════════════════════════
+       PERFIL — perfil.html
+       ════════════════════════════════════════════════ */
+
+    .perfil-pagina {
+      min-height: 100dvh;
+      padding: var(--space-xl) var(--container-pad) var(--space-2xl);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── Breadcrumb ─────────────────────────────── */
+    .perfil-breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--cor-dourado-alt);
+      margin-bottom: var(--space-lg);
+    }
+
+    .perfil-breadcrumb a {
+      color: var(--cor-dourado-alt);
+      text-decoration: none;
+    }
+
+    .perfil-breadcrumb a:hover { text-decoration: underline; }
+
+    /* ── Card de perfil ─────────────────────────── */
+    .perfil-card {
+      background: var(--cor-fundo-escuro);
+      border: 1px solid var(--cor-borda-escura);
+      border-radius: var(--radius-xl);
+      padding: clamp(24px, 4vw, 48px);
+      display: flex;
+      align-items: center;
+      gap: clamp(20px, 4vw, 40px);
+      margin-bottom: var(--space-xl);
+    }
+
+    /* Avatar circular */
+    .perfil-avatar {
+      width: clamp(72px, 12vw, 100px);
+      height: clamp(72px, 12vw, 100px);
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--cor-borda);
+      flex-shrink: 0;
+      background: var(--cor-fundo-card);
+    }
+
+    .perfil-avatar-placeholder {
+      width: clamp(72px, 12vw, 100px);
+      height: clamp(72px, 12vw, 100px);
+      border-radius: 50%;
+      background: var(--cor-fundo-card);
+      border: 2px solid var(--cor-borda);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--cor-texto-suave);
+      font-size: clamp(28px, 5vw, 40px);
+    }
+
+    .perfil-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .perfil-nome {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 4vw, 32px);
+      font-weight: 400;
+      color: var(--cor-creme);
+      margin: 0 0 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .perfil-email {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--cor-texto-suave);
+      margin: 0 0 16px;
+    }
+
+    /* Badges de provedor (Google, GitHub, etc.) */
+    .perfil-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .perfil-badge {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--cor-dourado);
+      background: rgba(200, 169, 110, 0.1);
+      border: 1px solid rgba(200, 169, 110, 0.25);
+      border-radius: var(--radius-pill);
+      padding: 3px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Botão sign out dentro do perfil */
+    .perfil-btn-sair {
+      background: none;
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-pill);
+      color: var(--cor-texto-suave);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      padding: 8px 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: border-color 0.2s, color 0.2s;
+      min-height: 44px;
+    }
+
+    .perfil-btn-sair:hover {
+      border-color: var(--cor-erro);
+      color: var(--cor-erro);
+    }
+
+    /* ── Seção de histórico ─────────────────────── */
+    .perfil-secao-titulo {
+      font-family: var(--font-serif-sc);
+      font-size: clamp(16px, 3vw, 22px);
+      font-weight: 400;
+      color: var(--cor-creme);
+      margin: 0;
+    }
+
+    .perfil-secao-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      border-bottom: 1px solid var(--cor-borda);
+      padding-bottom: var(--space-sm);
+    }
+
+    .perfil-contagem {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--cor-texto-suave);
+    }
+
+    /* ── Estado: carregando / vazio / sem login ─── */
+    .perfil-estado {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xl) 0;
+      color: var(--cor-texto-suave);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .perfil-estado i {
+      font-size: 32px;
+      color: var(--cor-borda);
+    }
+
+    .perfil-estado a {
+      color: var(--cor-dourado);
+      text-decoration: none;
+    }
+
+    .perfil-estado a:hover { text-decoration: underline; }
+
+    /* ── Lista de downloads ─────────────────────── */
+    .perfil-lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .perfil-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      background: var(--cor-fundo-card);
+      border: 1px solid var(--cor-borda-escura);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .perfil-item:hover {
+      border-color: var(--cor-borda);
+      transform: translateX(4px);
+    }
+
+    .perfil-item-img {
+      width: 68px;
+      height: 68px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      background: var(--cor-fundo-escuro);
+      flex-shrink: 0;
+    }
+
+    .perfil-item-img-placeholder {
+      width: 68px;
+      height: 68px;
+      border-radius: var(--radius-sm);
+      background: var(--cor-fundo-escuro);
+      border: 1px solid var(--cor-borda-escura);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--cor-borda);
+      font-size: 20px;
+    }
+
+    .perfil-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .perfil-item-nome {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--cor-creme);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .perfil-item-data {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--cor-texto-suave);
+    }
+
+    .perfil-item-seta {
+      color: var(--cor-borda);
+      font-size: 15px;
+      flex-shrink: 0;
+      transition: color 0.2s ease;
+    }
+
+    .perfil-item:hover .perfil-item-seta {
+      color: var(--cor-dourado);
+    }
+
+    /* ── Rodapé da lista ────────────────────────── */
+    .perfil-rodape {
+      margin-top: var(--space-md);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .perfil-btn-limpar {
+      background: none;
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--radius-pill);
+      color: var(--cor-texto-suave);
+      font-family: var(--font-sans);
+      font-size: 12px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .perfil-btn-limpar:hover {
+      border-color: var(--cor-erro);
+      color: var(--cor-erro);
+    }
+
+    /* ── Estado de carregamento do perfil ───────── */
+    #perfil-card-area {
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ── Responsivo ─────────────────────────────── */
+    @media (max-width: 600px) {
+      .perfil-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+      }
+
+      .perfil-btn-sair {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .perfil-item-img,
+      .perfil-item-img-placeholder {
+        width: 54px;
+        height: 54px;
+      }
+
+      .perfil-item-nome { font-size: 14px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header id="site-header">
+    <nav class="navheader">
+      <div class="lado-esquerdo">
+        <a class="Logo" href="../index.html" aria-label="JoinRender - Início">JR.</a>
+        <ul class="headerlinks" aria-label="Navegação principal">
+          <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
+          <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
+          <li><a class="textobranco" href="LayoutHdri.html">HDRIs</a></li>
+        </ul>
+      </div>
+      <form class="barra-pesquisa" onsubmit="return false;" role="search" aria-label="Buscar assets">
+        <i class="fi fi-rr-search" aria-hidden="true"></i>
+        <input type="search" placeholder="Pesquisar..." aria-label="Pesquisar">
+      </form>
+      <button class="btn-hamburger" id="btn-hamburger"
+        aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-drawer">
+        <i class="fi fi-rr-menu-burger" aria-hidden="true"></i>
+      </button>
+      <div class="acoes-header">
+        <a class="signupbotao" href="login.html">Login</a>
+        <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+        <a class="textobranco" href="sobre.html">Sobre</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Overlay busca -->
+  <div class="overlay-busca" id="overlay-busca" role="dialog" aria-label="Busca" aria-modal="true">
+    <div class="painel-busca">
+      <div class="topo-busca">
+        <a class="Logo" href="../index.html" aria-label="JoinRender">JR.</a>
+        <div class="busca-expandida">
+          <i class="fi fi-rr-search" aria-hidden="true"></i>
+          <input type="search" placeholder="Pesquisar texturas, modelos, HDRIs..." aria-label="Pesquisar">
+        </div>
+      </div>
+      <div class="conteudo-busca" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- Drawer mobile -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+  <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
+    <div class="nav-drawer-topo">
+      <span class="nav-drawer-logo">JR.</span>
+      <button class="btn-fechar-drawer" id="btn-fechar-drawer" aria-label="Fechar menu">
+        <i class="fi fi-rr-cross-small" aria-hidden="true"></i>
+      </button>
+    </div>
+    <a class="nav-drawer-link" href="LayoutTexturas.html">Texturas</a>
+    <a class="nav-drawer-link" href="LayoutModelos.html">Modelos</a>
+    <a class="nav-drawer-link" href="LayoutHdri.html">HDRIs</a>
+    <a class="nav-drawer-link" href="sobre.html">Sobre</a>
+    <div class="nav-drawer-divisor"></div>
+    <div class="nav-drawer-acoes">
+      <a class="signupbotao" href="login.html">Login</a>
+      <a class="loginbotao" href="Criarconta.html">Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="perfil-pagina">
+    <p class="perfil-breadcrumb">
+      <a href="../index.html">Home</a> / Meu Perfil
+    </p>
+
+    <!-- Card do usuário — preenchido pelo JS -->
+    <div id="perfil-card-area"></div>
+
+    <!-- Histórico de downloads -->
+    <div class="perfil-secao-header">
+      <h2 class="perfil-secao-titulo">Histórico de Downloads</h2>
+      <span class="perfil-contagem" id="perfil-contagem"></span>
+    </div>
+
+    <div id="perfil-historico">
+      <div class="perfil-estado">
+        <i class="fi fi-rr-spinner" aria-hidden="true"></i>
+        <span>Carregando...</span>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/main/main-perfil.js"></script>
+</body>
+
+</html>
