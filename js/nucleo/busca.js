@@ -49,6 +49,12 @@ const PAINEL_ITENS = [
 /* ─── Contagens por termo (buscadas do Algolia uma vez) ──────── */
 const contagensCache = {};
 
+/* ─── Normaliza string (minúsculas + sem acento) ─────────────── */
+function normalizarBusca(str) {
+  return str.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+}
+
+/* ─── Conta hits cujo NOME contém o termo (mesmo critério da página de resultados) ── */
 async function buscarContagem(q) {
   if (contagensCache[q] !== undefined) return contagensCache[q];
   try {
@@ -61,12 +67,17 @@ async function buscarContagem(q) {
           "X-Algolia-API-Key":        ALGOLIA_API_KEY,
           "Content-Type":             "application/json",
         },
-        body: JSON.stringify({ query: q, hitsPerPage: 0 }),
+        body: JSON.stringify({ query: q, hitsPerPage: 1000, attributesToRetrieve: ["nome"] }),
       }
     );
     const data = await res.json();
-    contagensCache[q] = data.nbHits ?? 0;
-    return contagensCache[q];
+    const palavras = normalizarBusca(q).split(/\s+/).filter(p => p.length >= 3);
+    const total = (data.hits || []).filter(hit => {
+      const nome = normalizarBusca(hit.nome || "");
+      return palavras.length === 0 || palavras.some(p => nome.includes(p));
+    }).length;
+    contagensCache[q] = total;
+    return total;
   } catch {
     return "";
   }
@@ -156,8 +167,7 @@ async function buscarSugestoes(termo, conteudo) {
         body: JSON.stringify({
           query:                        termo,
           hitsPerPage:                  6,
-          restrictSearchableAttributes: ["nome"],   // busca APENAS no campo nome
-          attributesToRetrieve:         ["nome", "tipo", "objectID"],
+                attributesToRetrieve:         ["nome", "tipo", "objectID"],
           attributesToHighlight:        ["nome"],
           highlightPreTag:              '<mark class="busca-hl">',
           highlightPostTag:             "</mark>",

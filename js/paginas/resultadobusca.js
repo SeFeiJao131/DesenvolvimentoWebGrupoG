@@ -86,7 +86,6 @@ async function pesquisarAlgolia(termo) {
   const body = {
     query:                      termo,
     hitsPerPage:                1000,
-    restrictSearchableAttributes: ["nome"],   // busca APENAS no campo nome
     attributesToHighlight:      ["nome"],
     highlightPreTag:            '<mark class="busca-hl">',
     highlightPostTag:           "</mark>",
@@ -106,7 +105,35 @@ async function pesquisarAlgolia(termo) {
   return (await res.json()).hits || [];
 }
 
-/* ─── Aplica filtro no cliente ────────────────────────────────── */
+/* ─── Filtra por relevância de nome ──────────────────────────────
+   O Algolia busca em todos os campos do índice (categoria, tags, etc),
+   então filtramos manualmente: só mantém hits onde o nome do produto
+   contém pelo menos uma palavra do termo buscado (mínimo 3 letras).
+   Isso descarta itens que matcharam por campos internos irrelevantes.
+────────────────────────────────────────────────────────────────*/
+function filtrarPorNome(hits, termo) {
+  if (!termo || !termo.trim()) return hits;
+
+  // Normaliza: minúsculas, sem acento
+  const normalizar = str => str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "");
+
+  const palavras = normalizar(termo)
+    .split(/\s+/)
+    .filter(p => p.length >= 3); // ignora palavras muito curtas como "de", "da"
+
+  if (!palavras.length) return hits;
+
+  return hits.filter(hit => {
+    const nome = normalizar(hit.nome || "");
+    // O item passa se o nome contiver QUALQUER uma das palavras do termo
+    return palavras.some(palavra => nome.includes(palavra));
+  });
+}
+
+/* ─── Aplica filtro de categoria no cliente ───────────────────── */
 function aplicarFiltro(hits, filtro) {
   switch (filtro) {
     case "modelo":  return hits.filter(h => h.tipo === "modelo");
@@ -133,7 +160,8 @@ async function renderizarPagina(termo, filtro) {
 
   try {
     const hits      = await pesquisarAlgolia(termo);
-    const filtrados = aplicarFiltro(hits, filtro);
+    const porNome   = filtrarPorNome(hits, termo);   // descarta itens sem o termo no nome
+    const filtrados = aplicarFiltro(porNome, filtro);
     const modelos   = filtrados.filter(h => h.tipo === "modelo");
     const texturas  = filtrados.filter(h => h.tipo === "textura" || h.tipo === "hdri");
 
