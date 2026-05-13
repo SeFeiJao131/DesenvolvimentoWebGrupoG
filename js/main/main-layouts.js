@@ -3,9 +3,11 @@ import "../nucleo/script.js";
 import "../nucleo/busca.js";
 import "../nucleo/nav-mobile.js";
 import "../nucleo/jornal.js";
-import { buscarProdutos } from "../nucleo/db.js";
+import { buscarProdutos, buscarProdutoPorId } from "../nucleo/db.js";
 
 // ── Cards dinâmicos de Modelos 3D na home ──────────────────────────────────────
+
+const ID_DONUT = "VJKDPjJvlkjWTq5oVKP6";
 
 const FALLBACK_CARDS = [
   {
@@ -29,10 +31,10 @@ const FALLBACK_CARDS = [
 ];
 
 function criarCardHTML(produto) {
-  const href      = produto.slug ? `paginas/produto.html?id=${produto.slug}` : "paginas/produto.html";
+  const href      = produto.id ? `paginas/produto.html?id=${produto.id}` : (produto.slug ? `paginas/produto.html?id=${produto.slug}` : "paginas/produto.html");
   const categoria = produto.categoria || produto.tipo || "Modelo 3D";
   const nome      = produto.nome      || "Modelo 3D";
-  const imagem    = produto.imagemUrl || produto.imagem || "assets/imagens/CardIndex1.webp";
+  const imagem    = produto.urlImagem || produto.imagemUrl || produto.imagem || "assets/imagens/CardIndex1.webp";
 
   return `
     <article class="card-article">
@@ -50,8 +52,16 @@ async function carregarCardsModelos() {
   if (!container) return;
 
   try {
-    const produtos = await buscarProdutos({ tipo: "modelo", limite: 3 });
-    const lista    = produtos.length ? produtos.slice(0, 3) : [...FALLBACK_CARDS];
+    const [donut, demais] = await Promise.all([
+      buscarProdutoPorId(ID_DONUT),
+      buscarProdutos({ tipo: "modelo", limite: 10 }),
+    ]);
+
+    // Remove o donut da lista geral para não duplicar
+    const semDonut = demais.filter(p => p.id !== ID_DONUT);
+
+    // Monta lista: donut primeiro, depois os demais até completar 3
+    const lista = [donut, ...semDonut].filter(Boolean).slice(0, 3);
 
     // Completa com fallbacks se vier menos de 3
     while (lista.length < 3) lista.push(FALLBACK_CARDS[lista.length]);

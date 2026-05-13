@@ -176,28 +176,6 @@ function iniciarModelViewer(url3d, produto, loader, controls, badges, mv) {
     if (txt) txt.textContent = `CARREGANDO ${pct}%`;
   });
 
-  const btnReset = document.getElementById("btn-reset-cam");
-  if (btnReset) {
-    btnReset.onclick = () => {
-      mv.cameraOrbit  = "0deg 75deg 105%";
-      mv.cameraTarget = "0m 0m 0m";
-      mv.fieldOfView  = "auto";
-    };
-  }
-
-  let wireframe = false;
-  const btnWire = document.getElementById("btn-wireframe");
-  if (btnWire) {
-    btnWire.onclick = () => {
-      wireframe = !wireframe;
-      const count = mv.model?.materialCount ?? 0;
-      for (let i = 0; i < count; i++) {
-        const mat = mv.model?.getMaterialByIndex(i);
-        if (mat) mat.setWireframe?.(wireframe);
-      }
-      btnWire.style.color = wireframe ? "var(--cor-dourado-vivo)" : "var(--cor-dourado-alt)";
-    };
-  }
 
   let autoRot = true;
   const btnAuto = document.getElementById("btn-autorotate");
