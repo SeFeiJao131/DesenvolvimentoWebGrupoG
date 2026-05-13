@@ -1,4 +1,4 @@
-import { app } from "./config.js";
+import { app } from "../nucleo/config.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,

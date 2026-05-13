@@ -6,8 +6,8 @@
    2. Adicionada atualização dinâmica da <meta name="description"> para SEO
    ───────────────────────────────────────────────────────────────────────────── */
 
-import { app } from "./config.js";
-import { buscarProdutoPorId, registrarDownload, usuarioJaBaixou } from "./db.js";
+import { app } from "../nucleo/config.js";
+import { buscarProdutoPorId, registrarDownload, usuarioJaBaixou } from "../nucleo/db.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
 const auth = getAuth(app);

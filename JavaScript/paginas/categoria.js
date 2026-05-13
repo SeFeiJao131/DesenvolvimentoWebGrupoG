@@ -1,4 +1,4 @@
-import { app } from "./config.js";
+import { app } from "../nucleo/config.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 /* Firebase */

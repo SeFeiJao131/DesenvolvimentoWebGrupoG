@@ -11,13 +11,13 @@ import {
   criarProduto,
   atualizarProduto,
   buscarProdutoPorId,
-} from "./db.js";
+} from "../nucleo/db.js";
 
-import { algoliaUpsert, algoliaDelete } from "./algolia.js";
+import { algoliaUpsert, algoliaDelete } from "../nucleo/algolia.js";
 
 // CORREÇÃO: importa o app já inicializado de config.js
 // em vez de redeclarar firebaseConfig aqui (era duplicação do config.js)
-import { app } from "./config.js";
+import { app } from "../nucleo/config.js";
 
 import {
   getStorage,

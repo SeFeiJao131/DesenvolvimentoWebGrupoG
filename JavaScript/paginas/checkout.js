@@ -1,5 +1,5 @@
-import { app } from "./config.js";
-import { buscarProdutoPorId } from "./db.js";
+import { app } from "../nucleo/config.js";
+import { buscarProdutoPorId } from "../nucleo/db.js";
 import { getAuth, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, serverTimestamp }

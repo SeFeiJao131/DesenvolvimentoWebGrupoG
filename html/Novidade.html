@@ -4,18 +4,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Categoria — JoinRender</title>
+  <meta name="description" content="Novidades JoinRender — os assets 3D mais recentes: texturas PBR, modelos e HDRIs.">
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="fonts.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon+SC&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@400;700&family=DM+Sans:wght@400;500&family=Recursive:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/fonts.css">
+  <title>Novidades — JoinRender</title>
 </head>
 
 <body>
   <header id="site-header">
     <nav class="navheader">
       <div class="lado-esquerdo">
-        <a class="Logo" href="index.html" aria-label="JoinRender - Início">JR.</a>
+        <a class="Logo" href="../index.html" aria-label="JoinRender - Início">JR.</a>
         <ul class="headerlinks" aria-label="Navegação principal">
           <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
           <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
@@ -37,10 +42,11 @@
     </nav>
   </header>
 
+  <!-- Overlay busca -->
   <div class="overlay-busca" id="overlay-busca" role="dialog" aria-modal="true">
     <div class="painel-busca">
       <div class="topo-busca">
-        <a class="Logo" href="index.html">JR.</a>
+        <a class="Logo" href="../index.html">JR.</a>
         <div class="busca-expandida">
           <i class="fi fi-rr-search" aria-hidden="true"></i>
           <input type="search" placeholder="Pesquisar texturas, modelos, HDRIs..." aria-label="Pesquisar">
@@ -50,6 +56,7 @@
     </div>
   </div>
 
+  <!-- Drawer mobile -->
   <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
   <nav class="nav-drawer" id="nav-drawer" aria-label="Menu de navegação">
     <div class="nav-drawer-topo">
@@ -69,42 +76,72 @@
     </div>
   </nav>
 
+  <div class="nov-pagina">
+
+    <p class="nov-migalha"><a href="../index.html">Home</a><span>/</span>novidades</p>
+
+    <div class="nov-cabecalho">
+      <h1 class="nov-titulo">NOVIDADES <span class="nov-titulo-dourado">recentes</span></h1>
+    </div>
+
+    <div class="nov-divisor"></div>
+
+    <!-- Destaque principal — preenchido via JS -->
+    <div class="nov-destaque" id="nov-destaque" aria-live="polite"></div>
+
+    <!-- Carrossel — "Mais Recentes" -->
+    <div class="nov-cabecalho-secao">
+      <div>
+        <p class="nov-rotulo">Lançamentos</p>
+        <p class="nov-subtitulo-secao">MAIS RECENTES</p>
+      </div>
+      <div class="nov-setas">
+        <button class="nov-seta" id="nov-anterior" aria-label="Anterior">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <path d="M5 1L2 4l3 3" stroke="#D4AF37" stroke-width="1.4" />
+          </svg>
+        </button>
+        <button class="nov-seta" id="nov-proximo" aria-label="Próximo">
+          <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+            <path d="M3 1l3 3-3 3" stroke="#D4AF37" stroke-width="1.4" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="nov-carrossel-envolvente">
+      <div class="nov-carrossel-trilha" id="nov-carrossel-trilha" aria-live="polite"></div>
+    </div>
+
+    <!-- Grade — "Todos os Lançamentos" -->
+    <div class="nov-cabecalho-secao">
+      <div>
+        <p class="nov-rotulo">Arquivo</p>
+        <p class="nov-subtitulo-secao">TODOS OS LANÇAMENTOS</p>
+      </div>
+    </div>
+
+    <div class="nov-filtros" id="nov-filtros" role="group" aria-label="Filtrar por tipo">
+      <button class="nov-filtro ativo" data-filtro="todos">Todos</button>
+      <button class="nov-filtro" data-filtro="textura">Texturas</button>
+      <button class="nov-filtro" data-filtro="modelo">Modelos 3D</button>
+      <button class="nov-filtro" data-filtro="hdri">HDRIs</button>
+    </div>
+
+    <div class="nov-grade" id="nov-grade" aria-live="polite"></div>
+
   </div>
-
-  <div class="linha-topo-pgProduto"></div>
-
-  <!-- Breadcrumb preenchido dinamicamente pelo categoria.js -->
-  <div class="caminho-categoria"></div>
-
-  <div class="cabecalho-categoria">
-    <!-- Título e descrição preenchidos dinamicamente -->
-    <h1 class="categoria-titulo">Carregando…</h1>
-    <p class="categoria-descricao"></p>
-    <p class="categoria-contagem" id="contagem-produtos"></p>
-  </div>
-
-  <div class="linha-divisor-cat"></div>
-
-  <!-- Filtros rápidos -->
-  <div class="busca-pg-filtros">
-    <span class="filtro-label">Filtrar:</span>
-    <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
-    <button class="filtro-btn" data-filtro="gratis">Grátis</button>
-    <button class="filtro-btn" data-filtro="novo">Novidades</button>
-  </div>
-
-  <!-- Cards injetados pelo categoria.js -->
-  <div class="grade-categoria" id="grade-produtos"></div>
 
   <footer>
     <div class="divisao">
       <div class="lado-esquerdo-footer">
         <h3>JoinRender</h3>
-        <p class="descricao">Modelos 3D, texturas e ambientes de alta fidelidade, <br> prontos para jogos, renders e projetos em tempo real.</p>
+        <p class="descricao">Modelos 3D, texturas e ambientes de alta fidelidade, prontos para jogos, renders e projetos em tempo real.</p>
         <p class="newsletter">Receber todas as novidades</p>
         <div class="campo-email">
-          <input type="email" placeholder="Informe seu e-mail" />
-          <button>Receber →</button>
+          <label for="email-newsletter-nov" class="sr-only">Seu e-mail</label>
+          <input type="email" id="email-newsletter-nov" placeholder="Informe seu e-mail" autocomplete="email">
+          <button type="button" aria-label="Assinar newsletter">Receber →</button>
         </div>
       </div>
       <div class="lado-direito-footer">
@@ -127,9 +164,9 @@
         <div class="campo">
           <h4>SOCIAL</h4>
           <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">X</a></li>
-            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#" aria-label="Instagram da JoinRender">Instagram</a></li>
+            <li><a href="#" aria-label="X (Twitter) da JoinRender">X</a></li>
+            <li><a href="#" aria-label="LinkedIn da JoinRender">LinkedIn</a></li>
           </ul>
         </div>
       </div>
@@ -138,13 +175,13 @@
     <div class="baixo-baixo">
       <div class="divisaoNegocio">
         <div class="baixo-esquerda">
-          <p class="systemFilosofia">Sytem status</p>
+          <p class="systemFilosofia">System status</p>
           <p class="minimalista">Minimalista</p>
         </div>
         <div class="linha-vertical"></div>
         <div class="baixo-meio-esquerda">
           <p class="systemFilosofia">Filosofia</p>
-          <p class="Visao">Visão da excêlencia</p>
+          <p class="Visao">Visão da excelência</p>
         </div>
       </div>
       <div class="baixo-direita">
@@ -153,13 +190,8 @@
     </div>
   </footer>
 
-  <!-- script.js só para o painel de busca (overlay) -->
-  <script src="script.js" defer></script>
-  <script src="busca.js" defer></script>
-  <script type="module" src="auth.js"></script>
-  <script type="module" src="categoria.js"></script>
-  <script src="jornal.js" defer></script>
-
-  <script src="nav-mobile.js" defer></script>
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}</style>
+  <script type="module" src="../js/main/main-novidade.js"></script>
 </body>
+
 </html>

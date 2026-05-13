@@ -7,7 +7,7 @@
              (seção independente — filtrável por tipo)
    ═══════════════════════════════════════════════════════════════ */
 
-import { app } from "./config.js";
+import { app } from "../nucleo/config.js";
 import {
   getFirestore,
   collection,

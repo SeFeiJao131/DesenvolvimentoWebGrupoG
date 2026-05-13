@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="tipo-asset" content="textura">
-  <title>Texturas — JoinRender</title>
+  <title>Categoria — JoinRender</title>
   <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/4.0.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/fonts.css">
 </head>
+
 <body>
   <header id="site-header">
     <nav class="navheader">
       <div class="lado-esquerdo">
-        <a class="Logo" href="index.html" aria-label="JoinRender - Início">JR.</a>
+        <a class="Logo" href="../index.html" aria-label="JoinRender - Início">JR.</a>
         <ul class="headerlinks" aria-label="Navegação principal">
           <li><a class="textobranco" href="LayoutTexturas.html">Texturas</a></li>
           <li><a class="textobranco" href="LayoutModelos.html">Modelos</a></li>
@@ -39,7 +40,7 @@
   <div class="overlay-busca" id="overlay-busca" role="dialog" aria-modal="true">
     <div class="painel-busca">
       <div class="topo-busca">
-        <a class="Logo" href="index.html">JR.</a>
+        <a class="Logo" href="../index.html">JR.</a>
         <div class="busca-expandida">
           <i class="fi fi-rr-search" aria-hidden="true"></i>
           <input type="search" placeholder="Pesquisar texturas, modelos, HDRIs..." aria-label="Pesquisar">
@@ -72,92 +73,28 @@
 
   <div class="linha-topo-pgProduto"></div>
 
-  <div class="caminho-pgLayout">
-    <a href="index.html">Home</a><span>/</span><a href="#">texturas</a>
+  <!-- Breadcrumb preenchido dinamicamente pelo categoria.js -->
+  <div class="caminho-categoria"></div>
+
+  <div class="cabecalho-categoria">
+    <!-- Título e descrição preenchidos dinamicamente -->
+    <h1 class="categoria-titulo">Carregando…</h1>
+    <p class="categoria-descricao"></p>
+    <p class="categoria-contagem" id="contagem-produtos"></p>
   </div>
 
-  <div class="layout-textos">
-    <p class="TexturasPro">Texturas <span class="TexturasProDourado">procedurais</span></p>
-    <p class="DescricaoTexturas">Descubra nossa biblioteca exclusiva de superfícies <span class="TexturasDescDourado">hiper-realistas</span> e mapas <span class="TexturasDescDourado">PBR de alta <br> fidelidade</span> para seus projetos 3D profissional e vizualização arquitêtonica</p>
-    <p class="categoriasTexturas">* categorias de texturas</p>
+  <div class="linha-divisor-cat"></div>
+
+  <!-- Filtros rápidos -->
+  <div class="busca-pg-filtros">
+    <span class="filtro-label">Filtrar:</span>
+    <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+    <button class="filtro-btn" data-filtro="gratis">Grátis</button>
+    <button class="filtro-btn" data-filtro="novo">Novidades</button>
   </div>
 
-  <div class="alinhar-cards">
-
-    <a href="paginacategoria.html?tipo=textura&cat=metais" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/Metal.jpg" alt="Metais"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Metais</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=madeiras" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/madeira.jpg" alt="Madeiras"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Madeiras</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=pedras" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/Pedra.jpg" alt="Pedras"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Pedras</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=concreto" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/Concreto.jpg" alt="Concreto"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Concreto</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=outros" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/outros.jpg" alt="Outros"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Outros</p>
-      </div>
-    </a>
-
-    <!-- CORRIGIDO: era cat=organicos, agora cat=vidros -->
-    <a href="paginacategoria.html?tipo=textura&cat=vidros" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/Vidro.jpg" alt="Vidros"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Vidros</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=marmore" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/marmore.jpg" alt="Marmore"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Mármore</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=superficie" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/superfice.jpg" alt="Superfície"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Superfíce</p>
-      </div>
-    </a>
-
-    <a href="paginacategoria.html?tipo=textura&cat=tijolo" class="card-layout">
-      <div class="imagem-card-layout"><img src="Imagens/tijoloTextura.jpg" alt="Tijolo"></div>
-      <div class="info-card-layout">
-        <h2 class="titulo-card-layout">Textura</h2>
-        <p class="descricao-card-layout">Tijolo</p>
-      </div>
-    </a>
-
-  </div>
+  <!-- Cards injetados pelo categoria.js -->
+  <div class="grade-categoria" id="grade-produtos"></div>
 
   <footer>
     <div class="divisao">
@@ -207,7 +144,7 @@
         <div class="linha-vertical"></div>
         <div class="baixo-meio-esquerda">
           <p class="systemFilosofia">Filosofia</p>
-          <p class="Visao">Visão da excência</p>
+          <p class="Visao">Visão da excêlencia</p>
         </div>
       </div>
       <div class="baixo-direita">
@@ -216,10 +153,7 @@
     </div>
   </footer>
 
-  <script type="module" src="auth.js"></script>
-  <script src="script.js" defer></script>
-  <script src="busca.js" defer></script>
-  <script src="nav-mobile.js" defer></script>
-  <script src="jornal.js" defer></script>
+  <!-- script.js só para o painel de busca (overlay) -->
+  <script type="module" src="../js/main/main-categoria.js"></script>
 </body>
 </html>
