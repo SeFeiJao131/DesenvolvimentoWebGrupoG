@@ -154,12 +154,13 @@ async function buscarSugestoes(termo, conteudo) {
           "Content-Type":             "application/json",
         },
         body: JSON.stringify({
-          query:                 termo,
-          hitsPerPage:           6,
-          attributesToRetrieve:  ["nome", "tipo", "objectID"],
-          attributesToHighlight: ["nome"],
-          highlightPreTag:       '<mark class="busca-hl">',
-          highlightPostTag:      "</mark>",
+          query:                        termo,
+          hitsPerPage:                  6,
+          restrictSearchableAttributes: ["nome"],   // busca APENAS no campo nome
+          attributesToRetrieve:         ["nome", "tipo", "objectID"],
+          attributesToHighlight:        ["nome"],
+          highlightPreTag:              '<mark class="busca-hl">',
+          highlightPostTag:             "</mark>",
         }),
       }
     );

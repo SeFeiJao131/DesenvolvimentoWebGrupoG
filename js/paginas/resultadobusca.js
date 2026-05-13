@@ -84,11 +84,12 @@ async function pesquisarAlgolia(termo) {
   const url = `https://${RB_APP_ID}-dsn.algolia.net/1/indexes/${RB_INDEX}/query`;
 
   const body = {
-    query:                 termo,
-    hitsPerPage:           1000,
-    attributesToHighlight: ["nome"],
-    highlightPreTag:       '<mark class="busca-hl">',
-    highlightPostTag:      "</mark>",
+    query:                      termo,
+    hitsPerPage:                1000,
+    restrictSearchableAttributes: ["nome"],   // busca APENAS no campo nome
+    attributesToHighlight:      ["nome"],
+    highlightPreTag:            '<mark class="busca-hl">',
+    highlightPostTag:           "</mark>",
   };
 
   const res = await fetch(url, {
