@@ -86,7 +86,7 @@ async function buscarContagem(q) {
 /* ─── HTML do estado inicial ─────────────────────────────────── */
 function htmlInicial(contagens = {}) {
   const itens = PAINEL_ITENS.map(item => `
-    <a class="busca-sugestao-item" href="ResultadoBusca.html?q=${encodeURIComponent(item.q)}">
+   <a class="busca-sugestao-item" href="${BASE_PAGINAS}ResultadoBusca.html?q=${encodeURIComponent(item.q)}">
       <span class="busca-sugestao-nome">
         <i class="fi ${item.icon}"></i>
         ${item.label}
@@ -123,7 +123,7 @@ function htmlAutoComplete(hits, termo) {
     const tipo  = hit.tipo ? hit.tipo.charAt(0).toUpperCase() + hit.tipo.slice(1) : "";
 
     return `
-      <a class="busca-sugestao-item" href="produto.html?id=${hit.objectID}">
+     <a class="busca-sugestao-item" href="${BASE_PAGINAS}produto.html?id=${hit.objectID}">
         <span class="busca-sugestao-nome">
           <i class="fi ${icone}"></i>
           ${nome}
@@ -135,7 +135,7 @@ function htmlAutoComplete(hits, termo) {
 
   return `
     <div class="busca-sugestoes-lista">${itens}</div>
-    <a class="busca-ver-todos" href="ResultadoBusca.html?q=${encodeURIComponent(termo)}">
+  <a class="busca-ver-todos" href="${BASE_PAGINAS}ResultadoBusca.html?q=${encodeURIComponent(termo)}">
       <span class="busca-ver-todos-texto">Ver todos os resultados para "${termo}"</span>
       <span class="busca-ver-todos-seta">→</span>
     </a>`;
@@ -184,7 +184,7 @@ async function buscarSugestoes(termo, conteudo) {
 /* ─── Ir para resultados ─────────────────────────────────────── */
 function irParaResultados(termo) {
   if (termo.trim()) {
-    window.location.href = `ResultadoBusca.html?q=${encodeURIComponent(termo.trim())}`;
+ window.location.href = `${BASE_PAGINAS}ResultadoBusca.html?q=${encodeURIComponent(termo.trim())}`;
   }
 }
 
