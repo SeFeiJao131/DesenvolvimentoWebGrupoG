@@ -191,7 +191,7 @@ $("btn-pagar-cartao").addEventListener("click", async () => {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${location.origin}/checkoutretorno.html?produto=${produtoId}`,
+        return_url: `${location.origin}/html/checkoutretorno.html?produto=${produtoId}`,
         payment_method_data: {
           billing_details: {
             name:  $("nome-titular").value.trim() || usuario?.displayName || "",
