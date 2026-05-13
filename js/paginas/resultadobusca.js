@@ -84,6 +84,15 @@ function renderizarSecao(gradeEl, contadorEl, btnEl, hits) {
   gradeEl.classList.remove("expandida");
   btnEl.classList.remove("aberto");
   btnEl.querySelector(".btn-expandir-texto").textContent = "Ver todos";
+
+  // Mede a altura real do primeiro card e usa como max-height da grade recolhida
+  requestAnimationFrame(() => {
+    const primeiroCard = gradeEl.querySelector("a, div");
+    if (primeiroCard) {
+      const altura = primeiroCard.getBoundingClientRect().height;
+      gradeEl.style.maxHeight = altura + "px";
+    }
+  });
 }
 
 /* ─── Pesquisa no Algolia (sem filtros server-side — tudo no cliente) ── */
@@ -181,6 +190,14 @@ function configurarExpandir(btnId, gradeId) {
     const aberto = btn.classList.toggle("aberto");
     grade.classList.toggle("expandida", aberto);
     btn.querySelector(".btn-expandir-texto").textContent = aberto ? "Recolher" : "Ver todos";
+    if (aberto) {
+      grade.style.maxHeight = "6000px";
+    } else {
+      const primeiroCard = grade.querySelector("a, div");
+      if (primeiroCard) {
+        grade.style.maxHeight = primeiroCard.getBoundingClientRect().height + "px";
+      }
+    }
   });
 }
 

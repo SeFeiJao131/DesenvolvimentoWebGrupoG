@@ -31,7 +31,7 @@ if (cancelado === "1" && produtoId) {
   $("js-erro-msg").textContent = "Sessão de pagamento inválida ou expirada.";
   $("btn-tentar-novamente").href = produtoId
     ? `checkout.html?id=${produtoId}`
-    : "index.html";
+    : "../index.html";
 
 } else {
   onAuthStateChanged(auth, async (usuario) => {
@@ -86,7 +86,7 @@ if (cancelado === "1" && produtoId) {
         $("js-erro-msg").textContent = "Pagamento não confirmado. Tente novamente.";
         $("btn-tentar-novamente").href = produtoId
           ? `checkout.html?id=${produtoId}`
-          : "index.html";
+          : "../index.html";
       }
 
     } catch (e) {
@@ -94,7 +94,7 @@ if (cancelado === "1" && produtoId) {
       $("js-erro-msg").textContent =
         e.message || "Não foi possível verificar seu pagamento.";
       $("btn-tentar-novamente").href =
-        produtoId ? `checkout.html?id=${produtoId}` : "index.html";
+        produtoId ? `checkout.html?id=${produtoId}` : "../index.html";
     }
   });
 }

@@ -72,7 +72,7 @@ function preencherPagina(produto) {
   const breadcrumb = document.getElementById("breadcrumb");
   if (breadcrumb) {
     breadcrumb.innerHTML = `
-      <a href="index.html">Home</a><span> / </span>
+      <a href="../index.html">Home</a><span> / </span>
       <a href="${tipoHref}">${tipoLabel}</a><span> / </span>
       <span>${produto.nome}</span>
     `;

@@ -140,7 +140,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   overflow: hidden;
-  max-height: 440px;
   transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .grade-busca-pg.expandida { max-height: 6000px; }
@@ -224,7 +223,7 @@ mark.busca-hl { background: transparent; color: var(--cor-dourado-alt); font-sty
 @media (max-width: 768px) {
   .busca-pg-cabecalho, .busca-pg-filtros, .secao-resultados, .caminho-busca-pg { padding-left: 16px; padding-right: 16px; }
   .linha-divisor-busca-pg, .secao-divisor-busca { margin-left: 16px; margin-right: 16px; }
-  .grade-busca-pg { grid-template-columns: repeat(2, 1fr); max-height: 340px; }
+  .grade-busca-pg { grid-template-columns: repeat(2, 1fr); max-height: calc((100vw - 2 * clamp(16px, 9vw, 132px) - 12px) / 2); }
 }
 
 @media (max-width: 480px) {

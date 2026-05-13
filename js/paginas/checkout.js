@@ -278,7 +278,7 @@ function erroFatal(msg) {
     <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#1C1515;color:#E8DCC4;font-family:'DM Sans',sans-serif;padding:24px;text-align:center;">
       <div style="font-size:2.5rem;opacity:0.6;">⚠</div>
       <p style="color:#817361;max-width:320px;line-height:1.6;">${msg}</p>
-      <a href="index.html" style="padding:12px 28px;background:#c8a84e;color:#1a1313;border-radius:8px;text-decoration:none;font-weight:700;">Voltar ao início</a>
+      <a href="../index.html" style="padding:12px 28px;background:#c8a84e;color:#1a1313;border-radius:8px;text-decoration:none;font-weight:700;">Voltar ao início</a>
     </div>`;
 }
 

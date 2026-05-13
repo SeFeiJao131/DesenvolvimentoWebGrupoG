@@ -70,7 +70,7 @@ document.getElementById("cc-botao-criar")?.addEventListener("click", async () =>
   try {
     const resultado = await createUserWithEmailAndPassword(auth, email, senha);
     await updateProfile(resultado.user, { displayName: `${nome} ${sobrenome}`.trim() });
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } catch (erro) {
     if (erro.code === "auth/email-already-in-use") {
       mostrarErro("Este e-mail já está cadastrado.");
@@ -86,7 +86,7 @@ document.getElementById("cc-botao-criar")?.addEventListener("click", async () =>
 async function loginComProvider(provider) {
   try {
     await signInWithPopup(auth, provider);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } catch (erro) {
     if (erro.code !== "auth/popup-closed-by-user") {
       mostrarErro("Erro ao entrar: " + erro.message);

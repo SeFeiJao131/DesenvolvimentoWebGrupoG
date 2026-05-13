@@ -52,7 +52,7 @@ document.querySelector(".botao-entrar")?.addEventListener("click", async () => {
 
   try {
     await signInWithEmailAndPassword(auth, email, senha);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } catch {
     alert("E-mail ou senha incorretos.");
   }
@@ -62,7 +62,7 @@ document.querySelector(".botao-entrar")?.addEventListener("click", async () => {
 async function loginComProvider(provider) {
   try {
     await signInWithPopup(auth, provider);
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } catch (erro) {
     if (erro.code !== "auth/popup-closed-by-user") {
       alert("Erro ao entrar: " + erro.message);

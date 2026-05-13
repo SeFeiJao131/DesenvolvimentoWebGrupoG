@@ -43,16 +43,22 @@ const labelTipo = {
   hdri:    "HDRIs",
 };
 
+const hrefTipo = {
+  textura: "../paginas/LayoutTexturas.html",
+  modelo:  "../paginas/LayoutModelos.html",
+  hdri:    "../paginas/LayoutHdri.html",
+};
+
 /* ── Breadcrumb ── */
 function preencherBreadcrumb(tipo, cat) {
   const container = document.querySelector(".caminho-categoria");
   if (!container) return;
 
-  const partes = [{ label: "Home", href: "index.html" }];
+  const partes = [{ label: "Home", href: "../index.html" }];
 
   if (tipo) {
     const tipoLower = tipo.toLowerCase();
-    partes.push({ label: labelTipo[tipoLower] || tipo, href: "#" });
+    partes.push({ label: labelTipo[tipoLower] || tipo, href: hrefTipo[tipoLower] || "#" });
   }
   if (cat) {
     const label = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -62,7 +68,7 @@ function preencherBreadcrumb(tipo, cat) {
   container.innerHTML = partes
     .map((p, i) =>
       i < partes.length - 1
-        ? `<a href="${p.href || "#"}">${p.label}</a> / `
+        ? `<a href="${p.href || "#"}">${p.label}</a><span> / </span>`
         : `<span>${p.label}</span>`
     )
     .join("");
