@@ -124,6 +124,8 @@ DesenvolvimentoWebGrupoG-main/
 │   ├── checkout.html           # Página de checkout
 │   ├── checkoutretorno.html    # Retorno após pagamento
 │   ├── admin.html              # Painel administrativo
+│   ├── historico.html          # Histórico de downloads do usuário
+│   ├── perfil.html             # Perfil do usuário autenticado
 │   ├── contato.html            # Página de contato
 │   ├── sobre.html              # Página institucional Sobre
 │   ├── privacidade.html        # Política de privacidade
@@ -169,7 +171,10 @@ DesenvolvimentoWebGrupoG-main/
 │   │   ├── main-categoria.js   # Entry point da página de categoria
 │   │   ├── main-institucional.js # Entry point das páginas institucionais
 │   │   ├── main-layouts.js     # Entry point dos layouts de catálogo
-│   │   └── main-novidade.js    # Entry point da página de novidades
+│   │   ├── main-novidade.js    # Entry point da página de novidades
+│   │   ├── main-historico.js   # Entry point da página de histórico de downloads
+│   │   ├── main-perfil.js      # Entry point da página de perfil
+│   │   └── main-produto.js     # Entry point da página de produto individual
 │   └── paginas/
 │       ├── admin.js            # Lógica completa do painel administrativo
 │       ├── login.js            # Lógica de login (e-mail, social)
@@ -179,7 +184,9 @@ DesenvolvimentoWebGrupoG-main/
 │       ├── categoria.js        # Carregamento dinâmico por categoria
 │       ├── resultadobusca.js   # Lógica da página de resultados de busca
 │       ├── checkout.js         # Lógica de checkout (Stripe)
-│       └── checkoutretorno.js  # Lógica de retorno do pagamento
+│       ├── checkoutretorno.js  # Lógica de retorno do pagamento
+│       ├── historico.js        # Lógica da página "Meus Downloads"
+│       └── perfil.js           # Lógica da página "Meu Perfil" 
 │
 ├── api/
 │   ├── produtos.js             # GET /api/produtos — listagem pública de produtos
@@ -265,6 +272,24 @@ Interface administrativa (acesso restrito) para:
 - Criação e edição de produtos via modal
 - Upload de imagem de capa, arquivo do asset e modelo 3D para o Firebase Storage
 - Desativação e exclusão de produtos
+
+### `historico.html` — Meus Downloads
+
+Página exclusiva para usuários autenticados que exibe o histórico completo de downloads gratuitos realizados. Funcionalidades:
+
+- Aguarda a resolução do estado do Firebase Auth antes de renderizar
+- Se não autenticado, exibe mensagem solicitando login
+- Busca os registros da coleção `downloads` filtrados pelo UID do usuário, ordenados do mais recente para o mais antigo
+- Para cada registro, carrega os dados do produto (nome e imagem) via Firestore
+- Armazena o resultado em `localStorage` como cache (chave: `hist_<uid>`) para evitar requisições redundantes
+- Botão **"Limpar histórico local"** apaga o cache do `localStorage`
+
+### `perfil.html` — Meu Perfil
+
+Página do perfil do usuário autenticado. Redireciona automaticamente para `login.html` caso o usuário não esteja logado. Exibe:
+
+- **Card do usuário**: avatar, nome de exibição, e-mail, provedor de autenticação (Google, GitHub, Twitter ou e-mail/senha) e botão de Sign Out
+- **Histórico de downloads**: lista dos assets baixados pelo usuário, carregados do Firestore com cache em `localStorage` (chave: `perfil_hist_<uid>`)
 
 ### Páginas Institucionais
 - **`sobre.html`** — Apresentação da empresa e missão
