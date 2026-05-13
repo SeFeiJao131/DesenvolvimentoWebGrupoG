@@ -25,39 +25,92 @@
   object-fit: cover;
   border-radius: 1.5rem;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.45s ease, filter 0.45s ease;
 }
 
-.card-article:hover .card-imagem-index { transform: scale(1.05); }
+.card-article:hover .card-imagem-index {
+  transform: scale(1.07);
+  filter: brightness(0.45);
+}
 
+/* ── Overlay de hover ─────────────────────────── */
 .card-data {
   position: absolute;
-  left: 50%;
-  bottom: -1rem;
-  transform: translateX(-50%) translateY(20px);
-  width: 85%;
-  background: white;
-  padding: clamp(12px, 2vw, 24px);
-  border-radius: 1rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(16px, 2.5vw, 28px);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    transparent 100%
+  );
   opacity: 0;
-  transition: all 0.35s ease;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  border-radius: 1.5rem;
 }
 
 .card-article:hover .card-data {
   opacity: 1;
-  transform: translateX(-50%) translateY(-10px);
+  transform: translateY(0);
 }
 
-.card-descricao { font-size: 0.8rem; margin-bottom: 0.3rem; }
-.card-titulo    { font-size: 1.1rem; margin-bottom: 0.5rem; }
+.card-descricao {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: .08em;
+  color: var(--cor-dourado-vivo);
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.card-titulo {
+  font-family: var(--font-roboto);
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 0.8rem;
+  line-height: 1.25;
+}
 
 .botao-card {
+  align-self: flex-start;
   text-decoration: none;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--cor-dourado-alt);
+  color: #fff;
+  background: var(--cor-dourado-vivo);
+  padding: 8px 18px;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
 }
-.botao-card:hover { text-decoration: underline; }
+.botao-card:hover {
+  background: #fff;
+  color: #1a1a1a;
+}
+
+/* ── Skeleton loading ─────────────────────────── */
+.card-skeleton .skeleton-img {
+  width: 100%;
+  height: clamp(200px, 30vw, 380px);
+  border-radius: 1.5rem;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
 /* ── Cards de novidades (home) ────────────────── */
 .cards-novidades {
@@ -119,7 +172,6 @@
 .card-visitar:hover::after { width: 100%; }
 
 /* ── Cards de produto (layout/categoria/hdri) ─── */
-/* Unificado — elimina triplicação .card-layout/.card-modelo/.card-hdri */
 .card-layout,
 .card-modelo,
 .card-hdri {

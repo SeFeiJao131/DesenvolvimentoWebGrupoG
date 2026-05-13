@@ -110,30 +110,16 @@
       </div>
 
       <div class="modelos-cards">
-        <div class="container-card-index">
-          <article class="card-article">
-            <img src="assets/imagens/CardIndex1.webp" class="card-imagem-index" alt="Modelo 3D — Preview 1" loading="lazy">
-            <div class="card-data">
-              <span class="card-descricao">Modelo High-poly</span>
-              <h3 class="card-titulo">Modelo 3D</h3>
-              <a href="paginas/produto.html" class="botao-card">Ver modelo</a>
-            </div>
+        <div class="container-card-index" id="cards-modelos-home">
+          <!-- Skeletons enquanto carrega -->
+          <article class="card-article card-skeleton" aria-hidden="true">
+            <div class="card-imagem-index skeleton-img"></div>
           </article>
-          <article class="card-article">
-            <img src="assets/imagens/CardIndex2.webp" class="card-imagem-index" alt="Modelo 3D — Preview 2" loading="lazy">
-            <div class="card-data">
-              <span class="card-descricao">Textura PBR</span>
-              <h3 class="card-titulo">Modelo 3D</h3>
-              <a href="paginas/produto.html" class="botao-card">Ver modelo</a>
-            </div>
+          <article class="card-article card-skeleton" aria-hidden="true">
+            <div class="card-imagem-index skeleton-img"></div>
           </article>
-          <article class="card-article">
-            <img src="assets/imagens/CardIndex3.webp" class="card-imagem-index" alt="Modelo 3D — Preview 3" loading="lazy">
-            <div class="card-data">
-              <span class="card-descricao">HDRI 4K</span>
-              <h3 class="card-titulo">Modelo 3D</h3>
-              <a href="paginas/produto.html" class="botao-card">Ver modelo</a>
-            </div>
+          <article class="card-article card-skeleton" aria-hidden="true">
+            <div class="card-imagem-index skeleton-img"></div>
           </article>
         </div>
       </div>
@@ -176,63 +162,4 @@
           <p class="newsletter">Receber todas as novidades</p>
           <div class="campo-email">
             <label for="email-newsletter" class="sr-only">Seu e-mail</label>
-            <input type="email" id="email-newsletter" placeholder="Informe seu e-mail" autocomplete="email">
-            <button type="button" aria-label="Assinar newsletter">Receber →</button>
-          </div>
-        </div>
-
-        <div class="lado-direito-footer">
-          <div class="campo">
-            <h4>EXPLORAR</h4>
-            <ul>
-              <li><a href="paginas/sobre.html">Sobre</a></li>
-              <li><a href="paginas/Novidade.html">Novidades</a></li>
-              <li><a href="paginas/contato.html">Contato</a></li>
-            </ul>
-          </div>
-          <div class="campo">
-            <h4>JURÍDICO</h4>
-            <ul>
-              <li><a href="paginas/licenca.html">Licenças</a></li>
-              <li><a href="paginas/privacidade.html">Privacidade</a></li>
-              <li><a href="paginas/termos.html">Termos</a></li>
-            </ul>
-          </div>
-          <div class="campo">
-            <h4>SOCIAL</h4>
-            <ul>
-              <li><a href="#" aria-label="Instagram da JoinRender">Instagram</a></li>
-              <li><a href="#" aria-label="X (Twitter) da JoinRender">X</a></li>
-              <li><a href="#" aria-label="LinkedIn da JoinRender">LinkedIn</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="linhaa" aria-hidden="true"><hr></div>
-
-      <div class="baixo-baixo">
-        <div class="divisaoNegocio">
-          <div class="baixo-esquerda">
-            <p class="systemFilosofia">System status</p>
-            <p class="minimalista">Minimalista</p>
-          </div>
-          <div class="linha-vertical" aria-hidden="true"></div>
-          <div class="baixo-meio-esquerda">
-            <p class="systemFilosofia">Filosofia</p>
-            <p class="Visao">Visão da excelência</p>
-          </div>
-        </div>
-        <div class="baixo-direita">
-          <p>© 2026 JoinRender. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
-  </main>
-
-  <!-- Classe sr-only para labels acessíveis -->
-  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}</style>
-  <script type="module" src="js/main/main-layouts.js"></script>
-</body>
-</html>
+            <input type="email" id="email-newsletter" placeholder="Informe seu e
